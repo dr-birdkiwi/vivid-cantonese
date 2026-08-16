@@ -20,25 +20,60 @@ function voiceLanguage(voice: SpeechSynthesisVoice) {
   return voice.lang.toLowerCase().replaceAll("_", "-").trim();
 }
 
+function voiceMetadata(voice: SpeechSynthesisVoice) {
+  return `${voiceLanguage(voice)} ${voice.voiceURI.toLowerCase().replaceAll("_", "-")}`;
+}
+
+function hasCantoneseLanguageHint(voice: SpeechSynthesisVoice) {
+  const language = voiceLanguage(voice);
+  const metadata = voiceMetadata(voice);
+
+  // Browsers and operating systems use several equivalent Cantonese tags:
+  // yue, yue-HK, zh-HK, zh-Hant-HK, and vendor URI variants of those tags.
+  if (language === "yue" || language.startsWith("yue-")) return true;
+  if (language === "zh-hk" || language.startsWith("zh-hk-")) return true;
+  if (language === "zh-hant-hk" || language.startsWith("zh-hant-hk-")) return true;
+  if (/(?:^|[._-])yue(?:[._-]|$)/.test(metadata)) return true;
+  if (/(?:^|[._-])zh(?:[._-]hant)?[._-]hk(?:[._-]|$)/.test(metadata)) return true;
+  return false;
+}
+
+function hasCantoneseNameHint(voice: SpeechSynthesisVoice) {
+  const name = voice.name.toLowerCase();
+  return name.includes("cantonese") || name.includes("廣東話") || name.includes("粵語") || name.includes("粤语");
+}
+
+function hasHongKongNameHint(voice: SpeechSynthesisVoice) {
+  const name = voice.name.toLowerCase();
+  return name.includes("hong kong") || name.includes("香港");
+}
+
 function voiceLocaleScore(voice: SpeechSynthesisVoice) {
   const language = voiceLanguage(voice);
-  if (language === "yue-hk") return 1200;
-  if (language === "yue") return 1150;
-  if (language === "zh-hk" || language === "zh-hant-hk") return 1100;
-  if (language.startsWith("yue-")) return 1050;
-  if (language.startsWith("zh-") && language.endsWith("-hk")) return 1000;
+  const metadata = voiceMetadata(voice);
+  if (!hasCantoneseLanguageHint(voice)) return 0;
+  if (language === "yue-hk") return 1400;
+  if (language === "yue") return 1380;
+  if (language.startsWith("yue-")) return 1360;
+  if (language === "zh-hk") return 1320;
+  if (language === "zh-hant-hk") return 1300;
+  if (language.startsWith("zh-hk-") || language.startsWith("zh-hant-hk-")) return 1280;
+  if (/(?:^|[._-])yue(?:[._-]|$)/.test(metadata)) return 1240;
+  if (/(?:^|[._-])zh(?:[._-]hant)?[._-]hk(?:[._-]|$)/.test(metadata)) return 1220;
   return 0;
 }
 
 function voiceNameScore(voice: SpeechSynthesisVoice) {
-  const name = voice.name.toLowerCase();
-  if (name.includes("cantonese") || name.includes("廣東話") || name.includes("粵語") || name.includes("粤语")) return 500;
-  if (name.includes("hong kong") || name.includes("香港")) return 450;
+  if (hasCantoneseNameHint(voice)) return 600;
+  // Only use Hong Kong in the name as a Cantonese hint when the locale is
+  // already Chinese/Cantonese; this avoids accidentally showing en-HK voices.
+  if (hasHongKongNameHint(voice) && /^(?:zh|yue)(?:-|$)/.test(voiceLanguage(voice))) return 520;
   return 0;
 }
 
 function voiceScore(voice: SpeechSynthesisVoice) {
   let score = voiceLocaleScore(voice) + voiceNameScore(voice);
+  if (!score && hasCantoneseNameHint(voice)) score = 1000;
   if (!score) return 0;
   const name = voice.name.toLowerCase();
   if (name.includes("premium")) score += 80;
