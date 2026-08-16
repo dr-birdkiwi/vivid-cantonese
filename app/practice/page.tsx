@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { CantoneseAudio, CantoneseAudioSettings } from "../components/CantoneseAudio";
 
@@ -20,7 +19,7 @@ export default function PracticePage() {
 
   return (
     <main className="subpage practice-page">
-      <header className="subpage-header"><Link className="brand" href="/"><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></Link><Link className="back-link" href="/">← 回到首页</Link></header>
+      <header className="subpage-header"><a className="brand" href="/"><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></a><a className="back-link" href="/">← 回到首页</a></header>
       <section className="subpage-hero page-shell compact"><p className="eyebrow">QUICK PRACTICE / 立即反应</p><h1>先凭直觉选，<br /><em>再看差异在哪里。</em></h1><p>练习不是为了考你记住多少，而是让你在真实对话里更快找到下一句。</p></section>
       <div className="page-shell"><CantoneseAudioSettings /></div>
       <section className="practice-page-card page-shell">

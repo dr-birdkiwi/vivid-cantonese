@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CantoneseAudio, CantoneseAudioSettings } from "../../components/CantoneseAudio";
 import { courseUnits } from "../course-data";
@@ -24,8 +23,8 @@ export default async function CourseDetailPage({ params }: CourseDetailProps) {
   return (
     <main className="subpage course-detail-page">
       <header className="subpage-header">
-        <Link className="brand" href="/"><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></Link>
-        <Link className="back-link" href="/course">← 全部场景</Link>
+        <a className="brand" href="/"><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></a>
+        <a className="back-link" href="/course">← 全部场景</a>
       </header>
       <section className="course-detail-hero page-shell">
         <div>
@@ -58,7 +57,7 @@ export default async function CourseDetailPage({ params }: CourseDetailProps) {
       </section>
       <section className="course-detail-next page-shell">
         <div><p className="eyebrow">NEXT STEP / 下一步</p><h2>把这句带进转换桥和练习。</h2></div>
-        <div className="course-detail-actions"><Link className="secondary-link" href="/bridge">查普通话分岔 <span>→</span></Link><Link className="primary-button" href="/practice">立即做反应 <span>→</span></Link></div>
+        <div className="course-detail-actions"><a className="secondary-link" href="/bridge">查普通话分岔 <span>→</span></a><a className="primary-button" href="/practice">立即做反应 <span>→</span></a></div>
       </section>
     </main>
   );

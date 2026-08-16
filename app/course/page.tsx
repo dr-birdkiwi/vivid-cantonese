@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { CantoneseAudio, CantoneseAudioSettings } from "../components/CantoneseAudio";
 import { courseUnits } from "./course-data";
 
@@ -11,8 +10,8 @@ export default function CoursePage() {
   return (
     <main className="subpage">
       <header className="subpage-header">
-        <Link className="brand" href="/"><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></Link>
-        <Link className="back-link" href="/">← 回到首页</Link>
+        <a className="brand" href="/"><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></a>
+        <a className="back-link" href="/">← 回到首页</a>
       </header>
       <section className="subpage-hero page-shell">
         <p className="eyebrow">THE COURSE / 情景课程</p>
@@ -32,11 +31,11 @@ export default function CoursePage() {
               <small>{unit.jyutping}</small>
               <CantoneseAudio text={unit.phrase} label={`播放：${unit.phrase}`} compact />
             </div>
-            <Link className="course-unit-link" href={`/course/${unit.slug}`}>打开这个场景 <span>→</span></Link>
+            <a className="course-unit-link" href={`/course/${unit.slug}`}>打开这个场景 <span>→</span></a>
           </article>
         ))}
       </section>
-      <section className="subpage-footer page-shell"><p>想先解决“普通话说法怎么变成自然粤语”？</p><Link className="primary-button" href="/bridge">进入普通话转换桥 <span>→</span></Link></section>
+      <section className="subpage-footer page-shell"><p>想先解决“普通话说法怎么变成自然粤语”？</p><a className="primary-button" href="/bridge">进入普通话转换桥 <span>→</span></a></section>
     </main>
   );
 }

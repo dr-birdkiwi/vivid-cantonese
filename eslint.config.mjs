@@ -23,6 +23,11 @@ const eslintConfig = defineConfig([
   jsxA11y.flatConfigs.recommended,
   next.configs["core-web-vitals"],
   {
+    // vinext's current client-side Link runtime throws during navigation in the deployed Sites worker;
+    // use native anchors so every internal route still works with a full-page fallback.
+    rules: {
+      "@next/next/no-html-link-for-pages": "off",
+    },
     languageOptions: {
       globals: {
         ...globals.browser,

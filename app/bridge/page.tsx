@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo, useState } from "react";
 import { CantoneseAudio, CantoneseAudioSettings } from "../components/CantoneseAudio";
 
@@ -15,7 +14,7 @@ export default function BridgePage() {
 
   return (
     <main className="subpage">
-      <header className="subpage-header"><Link className="brand" href="/"><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></Link><Link className="back-link" href="/">← 回到首页</Link></header>
+      <header className="subpage-header"><a className="brand" href="/"><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></a><a className="back-link" href="/">← 回到首页</a></header>
       <section className="subpage-hero page-shell compact"><p className="eyebrow">THE MANDARIN BRIDGE / 普通话转换桥</p><h1>你已经会说中文，<br /><em>只需要看懂分岔。</em></h1><p>这里不做逐字替换。每个词都标记它是口语替代、整词记忆、疑问词还是需要放进上下文理解的表达。</p></section>
       <div className="page-shell"><CantoneseAudioSettings /></div>
       <section className="bridge-page-layout page-shell">
@@ -28,7 +27,7 @@ export default function BridgePage() {
           <span className="detail-tag">{active[3]}</span><p className="detail-label">普通话</p><h2>{active[0]} <i>→</i> <em>{active[1]}</em></h2>
           <div className="detail-jyutping-large"><span>{active[2]}</span><CantoneseAudio text={active[1]} label={`播放：${active[1]}`} /></div>
           <div className="example-box"><span>放进一句话</span><b>{active[4]}</b><CantoneseAudio text={active[4]} label={`播放：${active[4]}`} compact /><small>先记住整句，再回头观察每个词。</small></div>
-          <p className="bridge-principle">自然粤语不是“把普通话汉字换一套读音”，而是同时处理词汇、语序、语气和关系。</p><Link className="primary-button" href="/practice">用一句话练习 <span>→</span></Link>
+          <p className="bridge-principle">自然粤语不是“把普通话汉字换一套读音”，而是同时处理词汇、语序、语气和关系。</p><a className="primary-button" href="/practice">用一句话练习 <span>→</span></a>
         </aside>
       </section>
     </main>
