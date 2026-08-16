@@ -77,7 +77,7 @@ export default function Home() {
 
   return (
     <main>
-      <header className="site-header">
+      <header className={`site-header${navOpen ? " nav-open" : ""}`}>
         <a className="brand" href="#top" aria-label="粤语鲜活学堂首页" onClick={() => setNavOpen(false)}><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>给已经会读中文的你</small></span></a>
         <nav className="main-nav" id="main-nav-links" aria-label="主要导航"><a href="/bridge" onClick={() => setNavOpen(false)}>普通话 → 粤语</a><a href="/course" onClick={() => setNavOpen(false)}>情景课程</a><a href="/practice" onClick={() => setNavOpen(false)}>练习</a></nav>
         <a className="header-cta" href="#today" onClick={() => setNavOpen(false)}>开始今日 15 分钟 <span>↗</span></a>
