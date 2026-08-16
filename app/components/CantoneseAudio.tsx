@@ -14,12 +14,30 @@ function readVoices() {
 }
 
 function voiceLanguage(voice: SpeechSynthesisVoice) {
-  return voice.lang.toLowerCase().replaceAll("_", "-");
+  return voice.lang.toLowerCase().replaceAll("_", "-").trim();
+}
+
+function voiceLocaleScore(voice: SpeechSynthesisVoice) {
+  const language = voiceLanguage(voice);
+  if (language === "yue-hk") return 1200;
+  if (language === "yue") return 1150;
+  if (language === "zh-hk" || language === "zh-hant-hk") return 1100;
+  if (language.startsWith("yue-")) return 1050;
+  if (language.startsWith("zh-") && language.endsWith("-hk")) return 1000;
+  return 0;
+}
+
+function voiceNameScore(voice: SpeechSynthesisVoice) {
+  const name = voice.name.toLowerCase();
+  if (name.includes("cantonese") || name.includes("廣東話") || name.includes("粵語") || name.includes("粤语")) return 500;
+  if (name.includes("hong kong") || name.includes("香港")) return 450;
+  return 0;
 }
 
 function voiceScore(voice: SpeechSynthesisVoice) {
+  let score = voiceLocaleScore(voice) + voiceNameScore(voice);
+  if (!score) return 0;
   const name = voice.name.toLowerCase();
-  let score = voiceLanguage(voice) === "zh-hk" ? 1000 : 0;
   if (name.includes("premium")) score += 80;
   if (name.includes("enhanced")) score += 70;
   if (name.includes("natural")) score += 70;
@@ -33,7 +51,7 @@ function voiceScore(voice: SpeechSynthesisVoice) {
 
 function chooseCantoneseVoice(voices: SpeechSynthesisVoice[]) {
   return voices
-    .filter((voice) => voiceLanguage(voice) === "zh-hk")
+    .filter((voice) => voiceScore(voice) > 0)
     .sort((left, right) => voiceScore(right) - voiceScore(left))[0];
 }
 
@@ -49,9 +67,9 @@ function useSpeechVoices() {
     if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
     const updateVoices = () => setVoices(readVoices());
     window.speechSynthesis.addEventListener("voiceschanged", updateVoices);
-    const timer = window.setTimeout(updateVoices, 0);
+    const timers = [0, 100, 300, 700, 1500].map((delay) => window.setTimeout(updateVoices, delay));
     return () => {
-      window.clearTimeout(timer);
+      timers.forEach((timer) => window.clearTimeout(timer));
       window.speechSynthesis.removeEventListener("voiceschanged", updateVoices);
     };
   }, []);
@@ -75,10 +93,11 @@ export function CantoneseAudio({ text, label = `播放：${text}`, compact = fal
     setAudioError(false);
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(speechText);
-    utterance.lang = "zh-HK";
+    const currentVoice = preferredVoice || chooseCantoneseVoice(readVoices());
+    utterance.lang = currentVoice?.lang || "zh-HK";
     utterance.rate = 0.72;
     utterance.pitch = 1;
-    if (preferredVoice) utterance.voice = preferredVoice;
+    if (currentVoice) utterance.voice = currentVoice;
     utterance.onstart = () => setSpeaking(true);
     utterance.onend = () => setSpeaking(false);
     utterance.onerror = () => {
@@ -88,7 +107,7 @@ export function CantoneseAudio({ text, label = `播放：${text}`, compact = fal
     window.speechSynthesis.speak(utterance);
   }
 
-  const voiceHint = preferredVoice ? `使用：${preferredVoice.name}` : voices.length ? "未检测到 zh-HK 音色，将尝试系统粤语发音" : "正在加载香港粤语音色";
+  const voiceHint = preferredVoice ? `使用：${preferredVoice.name}` : voices.length ? "未检测到香港粤语音色，将尝试系统粤语发音" : "正在加载香港粤语音色";
 
   return (
     <button
@@ -108,7 +127,7 @@ export function CantoneseAudio({ text, label = `播放：${text}`, compact = fal
 export function CantoneseAudioSettings() {
   const voices = useSpeechVoices();
   const preferredVoice = useMemo(() => chooseCantoneseVoice(voices), [voices]);
-  const status = preferredVoice ? `香港粤语 · ${preferredVoice.name}` : voices.length ? "未检测到 zh-HK 音色，将尝试系统粤语发音" : "正在读取设备音色…";
+  const status = preferredVoice ? `香港粤语 · ${preferredVoice.name}` : voices.length ? "未检测到香港粤语音色，将尝试系统粤语发音" : "正在读取设备音色…";
 
   return (
     <div className="audio-settings" aria-label="粤语语音设置">
