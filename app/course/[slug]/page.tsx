@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CantoneseAudio, CantoneseAudioSettings } from "../../components/CantoneseAudio";
 import { courseUnits } from "../course-data";
+import { courseDialogues } from "../dialogue-data";
 
 type CourseDetailProps = { params: Promise<{ slug: string }> };
 
@@ -20,6 +21,7 @@ export default async function CourseDetailPage({ params }: CourseDetailProps) {
   const unit = courseUnits.find((item) => item.slug === slug);
   if (!unit) notFound();
   const currentIndex = courseUnits.findIndex((item) => item.slug === unit.slug);
+  const dialogue = courseDialogues[unit.slug] ?? [];
   const nextUnit = courseUnits[currentIndex + 1];
   const nextHref = nextUnit ? `/course/${nextUnit.slug}` : "/course";
   const nextLabel = nextUnit ? "进入下一场景" : "选择下一场景";
@@ -49,6 +51,20 @@ export default async function CourseDetailPage({ params }: CourseDetailProps) {
         </div>
       </section>
       <div className="page-shell"><CantoneseAudioSettings /></div>
+      <section className="course-dialogue page-shell">
+        <div className="course-panel-heading">
+          <div><p className="eyebrow">REAL DIALOGUE / 完整对话</p><h2>先听整体，<em>再拆开看。</em></h2></div>
+          <p>第一遍不看粤拼，先判断对方的意图和下一步；第二遍再打开文字，逐句跟读。</p>
+        </div>
+        <div className="dialogue-card">
+          {dialogue.map((line, index) => (
+            <article className={`dialogue-line ${line.speaker === "你" ? "learner" : ""}`} key={`${line.speaker}-${index}`}>
+              <div className="dialogue-line-meta"><span>{String(index + 1).padStart(2, "0")}</span><b>{line.speaker}</b><small>{line.mood}</small></div>
+              <div className="dialogue-line-content"><strong>{line.cantonese}</strong><code>{line.jyutping}</code><p>普通话：{line.mandarin}</p><CantoneseAudio text={line.cantonese} label={`播放：${line.cantonese}`} compact /></div>
+            </article>
+          ))}
+        </div>
+      </section>
       <section className="lesson-list page-shell">
         <div className="lesson-list-heading"><div><p className="eyebrow">{unit.lessons.length} MICRO LESSONS / 任务回合</p><h2>先把一句话，<em>放进一个任务。</em></h2></div><p>每一回合都标出普通话意思、粤拼、学习焦点和一个可以迁移到其他场景的提示。</p></div>
         <div className="lesson-grid">
