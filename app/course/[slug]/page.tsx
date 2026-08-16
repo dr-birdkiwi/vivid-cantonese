@@ -19,6 +19,13 @@ export default async function CourseDetailPage({ params }: CourseDetailProps) {
   const { slug } = await params;
   const unit = courseUnits.find((item) => item.slug === slug);
   if (!unit) notFound();
+  const currentIndex = courseUnits.findIndex((item) => item.slug === unit.slug);
+  const nextUnit = courseUnits[currentIndex + 1];
+  const nextHref = nextUnit ? `/course/${nextUnit.slug}` : "/course";
+  const nextLabel = nextUnit ? "进入下一场景" : "选择下一场景";
+  const nextDescription = nextUnit
+    ? `下一站：${nextUnit.title}。${nextUnit.copy}。`
+    : "这一条路线已经完成，回到课程地图选择下一场景。";
 
   return (
     <main className="subpage course-detail-page">
@@ -73,8 +80,8 @@ export default async function CourseDetailPage({ params }: CourseDetailProps) {
         <div className="challenge-grid">{unit.challenges.map((challenge, index) => <article className={`challenge-card ${unit.color}`} key={challenge.title}><div className="challenge-number">0{index + 1}</div><small>{challenge.situation}</small><h3>{challenge.title}</h3><strong>{challenge.phrase}</strong><code>{challenge.jyutping}</code><CantoneseAudio text={challenge.phrase} label={`播放：${challenge.phrase}`} compact /><p>{challenge.note}</p></article>)}</div>
       </section>
       <section className="course-detail-next page-shell">
-        <div><p className="eyebrow">NEXT STEP / 下一步</p><h2>把这句带进转换桥和练习。</h2><p>先听整句，再回到 Bridge 观察普通话与粤语的分岔。</p></div>
-        <div className="course-detail-actions"><a className="secondary-link" href="/bridge">查普通话分岔 <span>→</span></a><a className="primary-button" href="/practice">立即做反应 <span>→</span></a></div>
+        <div><p className="eyebrow">NEXT SCENE / 下一场景</p><h2>进入到下一场景。</h2><p>{nextDescription}</p></div>
+        <div className="course-detail-actions"><a className="secondary-link" href="/course">回到课程地图 <span>↗</span></a><a className="primary-button" href={nextHref}>{nextLabel} <span>→</span></a></div>
       </section>
     </main>
   );
