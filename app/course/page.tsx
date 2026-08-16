@@ -1,5 +1,5 @@
 import { CantoneseAudio, CantoneseAudioSettings } from "../components/CantoneseAudio";
-import { courseUnits } from "./course-data";
+import { courseTracks, courseUnits } from "./course-data";
 
 export const metadata = {
   title: "情景课程｜粤语鲜活学堂",
@@ -16,16 +16,22 @@ export default function CoursePage() {
       <section className="subpage-hero page-shell">
         <p className="eyebrow">THE COURSE / 情景课程</p>
         <h1>先学会把事情办成，<br /><em>再慢慢变得流利。</em></h1>
-        <p>每个单元都围绕一个真实任务展开：你要说什么、对方会怎样回应、发生意外时如何把话接回来。</p>
-        <div className="route-meta"><span><b>12</b> 个场景单元</span><span><b>48</b> 节微课</span><span><b>360+</b> 个核心词句</span></div>
+        <p>每个单元都围绕一个真实任务展开：你要说什么、对方会怎样回应、发生意外时如何把话接回来。内容按居港时间分层，初学者和已经住了几年的人都能找到下一步。</p>
+        <div className="route-meta"><span><b>{courseUnits.length}</b> 个场景单元</span><span><b>{courseUnits.reduce((total, unit) => total + unit.lessons.length, 0)}</b> 个任务回合</span><span><b>{courseUnits.reduce((total, unit) => total + unit.vocabulary.length, 0)}+</b> 个词汇重点</span></div>
       </section>
       <div className="page-shell"><CantoneseAudioSettings /></div>
+      <section className="course-tracks page-shell">
+        <div className="section-intro"><div><p className="eyebrow">FOUR STAGES / 四条路线</p><h2>你住在香港多久，<em>决定下一种难度。</em></h2></div><p>不按“初级 / 高级”硬切，而是按你每天会遇到的任务，逐步加入体貌、句末语气、方向补语和含蓄协商。</p></div>
+        <div className="track-grid">{courseTracks.map((track) => <article className={`track-card ${track.color}`} key={track.label}><div className="track-card-top"><span>{track.label}</span><small>课程 {track.units}</small></div><h3>{track.title}</h3><p>{track.copy}</p></article>)}</div>
+      </section>
       <section className="course-grid page-shell">
         {courseUnits.map((unit) => (
           <article className={`course-unit ${unit.color}`} key={unit.slug}>
-            <div className="unit-top"><span>{unit.number}</span><small>4 lessons</small></div>
+            <div className="unit-top"><span>{unit.number}</span><small>{unit.track}</small></div>
             <h2>{unit.title}</h2>
             <p>{unit.copy}</p>
+            <div className="unit-level"><b>{unit.level}</b><span>{unit.audience}</span></div>
+            <div className="unit-meta"><span>{unit.lessons.length} 回合</span><span>{unit.vocabulary.length} 词</span><span>{unit.grammar.length} 个句型</span></div>
             <div className="unit-phrase">
               <b>{unit.phrase}</b>
               <small>{unit.jyutping}</small>

@@ -28,9 +28,11 @@ export default async function CourseDetailPage({ params }: CourseDetailProps) {
       </header>
       <section className="course-detail-hero page-shell">
         <div>
-          <p className="eyebrow">SCENE {unit.number} / 情景微课</p>
+          <p className="eyebrow">SCENE {unit.number} / {unit.track}</p>
+          <div className="course-detail-tags"><span>{unit.level}</span><span>{unit.lessons.length} 个任务回合</span><span>{unit.vocabulary.length} 个词汇重点</span></div>
           <h1>{unit.title}</h1>
-          <p>{unit.copy}。先听完整句，再把每个回合放进真实任务。</p>
+          <p>{unit.goal}</p>
+          <div className="course-detail-stats"><span><b>{unit.lessons.length}</b> 听说回合</span><span><b>{unit.grammar.length}</b> 句型与语气</span><span><b>{unit.challenges.length}</b> 进阶挑战</span></div>
         </div>
         <div className={`course-detail-phrase ${unit.color}`}>
           <span>本场景先记这一句</span>
@@ -41,22 +43,37 @@ export default async function CourseDetailPage({ params }: CourseDetailProps) {
       </section>
       <div className="page-shell"><CantoneseAudioSettings /></div>
       <section className="lesson-list page-shell">
-        <div className="lesson-list-heading"><p className="eyebrow">4 MICRO LESSONS / 四个回合</p><h2>每一节只解决一个<em>真实开口点。</em></h2></div>
+        <div className="lesson-list-heading"><div><p className="eyebrow">{unit.lessons.length} MICRO LESSONS / 任务回合</p><h2>先把一句话，<em>放进一个任务。</em></h2></div><p>每一回合都标出普通话意思、粤拼、学习焦点和一个可以迁移到其他场景的提示。</p></div>
         <div className="lesson-grid">
           {unit.lessons.map((lesson, index) => (
             <article className="lesson-card" key={lesson.title}>
-              <div className="lesson-card-top"><span>0{index + 1}</span><small>听 · 说 · 反应</small></div>
+              <div className="lesson-card-top"><span>{String(index + 1).padStart(2, "0")}</span><small>{lesson.focus}</small></div>
               <h3>{lesson.title}</h3>
               <p className="lesson-phrase">{lesson.phrase}</p>
               <code>{lesson.jyutping}</code>
               <CantoneseAudio text={lesson.phrase} label={`播放：${lesson.phrase}`} compact />
+              <p className="lesson-meaning">普通话：{lesson.mandarin}</p>
               <p className="lesson-note">{lesson.note}</p>
             </article>
           ))}
         </div>
       </section>
+      <section className="course-focus-grid page-shell">
+        <article className="course-vocabulary-panel">
+          <div className="course-panel-heading"><div><p className="eyebrow">WORD BANK / 词汇与发音</p><h2>看到就要会听，<em>听到就要会用。</em></h2></div><span>{unit.vocabulary.length} 个</span></div>
+          <div className="vocabulary-grid">{unit.vocabulary.map((item) => <div className="vocabulary-item" key={item.word}><div className="vocabulary-main"><strong>{item.word}</strong><code>{item.jyutping}</code></div><span>{item.meaning}</span><small>{item.note}</small><CantoneseAudio text={item.word} label={`播放：${item.word}`} compact /></div>)}</div>
+        </article>
+        <article className="course-grammar-panel">
+          <div className="course-panel-heading"><div><p className="eyebrow">GRAMMAR / 句型与语气</p><h2>别只背词，<em>看它怎样连起来。</em></h2></div><span>{unit.grammar.length} 个</span></div>
+          <div className="grammar-points">{unit.grammar.map((point) => <div className="grammar-point" key={point.pattern}><div className="grammar-point-top"><b>{point.pattern}</b><small>{point.label}</small></div><strong>{point.example}</strong><code>{point.jyutping}</code><CantoneseAudio text={point.example} label={`播放：${point.example}`} compact /><p>{point.note}</p></div>)}</div>
+        </article>
+      </section>
+      <section className="course-challenge page-shell">
+        <div className="course-panel-heading"><div><p className="eyebrow">ADVANCED TASK / 进阶挑战</p><h2>把这套表达带进<em>更难的现场。</em></h2></div><p>这里不再给你一句“标准答案”，而是让你处理信息不完整、时间变化和关系语气。</p></div>
+        <div className="challenge-grid">{unit.challenges.map((challenge, index) => <article className={`challenge-card ${unit.color}`} key={challenge.title}><div className="challenge-number">0{index + 1}</div><small>{challenge.situation}</small><h3>{challenge.title}</h3><strong>{challenge.phrase}</strong><code>{challenge.jyutping}</code><CantoneseAudio text={challenge.phrase} label={`播放：${challenge.phrase}`} compact /><p>{challenge.note}</p></article>)}</div>
+      </section>
       <section className="course-detail-next page-shell">
-        <div><p className="eyebrow">NEXT STEP / 下一步</p><h2>把这句带进转换桥和练习。</h2></div>
+        <div><p className="eyebrow">NEXT STEP / 下一步</p><h2>把这句带进转换桥和练习。</h2><p>先听整句，再回到 Bridge 观察普通话与粤语的分岔。</p></div>
         <div className="course-detail-actions"><a className="secondary-link" href="/bridge">查普通话分岔 <span>→</span></a><a className="primary-button" href="/practice">立即做反应 <span>→</span></a></div>
       </section>
     </main>
