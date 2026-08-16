@@ -32,25 +32,25 @@ const toneRules = [
 ];
 
 const exceptionRows = [
-  ["我", "ngo5", "wǒ", "字音分岔", "普通话 w- 不能直接读成粤语 w-。"],
-  ["你", "nei5", "nǐ", "字音分岔", "人称代词属于高频词，直接单独记住最省力。"],
-  ["他 / 她", "佢 keoi5", "tā", "口语替换", "日常粤语常用佢，而不是把“他”按普通话字音搬过去。"],
-  ["没有", "冇 mou5", "méiyǒu", "词汇替换", "否定存在通常用冇，不能从“没 / 有”逐字推。"],
-  ["不", "唔 m4", "bù", "词汇替换", "唔是日常否定词，读音和普通话“不”完全不是一条规则。"],
-  ["在", "喺 hai2", "zài", "词汇替换", "地点义的“在”常用喺；係是判断句的“是”。"],
-  ["现在", "而家 ji4 gaa1", "xiànzài", "整词记忆", "这是两个字的高频整词替换，不要逐字读。"],
-  ["喜欢", "鍾意 zung1 ji3", "xǐhuān", "整词记忆", "日常表达优先记鍾意，书面“喜歡”不是最自然的口语选择。"],
-  ["哪里", "邊度 bin1 dou6", "nǎlǐ", "整词记忆", "问地点时用邊度，比逐字对应更自然。"],
-  ["为什么", "點解 dim2 gaai2", "wèishénme", "整词记忆", "口语疑问词是點解，不是把“为 / 什么”分别换音。"],
-  ["什么", "咩 me1 / 乜嘢 mat1 je5", "shénme", "疑问词替换", "咩很短，乜嘢更完整；两者都不能只按汉字推读。"],
-  ["东西", "嘢 je5", "dōngxi", "词汇替换", "泛指东西、事情、内容时，嘢的覆盖面很大。"],
-  ["吃", "食 sik6", "chī", "动词替换", "食保留入声 -k，是普通话使用者很容易漏掉的闭塞韵尾。"],
-  ["喝", "飲 jam2", "hē", "动词替换", "粤语日常用飲，不要把“喝”当成只换声调。"],
-  ["看", "睇 tai2", "kàn", "动词替换", "睇是香港口语最常用的“看”。"],
-  ["说", "講 gong2", "shuō", "动词替换", "讲嘢、講電話等搭配都以講为核心。"],
-  ["找", "搵 wan2", "zhǎo", "动词替换", "找人、找东西、找资料常用搵。"],
-  ["给", "俾 bei2", "gěi", "动词替换", "俾我、俾你是非常高频的给与结构。"],
-  ["怎么样", "點樣 dim2 joeng6", "zěnmeyàng", "整词记忆", "點樣比“怎么 + 样”更像真实口语。"],
+  ["我", "我", "ngo5 / wǒ", "字音分岔", "普通话 w- 不能直接读成粤语 w-。"],
+  ["你", "你", "nei5 / nǐ", "字音分岔", "人称代词属于高频词，直接单独记住最省力。"],
+  ["他 / 她", "佢", "keoi5 / tā", "口语替换", "日常粤语常用佢，而不是把“他”按普通话字音搬过去。"],
+  ["没有", "冇", "mou5 / méiyǒu", "词汇替换", "否定存在通常用冇，不能从“没 / 有”逐字推。"],
+  ["不", "唔", "m4 / bù", "词汇替换", "唔是日常否定词，读音和普通话“不”完全不是一条规则。"],
+  ["在", "喺", "hai2 / zài", "词汇替换", "地点义的“在”常用喺；係是判断句的“是”。"],
+  ["现在", "而家", "ji4 gaa1 / xiànzài", "整词记忆", "这是两个字的高频整词替换，不要逐字读。"],
+  ["喜欢", "鍾意", "zung1 ji3 / xǐhuān", "整词记忆", "日常表达优先记鍾意，书面“喜歡”不是最自然的口语选择。"],
+  ["哪里", "邊度", "bin1 dou6 / nǎlǐ", "整词记忆", "问地点时用邊度，比逐字对应更自然。"],
+  ["为什么", "點解", "dim2 gaai2 / wèishénme", "整词记忆", "口语疑问词是點解，不是把“为 / 什么”分别换音。"],
+  ["什么", "咩 / 乜嘢", "me1 / mat1 je5 / shénme", "疑问词替换", "咩很短，乜嘢更完整；两者都不能只按汉字推读。"],
+  ["东西", "嘢", "je5 / dōngxi", "词汇替换", "泛指东西、事情、内容时，嘢的覆盖面很大。"],
+  ["吃", "食", "sik6 / chī", "动词替换", "食保留入声 -k，是普通话使用者很容易漏掉的闭塞韵尾。"],
+  ["喝", "飲", "jam2 / hē", "动词替换", "粤语日常用飲，不要把“喝”当成只换声调。"],
+  ["看", "睇", "tai2 / kàn", "动词替换", "睇是香港口语最常用的“看”。"],
+  ["说", "講", "gong2 / shuō", "动词替换", "讲嘢、講電話等搭配都以講为核心。"],
+  ["找", "搵", "wan2 / zhǎo", "动词替换", "找人、找东西、找资料常用搵。"],
+  ["给", "俾", "bei2 / gěi", "动词替换", "俾我、俾你是非常高频的给与结构。"],
+  ["怎么样", "點樣", "dim2 joeng6 / zěnmeyàng", "整词记忆", "點樣比“怎么 + 样”更像真实口语。"],
 ];
 
 const multipleReadingRows = [
@@ -86,7 +86,7 @@ export default function BridgePage() {
 
       <section className="exception-section page-shell" id="exceptions">
         <div className="section-intro"><div><p className="eyebrow">03 / EXCEPTIONS</p><h2>不能靠规律猜的，<em>单独收进词库。</em></h2></div><p>这里不是“失败案例”，而是普通话使用者最值得提前建立的粤语词汇网络。</p></div>
-        <div className="exception-layout"><div className="exception-list"><div className="exception-list-head"><b>高频口语替换</b><small>看到普通话就直接想粤语</small></div>{exceptionRows.map(([mandarin, cantonese, jyutping, tag, why]) => <article className="exception-row" key={mandarin}><span>{mandarin}</span><div><strong>{cantonese}</strong><code>{jyutping}</code></div><small>{tag}</small><p>{why}</p><CantoneseAudio text={cantonese.split(" ")[0]} label={`播放：${cantonese}`} compact /></article>)}</div><aside className="multiple-reading-card"><p className="eyebrow">同字异读</p><h3>先记词，不要只记单字。</h3><p>粤语和普通话都保留了很多历史层次。同一个字进入不同词语，可能触发不同读音；看到下面这类词，直接把整词和粤拼一起存。</p>{multipleReadingRows.map(([character, first, second, note]) => <div className="multiple-reading-row" key={character}><b>{character}</b><span>{first}<br />{second}</span><small>{note}</small></div>)}</aside></div>
+        <div className="exception-layout"><div className="exception-list"><div className="exception-list-head"><b>高频口语替换</b><small>看到普通话就直接想粤语</small></div>{exceptionRows.map(([mandarin, cantonese, jyutping, tag, why]) => <article className="exception-row" key={mandarin}><span>{mandarin}</span><div><strong>{cantonese}</strong><code>{jyutping}</code></div><small>{tag}</small><p>{why}</p><CantoneseAudio text={cantonese} label={`播放：${cantonese}`} compact /></article>)}</div><aside className="multiple-reading-card"><p className="eyebrow">同字异读</p><h3>先记词，不要只记单字。</h3><p>粤语和普通话都保留了很多历史层次。同一个字进入不同词语，可能触发不同读音；看到下面这类词，直接把整词和粤拼一起存。</p>{multipleReadingRows.map(([character, first, second, note]) => <div className="multiple-reading-row" key={character}><b>{character}</b><span>{first}<br />{second}</span><small>{note}</small></div>)}</aside></div>
       </section>
 
       <section className="bridge-page-layout page-shell" id="word-bridge">

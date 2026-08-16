@@ -37,6 +37,11 @@ function chooseCantoneseVoice(voices: SpeechSynthesisVoice[]) {
     .sort((left, right) => voiceScore(right) - voiceScore(left))[0];
 }
 
+function toChineseSpeechText(text: string) {
+  const chineseOnly = text.replace(/[A-Za-z0-9\u00C0-\u024F]/g, "").replace(/\s+/g, " ").trim();
+  return chineseOnly || text;
+}
+
 function useSpeechVoices() {
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
 
@@ -57,6 +62,7 @@ function useSpeechVoices() {
 export function CantoneseAudio({ text, label = `播放：${text}`, compact = false }: CantoneseAudioProps) {
   const voices = useSpeechVoices();
   const preferredVoice = useMemo(() => chooseCantoneseVoice(voices), [voices]);
+  const speechText = useMemo(() => toChineseSpeechText(text), [text]);
   const [speaking, setSpeaking] = useState(false);
   const [audioError, setAudioError] = useState(false);
 
@@ -68,7 +74,7 @@ export function CantoneseAudio({ text, label = `播放：${text}`, compact = fal
 
     setAudioError(false);
     window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
+    const utterance = new SpeechSynthesisUtterance(speechText);
     utterance.lang = "zh-HK";
     utterance.rate = 0.72;
     utterance.pitch = 1;
