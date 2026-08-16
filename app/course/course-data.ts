@@ -1,0 +1,193 @@
+export type CourseUnit = {
+  number: string;
+  slug: string;
+  title: string;
+  copy: string;
+  phrase: string;
+  jyutping: string;
+  color: string;
+  lessons: Array<{ title: string; phrase: string; jyutping: string; note: string }>;
+};
+
+export const courseUnits: CourseUnit[] = [
+  {
+    number: "01",
+    slug: "repair-the-conversation",
+    title: "先把对话接回来",
+    copy: "澄清、重复、确认和修复对话",
+    phrase: "唔好意思，可唔可以再講一次？",
+    jyutping: "m4 hou2 ji3 si1, ho2 m4 ho2 ji5 zoi3 gong2 jat1 ci3?",
+    color: "coral",
+    lessons: [
+      { title: "请对方再说一次", phrase: "唔好意思，可唔可以再講一次？", jyutping: "m4 hou2 ji3 si1, ho2 m4 ho2 ji5 zoi3 gong2 jat1 ci3?", note: "用唔好意思先接住语气，再提出请求。" },
+      { title: "请对方说慢一点", phrase: "可唔可以講慢啲？", jyutping: "ho2 m4 ho2 ji5 gong2 maan6 di1?", note: "啲表示程度稍微增加，是非常常用的口语尾巴。" },
+      { title: "确认自己有没有听错", phrase: "你係咪話星期五？", jyutping: "nei5 hai6 mai6 waa6 sing1 kei4 ng5?", note: "係咪把普通话“是不是”变成自然的是非问句。" },
+      { title: "给对方一个继续说的信号", phrase: "哦，明白，咁你繼續啦。", jyutping: "o4, ming4 baak6, gam2 nei5 gai3 zuk6 laa1.", note: "咁是“那么 / 这样”的高频连接词。" },
+    ],
+  },
+  {
+    number: "02",
+    slug: "cha-chaan-teng",
+    title: "茶餐厅生存课",
+    copy: "早餐、饮品、加冰、少甜和打包",
+    phrase: "唔該，一個奶茶，少甜。",
+    jyutping: "m4 goi1, jat1 go3 naai5 caa4, siu2 tim4.",
+    color: "gold",
+    lessons: [
+      { title: "先叫店员", phrase: "唔該，我要個菠蘿包。", jyutping: "m4 goi1, ngo5 jiu3 go3 bo1 lo4 baau1.", note: "個 go3 是点餐时非常自然的量词。" },
+      { title: "调整甜度", phrase: "少甜，唔該。", jyutping: "siu2 tim4, m4 goi1.", note: "少甜比“少糖”更像香港点饮品时的说法。" },
+      { title: "问有没有套餐", phrase: "有冇早餐跟呀？", jyutping: "jau5 mou5 zou2 caan1 gan1 aa3?", note: "跟在这里表示搭配、随餐附送。" },
+      { title: "打包带走", phrase: "唔該幫我打包。", jyutping: "m4 goi1 bong1 ngo5 daa2 baau1.", note: "幫我比“请帮我”更直接自然。" },
+    ],
+  },
+  {
+    number: "03",
+    slug: "transport-and-directions",
+    title: "交通与方向",
+    copy: "地铁、巴士、的士、转车和落车",
+    phrase: "呢架車去唔去尖沙咀？",
+    jyutping: "ni1 gaa3 ce1 heoi3 m4 heoi3 zim1 saa1 zeoi2?",
+    color: "mint",
+    lessons: [
+      { title: "问这班车去不去", phrase: "呢架車去唔去中環？", jyutping: "ni1 gaa3 ce1 heoi3 m4 heoi3 zung1 waan4?", note: "去唔去是“去不去”的固定口语格式。" },
+      { title: "问在哪里下车", phrase: "我喺邊個站落車？", jyutping: "ngo5 hai2 bin1 go3 zaam6 lok6 ce1?", note: "落車是下车，落在交通场景里很常见。" },
+      { title: "问还要几站", phrase: "仲有幾多個站？", jyutping: "zung6 jau5 gei2 do1 go3 zaam6?", note: "仲有表示“还有”，不要只说“再有”。" },
+      { title: "请司机停一下", phrase: "唔該前面有落，唔該。", jyutping: "m4 goi1 cin4 min6 jau5 lok6, m4 goi1.", note: "有落是告诉司机前面有人下车。" },
+    ],
+  },
+  {
+    number: "04",
+    slug: "shopping-and-returns",
+    title: "买东西与退换",
+    copy: "尺码、付款、找续、优惠和退货",
+    phrase: "有冇平啲嘅款？",
+    jyutping: "jau5 mou5 peng4 di1 ge3 fun2?",
+    color: "violet",
+    lessons: [
+      { title: "问有没有便宜一点的", phrase: "有冇平啲嘅？", jyutping: "jau5 mou5 peng4 di1 ge3?", note: "嘅把前面的描述接到名词上。" },
+      { title: "问有没有小一码", phrase: "有冇細個碼啲？", jyutping: "jau5 mou5 sai3 go3 maa5 di1?", note: "碼 maa5 是尺码，細個碼是小一码。" },
+      { title: "问可不可以换", phrase: "可唔可以換第二隻色？", jyutping: "ho2 m4 ho2 ji5 wun6 dai6 ji6 zek3 sik1?", note: "隻用于颜色、款式等可数项目。" },
+      { title: "付款后确认找续", phrase: "唔該，找返幾多錢？", jyutping: "m4 goi1, zaau2 faan1 gei2 do1 cin2?", note: "找返是找零，不是普通话里的“找回”。" },
+    ],
+  },
+  {
+    number: "05",
+    slug: "phone-and-voice-messages",
+    title: "电话和语音消息",
+    copy: "接听、回拨、听不清和稍后回复",
+    phrase: "我遲啲再覆你。",
+    jyutping: "ngo5 ci4 di1 zoi3 fuk1 nei5.",
+    color: "blue",
+    lessons: [
+      { title: "说明现在不方便", phrase: "我而家唔方便講電話。", jyutping: "ngo5 ji4 gaa1 m4 fong1 bin6 gong2 din6 waa2.", note: "而家是现在，方便后面直接接动词。" },
+      { title: "稍后回复", phrase: "我遲啲再覆你。", jyutping: "ngo5 ci4 di1 zoi3 fuk1 nei5.", note: "覆 fuk1 在香港很常用于回复消息。" },
+      { title: "让对方发文字", phrase: "你打字俾我啦。", jyutping: "nei5 daa2 zi6 bei2 ngo5 laa1.", note: "俾是给，发消息时很高频。" },
+      { title: "回拨", phrase: "我陣間打返俾你。", jyutping: "ngo5 zan6 gaan1 daa2 faan1 bei2 nei5.", note: "陣間表示等一会儿、稍后。" },
+    ],
+  },
+  {
+    number: "06",
+    slug: "work-communication",
+    title: "工作沟通基础",
+    copy: "进度、交接、会议和礼貌请求",
+    phrase: "你得閒嗰陣覆我啦。",
+    jyutping: "nei5 dak1 haan4 go2 zan6 fuk1 ngo5 laa1.",
+    color: "peach",
+    lessons: [
+      { title: "请对方有空回复", phrase: "你得閒嗰陣覆我啦。", jyutping: "nei5 dak1 haan4 go2 zan6 fuk1 ngo5 laa1.", note: "得閒是有空，嗰陣是那时候。" },
+      { title: "汇报目前进度", phrase: "而家做到呢度。", jyutping: "ji4 gaa1 zou6 dou3 ni1 dou6.", note: "做到呢度是做到这里、进展到这里。" },
+      { title: "请求对方确认", phrase: "麻煩你睇一睇。", jyutping: "maa4 faan4 nei5 tai2 jat1 tai2.", note: "睇一睇是看一下，重复动词让语气更自然。" },
+      { title: "结束会议", phrase: "咁今日先到呢度。", jyutping: "gam2 gam1 jat6 sin1 dou3 ni1 dou6.", note: "先到呢度是今天先这样、先结束到这里。" },
+    ],
+  },
+  {
+    number: "07",
+    slug: "appointments-and-rescheduling",
+    title: "约时间与改约",
+    copy: "约人、迟到、取消和确认下一步",
+    phrase: "聽日三點見，得唔得？",
+    jyutping: "ting1 jat6 saam1 dim2 gin3, dak1 m4 dak1?",
+    color: "coral",
+    lessons: [
+      { title: "确认约会时间", phrase: "聽日三點見，得唔得？", jyutping: "ting1 jat6 saam1 dim2 gin3, dak1 m4 dak1?", note: "見可以直接表示见面，不需要说“见面”。" },
+      { title: "说明会迟到", phrase: "我可能會遲到一陣。", jyutping: "ngo5 ho2 nang4 wui5 ci4 dou3 jat1 zan6.", note: "一陣表示一会儿，时间感比“一下”更长。" },
+      { title: "改到另一天", phrase: "不如改下星期？", jyutping: "bat1 jyu4 goi2 haa5 sing1 kei4?", note: "不如是提出替代方案的自然开头。" },
+      { title: "确认下一步", phrase: "到時再傾啦。", jyutping: "dou3 si4 zoi3 king1 laa1.", note: "傾是谈、商量，也能表示之后再联系。" },
+    ],
+  },
+  {
+    number: "08",
+    slug: "social-updates",
+    title: "社交与近况",
+    copy: "寒暄、邀请、拒绝和关系维护",
+    phrase: "最近搞成點呀？",
+    jyutping: "zeoi3 gan6 gaau2 sing4 dim2 aa3?",
+    color: "gold",
+    lessons: [
+      { title: "问最近怎么样", phrase: "最近搞成點呀？", jyutping: "zeoi3 gan6 gaau2 sing4 dim2 aa3?", note: "搞成點比“最近怎么样”更口语、更像熟人寒暄。" },
+      { title: "回答还不错", phrase: "都係咁上下啦。", jyutping: "dou1 hai6 gam2 haa6 soeng6 laa1.", note: "咁上下是差不多、还行的意思。" },
+      { title: "邀请对方吃饭", phrase: "得閒一齊食飯呀？", jyutping: "dak1 haan4 jat1 cai4 sik6 faan6 aa3?", note: "一齊是一起，邀约时非常高频。" },
+      { title: "礼貌拒绝", phrase: "今次真係唔得，下次啦。", jyutping: "gam1 ci3 zan1 hai6 m4 dak1, haa6 ci3 laa1.", note: "下次啦把拒绝留在关系里，不会太生硬。" },
+    ],
+  },
+  {
+    number: "09",
+    slug: "housing-and-repairs",
+    title: "住房与维修",
+    copy: "管理处、邻居、冷气和水电煤",
+    phrase: "個水喉好似漏水喎。",
+    jyutping: "go3 seoi2 hau4 hou2 ci5 lau6 seoi2 wo3.",
+    color: "mint",
+    lessons: [
+      { title: "报告漏水", phrase: "個水喉好似漏水喎。", jyutping: "go3 seoi2 hau4 hou2 ci5 lau6 seoi2 wo3.", note: "好似表示好像，喎表示带来一个新发现。" },
+      { title: "请管理处跟进", phrase: "可唔可以幫我跟進下？", jyutping: "ho2 m4 ho2 ji5 bong1 ngo5 gan1 zeon3 haa5?", note: "跟進是跟进处理，不需要直译成跟随。" },
+      { title: "说明冷气问题", phrase: "部冷氣唔凍。", jyutping: "bou6 laang5 hei3 m4 dung3.", note: "部是电器常用量词，唔凍是“不凉”。" },
+      { title: "约维修时间", phrase: "師傅幾時得閒上嚟？", jyutping: "si1 fu6 gei2 si4 dak1 haan4 soeng5 lei4?", note: "上嚟表示到这里来，方向感很重要。" },
+    ],
+  },
+  {
+    number: "10",
+    slug: "doctor-and-pharmacy",
+    title: "医生与药房",
+    copy: "预约、症状、药物和注意事项",
+    phrase: "我由尋日開始喉嚨痛。",
+    jyutping: "ngo5 jau4 cam4 jat6 hoi1 ci2 hau4 lung4 tung3.",
+    color: "blue",
+    lessons: [
+      { title: "说明症状何时开始", phrase: "我由尋日開始喉嚨痛。", jyutping: "ngo5 jau4 cam4 jat6 hoi1 ci2 hau4 lung4 tung3.", note: "由尋日開始是从昨天开始，时间起点说得很清楚。" },
+      { title: "描述不舒服", phrase: "我有啲頭暈。", jyutping: "ngo5 jau5 di1 tau4 wan4.", note: "有啲表示有一点，适合描述轻微症状。" },
+      { title: "问怎么服药", phrase: "一日食幾多次？", jyutping: "jat1 jat6 sik6 gei2 do1 ci3?", note: "食药是香港口语里非常常见的说法。" },
+      { title: "确认有没有忌口", phrase: "有冇咩要避免？", jyutping: "jau5 mou5 me1 jiu3 bei6 min5?", note: "咩是“什么”，疑问词不能只按普通话汉字推读。" },
+    ],
+  },
+  {
+    number: "11",
+    slug: "bank-and-public-services",
+    title: "银行与公共服务",
+    copy: "排队、证件、表格和身份确认",
+    phrase: "請問要填邊張表？",
+    jyutping: "cing2 man6 jiu3 tin4 bin1 zoeng1 biu2?",
+    color: "violet",
+    lessons: [
+      { title: "问填哪张表", phrase: "請問要填邊張表？", jyutping: "cing2 man6 jiu3 tin4 bin1 zoeng1 biu2?", note: "邊張是“哪一张”，张用于表格。" },
+      { title: "问要带什么证件", phrase: "要帶咩證件？", jyutping: "jiu3 daai3 me1 zing3 gin6?", note: "帶是带上，咩是高频疑问词。" },
+      { title: "确认是否需要排队", phrase: "係咪要排隊？", jyutping: "hai6 mai6 jiu3 paai4 deoi6?", note: "係咪要…是办事场景里的固定问法。" },
+      { title: "确认办理完成", phrase: "咁樣就得喇？", jyutping: "gam2 joeng6 zau6 dak1 laa3?", note: "就得喇是“这样就可以了吗”的自然口语。" },
+    ],
+  },
+  {
+    number: "12",
+    slug: "complaints-and-solutions",
+    title: "投诉与解决问题",
+    copy: "讲清楚经过、表达不满和谈解决方案",
+    phrase: "我想問下可唔可以跟進？",
+    jyutping: "ngo5 soeng2 man6 haa5 ho2 m4 ho2 ji5 gan1 zeon3?",
+    color: "peach",
+    lessons: [
+      { title: "先礼貌开口", phrase: "唔好意思，我想問下。", jyutping: "m4 hou2 ji3 si1, ngo5 soeng2 man6 haa5.", note: "問下比直接问更缓和，适合投诉前铺垫。" },
+      { title: "讲清楚发生了什么", phrase: "頭先部機突然停咗。", jyutping: "tau4 sin1 bou6 gei1 dat6 jin4 ting4 zo2.", note: "頭先是刚才，咗标记动作已经发生。" },
+      { title: "请求跟进", phrase: "可唔可以跟進下？", jyutping: "ho2 m4 ho2 ji5 gan1 zeon3 haa5?", note: "下在这里有“一下”的缓和作用。" },
+      { title: "确认解决方案", phrase: "咁你哋會點處理？", jyutping: "gam2 nei5 dei6 wui5 dim2 cyu2 lei5?", note: "你哋是你们，處理是处理问题。" },
+    ],
+  },
+];

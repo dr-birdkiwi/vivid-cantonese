@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
+import { CantoneseAudio, CantoneseAudioSettings } from "./components/CantoneseAudio";
 
 type BridgeEntry = {
   mandarin: string;
@@ -27,12 +29,12 @@ const bridgeEntries: BridgeEntry[] = [
 ];
 
 const scenes = [
-  { number: "01", label: "听不清时", title: "先把对话接回来", copy: "请对方慢一点、再说一次，确认自己有没有听错。", phrase: "唔好意思，可唔可以再講一次？", jyutping: "m4 hou2 ji3 si1, ho2 m4 ho2 ji5 zoi3 gong2 jat1 ci3?", color: "coral" },
-  { number: "02", label: "茶餐厅", title: "点餐不再只会指菜单", copy: "从早餐、饮品、加冰到打包，练习真正会遇到的细节。", phrase: "唔該，一個奶茶，少甜。", jyutping: "m4 goi1, jat1 go3 naai5 caa4, siu2 tim4.", color: "gold" },
-  { number: "03", label: "交通", title: "听懂司机和站名", copy: "问路线、转车、落车和“还有几站”，把移动变成可控任务。", phrase: "呢架車去唔去尖沙咀？", jyutping: "ni1 gaa3 ce1 heoi3 m4 heoi3 zim1 saa1 zeoi2?", color: "mint" },
-  { number: "04", label: "工作沟通", title: "把请求说得清楚", copy: "跟同事确认进度、改时间、交接任务，也理解香港职场的语气。", phrase: "我遲啲再覆你。", jyutping: "ngo5 ci4 di1 zoi3 fuk1 nei5.", color: "blue" },
-  { number: "05", label: "买东西", title: "付款、找续和退换", copy: "从“有冇細一點”到“可唔可以換”，覆盖商店里最实用的回合。", phrase: "有冇平啲嘅款？", jyutping: "jau5 mou5 peng4 di1 ge3 fun2?", color: "violet" },
-  { number: "06", label: "日常社交", title: "听出话外的语气", copy: "用语气词和回应方式区分客气、亲密、惊讶和轻微不满。", phrase: "係咩？我真係唔知喎。", jyutping: "hai6 me1? ngo5 zan1 hai6 m4 zi1 wo3.", color: "peach" },
+  { number: "01", slug: "repair-the-conversation", label: "听不清时", title: "先把对话接回来", copy: "请对方慢一点、再说一次，确认自己有没有听错。", phrase: "唔好意思，可唔可以再講一次？", jyutping: "m4 hou2 ji3 si1, ho2 m4 ho2 ji5 zoi3 gong2 jat1 ci3?", color: "coral" },
+  { number: "02", slug: "cha-chaan-teng", label: "茶餐厅", title: "点餐不再只会指菜单", copy: "从早餐、饮品、加冰到打包，练习真正会遇到的细节。", phrase: "唔該，一個奶茶，少甜。", jyutping: "m4 goi1, jat1 go3 naai5 caa4, siu2 tim4.", color: "gold" },
+  { number: "03", slug: "transport-and-directions", label: "交通", title: "听懂司机和站名", copy: "问路线、转车、落车和“还有几站”，把移动变成可控任务。", phrase: "呢架車去唔去尖沙咀？", jyutping: "ni1 gaa3 ce1 heoi3 m4 heoi3 zim1 saa1 zeoi2?", color: "mint" },
+  { number: "04", slug: "work-communication", label: "工作沟通", title: "把请求说得清楚", copy: "跟同事确认进度、改时间、交接任务，也理解香港职场的语气。", phrase: "我遲啲再覆你。", jyutping: "ngo5 ci4 di1 zoi3 fuk1 nei5.", color: "blue" },
+  { number: "05", slug: "shopping-and-returns", label: "买东西", title: "付款、找续和退换", copy: "从“有冇細一點”到“可唔可以換”，覆盖商店里最实用的回合。", phrase: "有冇平啲嘅款？", jyutping: "jau5 mou5 peng4 di1 ge3 fun2?", color: "violet" },
+  { number: "06", slug: "social-updates", label: "日常社交", title: "听出话外的语气", copy: "用语气词和回应方式区分客气、亲密、惊讶和轻微不满。", phrase: "係咩？我真係唔知喎。", jyutping: "hai6 me1? ngo5 zan1 hai6 m4 zi1 wo3.", color: "peach" },
 ];
 
 const grammarCards = [
@@ -42,25 +44,7 @@ const grammarCards = [
   { symbol: "喎", title: "新信息和提醒", copy: "普通话里没有完全对应的一个字，要从语境和语调理解。", example: "佢今日放假喎。" },
 ];
 
-function SpeakButton({ text, label }: { text: string; label: string }) {
-  const [speaking, setSpeaking] = useState(false);
-
-  function speak() {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "zh-HK";
-    utterance.rate = 0.74;
-    const voice = window.speechSynthesis.getVoices().find((item) => item.lang.toLowerCase().startsWith("zh-hk"));
-    if (voice) utterance.voice = voice;
-    utterance.onstart = () => setSpeaking(true);
-    utterance.onend = () => setSpeaking(false);
-    utterance.onerror = () => setSpeaking(false);
-    window.speechSynthesis.speak(utterance);
-  }
-
-  return <button className={`speak-button${speaking ? " is-speaking" : ""}`} onClick={speak} aria-label={label} type="button"><span aria-hidden="true">{speaking ? "◼" : "▶"}</span>{speaking ? "播放中" : "试听"}</button>;
-}
+const SpeakButton = CantoneseAudio;
 
 function SectionIntro({ eyebrow, title, copy }: { eyebrow: string; title: string; copy: string }) {
   return <div className="section-intro"><div><p className="eyebrow">{eyebrow}</p><h2>{title}</h2></div><p>{copy}</p></div>;
@@ -95,7 +79,7 @@ export default function Home() {
     <main>
       <header className="site-header">
         <a className="brand" href="#top" aria-label="粤语鲜活学堂首页"><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>给已经会读中文的你</small></span></a>
-        <nav className="main-nav" aria-label="主要导航"><a href="/bridge">普通话 → 粤语</a><a href="/course">情景课程</a><a href="/practice">练习</a></nav>
+        <nav className="main-nav" aria-label="主要导航"><Link href="/bridge">普通话 → 粤语</Link><Link href="/course">情景课程</Link><Link href="/practice">练习</Link></nav>
         <a className="header-cta" href="#today">开始今日 15 分钟 <span>↗</span></a>
       </header>
 
@@ -105,14 +89,15 @@ export default function Home() {
       </section>
 
       <section className="today-section page-shell" id="today"><div className="today-card"><div className="today-meta"><span className="section-index">TODAY / 01</span><span className="duration">约 15 分钟</span></div><div className="today-grid"><div><p className="card-label">今天先学这一句</p><h2>我而家冇時間。</h2><p className="jyutping">ngo5 ji4 gaa1 mou5 si4 gaan3</p><p className="translation">我现在没有时间。</p><div className="phrase-tags"><span>而家 = 现在</span><span>冇 = 没有</span></div></div><div className="today-action"><SpeakButton text="我而家冇時間。" label="播放：我而家冇時間" /><button className="text-action" onClick={() => complete("today")} type="button">{completed.includes("today") ? "已完成 ✓" : "学会这一句 →"}</button></div></div></div><div className="stats-card"><div className="stats-top"><span>你的学习地图</span><b>{completed.length} / 04</b></div><div className="progress-track"><span style={{ width: `${Math.min(100, completed.length * 25)}%` }} /></div><div className="stats-list"><span><i className="dot coral-dot" />转换桥</span><span><i className="dot gold-dot" />生活场景</span><span><i className="dot mint-dot" />听力反应</span></div></div></section>
+      <div className="page-shell home-audio-settings"><CantoneseAudioSettings /></div>
 
-      <section className="bridge-section page-shell" id="bridge"><SectionIntro eyebrow="THE MANDARIN BRIDGE / 你的优势" title="别从零开始。先找到普通话和粤语的分岔口。" copy="输入一个你每天会说的普通话词，看看粤语里是同一个字、另一个读法，还是必须换成真正的口语词。" /><div className="bridge-lab"><div className="bridge-search-panel"><div className="search-heading"><span>普通话词库</span><small>{filteredBridge.length} 个结果</small></div><label className="search-box"><span aria-hidden="true">⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="试试：没有、喜欢、为什么…" aria-label="搜索普通话词语" /></label><div className="bridge-results">{filteredBridge.map((entry) => <button key={entry.mandarin} className={`bridge-result${selectedBridge.mandarin === entry.mandarin ? " active" : ""}`} onClick={() => setSelectedBridge(entry)} type="button"><span>{entry.mandarin}</span><b>{entry.cantonese}</b><small>{entry.tag}</small></button>)}</div></div><div className="bridge-detail"><div className="detail-top"><span className="detail-tag">{selectedBridge.tag}</span><span className="detail-rule">普通话 → 自然粤语</span></div><div className="mapping-row"><div><small>普通话</small><strong>{selectedBridge.mandarin}</strong></div><span className="mapping-arrow">→</span><div className="cantonese-answer"><small>粤语口语</small><strong>{selectedBridge.cantonese}</strong></div></div><div className="detail-jyutping"><span>粤拼</span><b>{selectedBridge.jyutping}</b><SpeakButton text={selectedBridge.cantonese} label={`播放：${selectedBridge.cantonese}`} /></div><p className="detail-note">{selectedBridge.note}</p><div className="example-box"><span>放进一句话</span><b>{selectedBridge.example}</b><small>{selectedBridge.example === "我而家冇時間。" ? "我现在没有时间。" : "先听整体，再拆开看每个词。"}</small></div><button className="save-button" onClick={() => complete("bridge")} type="button">{completed.includes("bridge") ? "转换桥已完成 ✓" : "把这一组加入今日复习 →"}</button></div></div></section>
+      <section className="bridge-section page-shell" id="bridge"><SectionIntro eyebrow="THE MANDARIN BRIDGE / 你的优势" title="别从零开始。先找到普通话和粤语的分岔口。" copy="输入一个你每天会说的普通话词，看看粤语里是同一个字、另一个读法，还是必须换成真正的口语词。" /><div className="bridge-lab"><div className="bridge-search-panel"><div className="search-heading"><span>普通话词库</span><small>{filteredBridge.length} 个结果</small></div><label className="search-box"><span aria-hidden="true">⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="试试：没有、喜欢、为什么…" aria-label="搜索普通话词语" /></label><div className="bridge-results">{filteredBridge.map((entry) => <div className="bridge-result-wrap" key={entry.mandarin}><button className={`bridge-result${selectedBridge.mandarin === entry.mandarin ? " active" : ""}`} onClick={() => setSelectedBridge(entry)} type="button"><span>{entry.mandarin}</span><b>{entry.cantonese}</b><small>{entry.tag}</small></button><SpeakButton text={entry.cantonese} label={`播放：${entry.cantonese}`} compact /></div>)}</div></div><div className="bridge-detail"><div className="detail-top"><span className="detail-tag">{selectedBridge.tag}</span><span className="detail-rule">普通话 → 自然粤语</span></div><div className="mapping-row"><div><small>普通话</small><strong>{selectedBridge.mandarin}</strong></div><span className="mapping-arrow">→</span><div className="cantonese-answer"><small>粤语口语</small><strong>{selectedBridge.cantonese}</strong></div></div><div className="detail-jyutping"><span>粤拼</span><b>{selectedBridge.jyutping}</b><SpeakButton text={selectedBridge.cantonese} label={`播放：${selectedBridge.cantonese}`} /></div><p className="detail-note">{selectedBridge.note}</p><div className="example-box"><span>放进一句话</span><b>{selectedBridge.example}</b><SpeakButton text={selectedBridge.example} label={`播放：${selectedBridge.example}`} compact /><small>{selectedBridge.example === "我而家冇時間。" ? "我现在没有时间。" : "先听整体，再拆开看每个词。"}</small></div><button className="save-button" onClick={() => complete("bridge")} type="button">{completed.includes("bridge") ? "转换桥已完成 ✓" : "把这一组加入今日复习 →"}</button></div></div></section>
 
-      <section className="scenes-section" id="scenes"><div className="page-shell"><SectionIntro eyebrow="REAL LIFE / 真实场景" title="你不是为了背词，是为了把一件事办成。" copy="每个场景都从完整对话出发：开口、追问、处理意外，再自然结束互动。" /><div className="scene-grid">{scenes.map((scene) => <article className={`scene-card ${scene.color}`} key={scene.number}><div className="scene-head"><span>{scene.number}</span><small>{scene.label}</small></div><h3>{scene.title}</h3><p>{scene.copy}</p><div className="scene-phrase"><b>{scene.phrase}</b><small>{scene.jyutping}</small><SpeakButton text={scene.phrase} label={`播放：${scene.phrase}`} /></div><button className="scene-link" onClick={() => complete(`scene-${scene.number}`)} type="button">{completed.includes(`scene-${scene.number}`) ? "已加入学习 ✓" : "打开场景 →"}</button></article>)}</div></div></section>
+      <section className="scenes-section" id="scenes"><div className="page-shell"><SectionIntro eyebrow="REAL LIFE / 真实场景" title="你不是为了背词，是为了把一件事办成。" copy="每个场景都从完整对话出发：开口、追问、处理意外，再自然结束互动。" /><div className="scene-grid">{scenes.map((scene) => <article className={`scene-card ${scene.color}`} key={scene.number}><div className="scene-head"><span>{scene.number}</span><small>{scene.label}</small></div><h3>{scene.title}</h3><p>{scene.copy}</p><div className="scene-phrase"><b>{scene.phrase}</b><small>{scene.jyutping}</small><SpeakButton text={scene.phrase} label={`播放：${scene.phrase}`} /></div><div className="scene-actions"><Link className="scene-link" href={`/course/${scene.slug}`}>打开场景 →</Link><button className="scene-complete" onClick={() => complete(`scene-${scene.number}`)} type="button">{completed.includes(`scene-${scene.number}`) ? "已加入学习 ✓" : "加入学习"}</button></div></article>)}</div></div></section>
 
-      <section className="grammar-section page-shell"><SectionIntro eyebrow="SPOKEN GRAMMAR / 口语语法" title="真正让粤语听起来像粤语的，常常不是名词。" copy="咗、緊、嘅、喎这些小词，会改变动作的时间、信息的新旧和说话人的态度。" /><div className="grammar-grid">{grammarCards.map((card) => <article className="grammar-card" key={card.symbol}><div className="grammar-symbol">{card.symbol}</div><div><h3>{card.title}</h3><p>{card.copy}</p><b>{card.example}</b></div></article>)}</div><div className="grammar-callout"><span className="callout-mark">?</span><div><b>普通话使用者的隐藏难点</b><p>“我听懂了每个字，但还是不知道对方是在陈述、提醒，还是反问。”语气实验室会把这些差异单独拆开。</p></div><a href="#practice">去练习 <span>↗</span></a></div></section>
+      <section className="grammar-section page-shell"><SectionIntro eyebrow="SPOKEN GRAMMAR / 口语语法" title="真正让粤语听起来像粤语的，常常不是名词。" copy="咗、緊、嘅、喎这些小词，会改变动作的时间、信息的新旧和说话人的态度。" /><div className="grammar-grid">{grammarCards.map((card) => <article className="grammar-card" key={card.symbol}><div className="grammar-symbol">{card.symbol}</div><div><h3>{card.title}</h3><p>{card.copy}</p><div className="grammar-example"><b>{card.example}</b><SpeakButton text={card.example} label={`播放：${card.example}`} compact /></div></div></article>)}</div><div className="grammar-callout"><span className="callout-mark">?</span><div><b>普通话使用者的隐藏难点</b><p>“我听懂了每个字，但还是不知道对方是在陈述、提醒，还是反问。”语气实验室会把这些差异单独拆开。</p></div><a href="#practice">去练习 <span>↗</span></a></div></section>
 
-      <section className="practice-section page-shell" id="practice"><div className="practice-card"><div className="practice-copy"><p className="eyebrow">QUICK CHECK / 立即反应</p><h2>“你想喝什么？”<br /><em>自然粤语怎么说？</em></h2><p>先不看答案，凭直觉选一句。答错也没关系，错的地方就是下一轮复习入口。</p></div><div className="practice-options">{["你想飲咩？", "你想喝什么？", "你想飲乜嘢呀？"].map((choice) => <button key={choice} className={`practice-option${practiceChoice === choice ? " selected" : ""}`} onClick={() => { setPracticeChoice(choice); complete("practice"); }} type="button"><span>{practiceChoice === choice ? (choice === "你想飲咩？" ? "✓" : "×") : "○"}</span>{choice}</button>)}{practiceChoice && <div className={`practice-feedback ${practiceCorrect ? "correct" : "incorrect"}`}><b>{practiceCorrect ? "啱！" : "再听一次。"}</b><span>{practiceCorrect ? "咩 me1 是很常用的口语疑问词。" : "日常口语里，咩 / 乜嘢会比普通话词序更自然。"}</span></div>}</div></div></section>
+      <section className="practice-section page-shell" id="practice"><div className="practice-card"><div className="practice-copy"><p className="eyebrow">QUICK CHECK / 立即反应</p><h2>“你想喝什么？”<br /><em>自然粤语怎么说？</em></h2><p>先不看答案，凭直觉选一句。答错也没关系，错的地方就是下一轮复习入口。</p></div><div className="practice-options">{["你想飲咩？", "你想喝什么？", "你想飲乜嘢呀？"].map((choice) => <div className="practice-option-row" key={choice}><button className={`practice-option${practiceChoice === choice ? " selected" : ""}`} onClick={() => { setPracticeChoice(choice); complete("practice"); }} type="button"><span>{practiceChoice === choice ? (choice === "你想飲咩？" ? "✓" : "×") : "○"}</span>{choice}</button><SpeakButton text={choice} label={`播放：${choice}`} compact /></div>)}{practiceChoice && <div className={`practice-feedback ${practiceCorrect ? "correct" : "incorrect"}`}><b>{practiceCorrect ? "啱！" : "再听一次。"}</b><span>{practiceCorrect ? "咩 me1 是很常用的口语疑问词。" : "日常口语里，咩 / 乜嘢会比普通话词序更自然。"}</span></div>}</div></div></section>
 
       <footer className="site-footer page-shell"><div><a className="brand footer-brand" href="#top"><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></a><p>为普通话使用者，把看得懂的中文变成说得出的粤语。</p></div><div className="footer-links"><a href="#bridge">普通话 → 粤语</a><a href="#scenes">真实场景</a><a href="#practice">今日练习</a></div><span className="footer-note">香港粤语 · Jyutping</span></footer>
     </main>
