@@ -3,7 +3,7 @@
 :root { --ink:#10232d; --muted:#687a7d; --paper:#f6f3ec; --cream:#fffdf8; --line:#d9dfd9; --coral:#ef684c; --coral-dark:#c84b37; --mint:#b9e6d0; --mint-dark:#1e685b; --gold:#f4cf72; --blue:#cfe5ef; --violet:#ddd5f4; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin:0; background:var(--paper); color:var(--ink); font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; }
+body { margin:0; overflow-x:hidden; background:var(--paper); color:var(--ink); font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; }
 a { color:inherit; text-decoration:none; }
 button,input { font:inherit; }
 button { cursor:pointer; }
@@ -312,6 +312,14 @@ button { cursor:pointer; }
   .review-answer { grid-template-columns:minmax(0,1fr) auto; }
   .practice-method { display:block; }
   .practice-method>a { display:inline-block; margin-top:14px; }
+}
+
+@media (max-width:560px) {
+  .subpage-header { gap:12px; }
+  .subpage-header .brand { min-width:0; }
+  .subpage-header .brand-mark { flex:0 0 39px; }
+  .subpage-header .brand > span:last-child { min-width:0; }
+  .subpage-header .brand strong { white-space:nowrap; }
 }
 
 /* Audio lab: short loops for tones, sound contrasts, and active listening. */

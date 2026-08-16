@@ -34,7 +34,7 @@ export default function ReviewPage() {
   function sourceHref(sourceSlug?: string, kind?: string) {
     if (sourceSlug) return `/course/${sourceSlug}`;
     if (kind === "发音") return "/audio";
-    if (kind === "语气") return "/bridge#grammar";
+    if (kind === "语气") return "/bridge";
     return "/bridge";
   }
 
