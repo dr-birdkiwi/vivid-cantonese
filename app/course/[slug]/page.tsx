@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CantoneseAudio, CantoneseAudioSettings } from "../../components/CantoneseAudio";
+import { sitePath } from "../../lib/site-path";
 import { courseUnits } from "../course-data";
 import { courseDialogues } from "../dialogue-data";
 
@@ -9,6 +10,8 @@ type CourseDetailProps = { params: Promise<{ slug: string }> };
 export function generateStaticParams() {
   return courseUnits.map((unit) => ({ slug: unit.slug }));
 }
+
+export const dynamicParams = false;
 
 export async function generateMetadata({ params }: CourseDetailProps): Promise<Metadata> {
   const { slug } = await params;
@@ -23,7 +26,7 @@ export default async function CourseDetailPage({ params }: CourseDetailProps) {
   const currentIndex = courseUnits.findIndex((item) => item.slug === unit.slug);
   const dialogue = courseDialogues[unit.slug] ?? [];
   const nextUnit = courseUnits[currentIndex + 1];
-  const nextHref = nextUnit ? `/course/${nextUnit.slug}` : "/course";
+  const nextHref = sitePath(nextUnit ? `/course/${nextUnit.slug}` : "/course");
   const nextLabel = nextUnit ? "进入下一场景" : "选择下一场景";
   const nextDescription = nextUnit
     ? `下一站：${nextUnit.title}。${nextUnit.copy}。`
@@ -32,8 +35,8 @@ export default async function CourseDetailPage({ params }: CourseDetailProps) {
   return (
     <main className="subpage course-detail-page">
       <header className="subpage-header">
-        <a className="brand" href="/"><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></a>
-        <a className="back-link" href="/course">← 全部场景</a>
+        <a className="brand" href={sitePath("/")}><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></a>
+        <a className="back-link" href={sitePath("/course")}>← 全部场景</a>
       </header>
       <section className="course-detail-hero page-shell">
         <div>
@@ -97,7 +100,7 @@ export default async function CourseDetailPage({ params }: CourseDetailProps) {
       </section>
       <section className="course-detail-next page-shell">
         <div><p className="eyebrow">NEXT SCENE / 下一场景</p><h2>进入到下一场景。</h2><p>{nextDescription}</p></div>
-        <div className="course-detail-actions"><a className="secondary-link" href="/course">回到课程地图 <span>↗</span></a><a className="primary-button" href={nextHref}>{nextLabel} <span>→</span></a></div>
+        <div className="course-detail-actions"><a className="secondary-link" href={sitePath("/course")}>回到课程地图 <span>↗</span></a><a className="primary-button" href={nextHref}>{nextLabel} <span>→</span></a></div>
       </section>
     </main>
   );

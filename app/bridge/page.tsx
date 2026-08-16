@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { CantoneseAudio, CantoneseAudioSettings } from "../components/CantoneseAudio";
+import { sitePath } from "../lib/site-path";
 
 type BridgeEntry = [string, string, string, string, string];
 
@@ -61,7 +62,7 @@ export default function BridgePage() {
 
   return (
     <main className="subpage bridge-page">
-      <header className="subpage-header"><a className="brand" href="/"><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></a><a className="back-link" href="/">← 回到首页</a></header>
+      <header className="subpage-header"><a className="brand" href={sitePath("/")}><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></a><a className="back-link" href={sitePath("/")}>← 回到首页</a></header>
       <section className="subpage-hero page-shell compact"><p className="eyebrow">THE MANDARIN BRIDGE / 普通话转换桥</p><h1>你已经会说中文，<br /><em>先学会看懂规律。</em></h1><p>普通话和粤语不是逐字换一套读音：声母、韵母、韵尾和声调都有高频对应；但口语词、入声和多音字必须单独建立词汇记忆。</p><div className="bridge-primer-nav"><a href="#sound-patterns">声母与韵母</a><a href="#tone-map">声调迁移</a><a href="#exceptions">不规则高频词</a></div></section>
       <div className="page-shell"><CantoneseAudioSettings /></div>
 
@@ -83,7 +84,7 @@ export default function BridgePage() {
 
       <section className="bridge-page-layout page-shell" id="word-bridge">
         <div className="bridge-table"><div className="bridge-table-intro"><p className="eyebrow">04 / WORD BRIDGE</p><h2>把规律落回每天会说的词。</h2></div><label className="search-box"><span aria-hidden="true">⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索普通话、粤语或粤拼" aria-label="搜索转换桥" /></label><div className="bridge-table-head"><span>普通话</span><span>粤语口语</span><span>粤拼</span><span>类型</span></div>{filtered.map((entry) => <div className="bridge-table-row-wrap" key={entry[0]}><button className={`bridge-table-row${active[0] === entry[0] ? " active" : ""}`} onClick={() => setActive(entry)} type="button"><b>{entry[0]}</b><strong>{entry[1]}</strong><code>{entry[2]}</code><small>{entry[3]}</small></button><CantoneseAudio text={entry[1]} label={`播放：${entry[1]}`} compact /></div>)}</div>
-        <aside className="bridge-page-detail"><span className="detail-tag">{active[3]}</span><p className="detail-label">普通话</p><h2>{active[0]} <i>→</i> <em>{active[1]}</em></h2><div className="detail-jyutping-large"><span>{active[2]}</span><CantoneseAudio text={active[1]} label={`播放：${active[1]}`} /></div><div className="example-box"><span>放进一句话</span><b>{active[4]}</b><CantoneseAudio text={active[4]} label={`播放：${active[4]}`} compact /><small>先记住整句，再回头观察每个词。</small></div><p className="bridge-principle">自然粤语不是“把普通话汉字换一套读音”，而是同时处理词汇、语序、语气和关系。</p><a className="primary-button" href="/practice">用一句话练习 <span>→</span></a></aside>
+      <aside className="bridge-page-detail"><span className="detail-tag">{active[3]}</span><p className="detail-label">普通话</p><h2>{active[0]} <i>→</i> <em>{active[1]}</em></h2><div className="detail-jyutping-large"><span>{active[2]}</span><CantoneseAudio text={active[1]} label={`播放：${active[1]}`} /></div><div className="example-box"><span>放进一句话</span><b>{active[4]}</b><CantoneseAudio text={active[4]} label={`播放：${active[4]}`} compact /><small>先记住整句，再回头观察每个词。</small></div><p className="bridge-principle">自然粤语不是“把普通话汉字换一套读音”，而是同时处理词汇、语序、语气和关系。</p><a className="primary-button" href={sitePath("/practice")}>用一句话练习 <span>→</span></a></aside>
       </section>
 
       <section className="bridge-sources page-shell"><span>资料说明</span><p>声母、韵母和声调表按香港语言学学会粵拼方案整理；声调对应参考香港中文大学关于粤语—普通话声调迁移的研究。所有“规律”都应当视为高频倾向，最终以粤拼、词语和语音为准。</p><a href="https://jyutping.org/en/jyutping/" target="_blank" rel="noreferrer">查看 Jyutping 方案 ↗</a><a href="https://ling.cuhk.edu.hk/people/peggy/Mok%20et%20al._SC_Orthography_2018.pdf" target="_blank" rel="noreferrer">查看声调对应研究 ↗</a></section>

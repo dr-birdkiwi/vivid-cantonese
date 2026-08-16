@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { CantoneseAudio, CantoneseAudioSettings } from "../components/CantoneseAudio";
 import { todaySeedItems } from "../data/study-data";
 import { recordAnswer } from "../lib/learning-store";
+import { sitePath } from "../lib/site-path";
 
 const sessionLength = 5;
 
@@ -31,8 +32,8 @@ export default function TodayPage() {
   return (
     <main className="subpage today-page">
       <header className="subpage-header">
-        <a className="brand" href="/"><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>给已经会读中文的你</small></span></a>
-        <a className="back-link" href="/course">← 情景课程</a>
+        <a className="brand" href={sitePath("/")}><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>给已经会读中文的你</small></span></a>
+        <a className="back-link" href={sitePath("/course")}>← 情景课程</a>
       </header>
       <section className="subpage-hero page-shell compact">
         <p className="eyebrow">TODAY / 今日学习</p>
@@ -51,10 +52,10 @@ export default function TodayPage() {
             <p className="today-instruction">先在心里说出自然粤语，再打开答案。不要急着看粤拼。</p>
             {!revealed ? <button className="primary-button today-reveal" onClick={() => setRevealed(true)} type="button">显示粤语答案 <span>→</span></button> : <div className="today-answer"><strong>{item.cantonese}</strong><code>{item.jyutping}</code><CantoneseAudio text={item.cantonese} label={`播放：${item.cantonese}`} /><p>{item.note}</p><div className="today-rating"><span>这次回忆得怎样？</span><div><button className="rating-button again" onClick={() => answer(false)} type="button">再练一次</button><button className="rating-button remembered" onClick={() => answer(true)} type="button">我记住了</button></div></div></div>}
           </article>
-        ) : <article className="today-complete"><span className="today-complete-mark">✓</span><h2>很好，今天的五项已经进入学习记录。</h2><p>{answered ? `你完成了 ${answered} 次主动回忆。明天会根据今天的表现安排下一轮。` : "继续从复习中心或一个新场景开始。"}</p><div className="today-complete-actions"><a className="primary-button" href="/review">查看待复习 <span>→</span></a><a className="secondary-link" href="/audio">去听力实验室 <span>↗</span></a></div></article>}
+        ) : <article className="today-complete"><span className="today-complete-mark">✓</span><h2>很好，今天的五项已经进入学习记录。</h2><p>{answered ? `你完成了 ${answered} 次主动回忆。明天会根据今天的表现安排下一轮。` : "继续从复习中心或一个新场景开始。"}</p><div className="today-complete-actions"><a className="primary-button" href={sitePath("/review")}>查看待复习 <span>→</span></a><a className="secondary-link" href={sitePath("/audio")}>去听力实验室 <span>↗</span></a></div></article>}
         <p className="today-session-note">学习记录保存在当前设备。稍后会按每个词的表现安排间隔复习，而不是只记录“看过”。</p>
       </section>
-      <section className="today-route-links page-shell"><a href="/bridge"><span>01</span><b>普通话转换桥</b><small>查规律，也查例外 →</small></a><a href="/course"><span>02</span><b>情景课程</b><small>把词放进真实任务 →</small></a><a href="/audio"><span>03</span><b>听力实验室</b><small>训练声调和韵尾 →</small></a></section>
+      <section className="today-route-links page-shell"><a href={sitePath("/bridge")}><span>01</span><b>普通话转换桥</b><small>查规律，也查例外 →</small></a><a href={sitePath("/course")}><span>02</span><b>情景课程</b><small>把词放进真实任务 →</small></a><a href={sitePath("/audio")}><span>03</span><b>听力实验室</b><small>训练声调和韵尾 →</small></a></section>
     </main>
   );
 }
