@@ -8,6 +8,9 @@ type CantoneseAudioProps = {
   compact?: boolean;
 };
 
+const VOICE_STORAGE_KEY = "vivid-cantonese-selected-voice";
+const VOICE_CHANGED_EVENT = "vivid-cantonese-voice-changed";
+
 function readVoices() {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) return [];
   return window.speechSynthesis.getVoices();
@@ -49,10 +52,52 @@ function voiceScore(voice: SpeechSynthesisVoice) {
   return score;
 }
 
-function chooseCantoneseVoice(voices: SpeechSynthesisVoice[]) {
+function voiceKey(voice: SpeechSynthesisVoice) {
+  return voice.voiceURI || `${voice.name}::${voice.lang}`;
+}
+
+function listCantoneseVoices(voices: SpeechSynthesisVoice[]) {
+  const seen = new Set<string>();
   return voices
     .filter((voice) => voiceScore(voice) > 0)
-    .sort((left, right) => voiceScore(right) - voiceScore(left))[0];
+    .filter((voice) => {
+      const key = voiceKey(voice);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .sort((left, right) => voiceScore(right) - voiceScore(left) || left.name.localeCompare(right.name));
+}
+
+function chooseCantoneseVoice(voices: SpeechSynthesisVoice[]) {
+  return listCantoneseVoices(voices)[0];
+}
+
+function readSelectedVoiceKey() {
+  if (typeof window === "undefined") return "";
+  try {
+    return window.localStorage.getItem(VOICE_STORAGE_KEY) || "";
+  } catch {
+    return "";
+  }
+}
+
+function saveSelectedVoice(voice: SpeechSynthesisVoice) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(VOICE_STORAGE_KEY, voiceKey(voice));
+  } catch {
+    // Some private browsing modes block preference storage; playback still works.
+  }
+  window.dispatchEvent(new CustomEvent(VOICE_CHANGED_EVENT));
+}
+
+function voiceQualityLabel(voice: SpeechSynthesisVoice) {
+  const name = voice.name.toLowerCase();
+  if (name.includes("premium")) return "Premium";
+  if (name.includes("enhanced")) return "Enhanced";
+  if (name.includes("natural") || name.includes("neural")) return "Natural";
+  return voice.localService ? "本机音色" : "系统音色";
 }
 
 function toChineseSpeechText(text: string) {
@@ -93,7 +138,9 @@ export function CantoneseAudio({ text, label = `播放：${text}`, compact = fal
     setAudioError(false);
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(speechText);
-    const currentVoice = preferredVoice || chooseCantoneseVoice(readVoices());
+    const selectedKey = readSelectedVoiceKey();
+    const currentVoices = listCantoneseVoices(readVoices());
+    const currentVoice = currentVoices.find((voice) => voiceKey(voice) === selectedKey) || preferredVoice || currentVoices[0];
     utterance.lang = currentVoice?.lang || "zh-HK";
     utterance.rate = 0.72;
     utterance.pitch = 1;
@@ -126,17 +173,38 @@ export function CantoneseAudio({ text, label = `播放：${text}`, compact = fal
 
 export function CantoneseAudioSettings() {
   const voices = useSpeechVoices();
-  const preferredVoice = useMemo(() => chooseCantoneseVoice(voices), [voices]);
+  const availableVoices = useMemo(() => listCantoneseVoices(voices), [voices]);
+  const [selectedKey, setSelectedKey] = useState("");
+  const [expanded, setExpanded] = useState(false);
+  const preferredVoice = useMemo(() => availableVoices.find((voice) => voiceKey(voice) === selectedKey) || availableVoices[0], [availableVoices, selectedKey]);
+
+  useEffect(() => {
+    const syncSelectedVoice = () => setSelectedKey(readSelectedVoiceKey());
+    syncSelectedVoice();
+    window.addEventListener(VOICE_CHANGED_EVENT, syncSelectedVoice);
+    return () => window.removeEventListener(VOICE_CHANGED_EVENT, syncSelectedVoice);
+  }, []);
+
+  function selectVoice(voice: SpeechSynthesisVoice) {
+    saveSelectedVoice(voice);
+    setSelectedKey(voiceKey(voice));
+  }
+
   const status = preferredVoice ? `香港粤语 · ${preferredVoice.name}` : voices.length ? "未检测到香港粤语音色，将尝试系统粤语发音" : "正在读取设备音色…";
+  const preferredKey = preferredVoice ? voiceKey(preferredVoice) : "";
 
   return (
     <div className="audio-settings" aria-label="粤语语音设置">
-      <div>
+      <div className="audio-settings-main">
         <span className="audio-settings-label">粤语语音</span>
         <strong>{status}</strong>
-        <small>优先使用 premium / enhanced / natural 香港粤语音色；实际音质取决于设备已安装的声音。</small>
+        <small>可展开查看当前设备已被浏览器读取的全部粤语音色，并手动选择试听声音。</small>
       </div>
-      <CantoneseAudio text="早晨，今日點呀？" label="试听：早晨，今日點呀？" compact />
+      <div className="audio-settings-actions">
+        <CantoneseAudio text="早晨，今日點呀？" label="试听：早晨，今日點呀？" compact />
+        <button className="voice-list-toggle" type="button" aria-expanded={expanded} onClick={() => setExpanded((open) => !open)}>{expanded ? "收起音色" : `查看全部音色${availableVoices.length ? `（${availableVoices.length}）` : ""}`} <span>{expanded ? "↑" : "↓"}</span></button>
+      </div>
+      {expanded ? <div className="voice-choice-list" role="listbox" aria-label="可用粤语音色">{availableVoices.length ? availableVoices.map((voice) => { const selected = voiceKey(voice) === preferredKey; return <button className={`voice-choice${selected ? " selected" : ""}`} key={voiceKey(voice)} type="button" role="option" aria-selected={selected} onClick={() => selectVoice(voice)}><span className="voice-choice-mark" aria-hidden="true">{selected ? "✓" : "○"}</span><span className="voice-choice-copy"><strong>{voice.name}</strong><small>{voice.lang} · {voice.localService ? "本机已安装" : "系统提供"}</small></span><em>{voiceQualityLabel(voice)}</em></button>; }) : <p className="voice-empty">语音列表仍在加载中。请先点一次试听，或稍等片刻后重新展开。</p>}</div> : null}
     </div>
   );
 }

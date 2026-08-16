@@ -322,6 +322,27 @@ button { cursor:pointer; }
   .subpage-header .brand strong { white-space:nowrap; }
 }
 
+/* Let mobile learners inspect and choose every Cantonese voice exposed by the device. */
+.audio-settings-main { min-width:0; }
+.audio-settings-actions { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.voice-list-toggle { border:0; border-bottom:1px solid var(--mint-dark); background:transparent; color:var(--mint-dark); padding:7px 0; cursor:pointer; font-size:10px; font-weight:800; }
+.voice-list-toggle span { color:var(--coral); padding-left:7px; }
+.voice-choice-list { display:grid; gap:6px; width:100%; margin-top:13px; padding-top:13px; border-top:1px solid #cadbd0; }
+.voice-choice { display:grid; grid-template-columns:22px minmax(0,1fr) auto; gap:10px; align-items:center; width:100%; padding:10px 11px; border:1px solid transparent; background:rgba(255,255,255,.5); color:var(--ink); text-align:left; cursor:pointer; }
+.voice-choice:hover,.voice-choice.selected { border-color:var(--mint-dark); background:var(--mint); }
+.voice-choice-mark { color:var(--coral-dark); font-size:13px; }
+.voice-choice-copy { display:grid; min-width:0; gap:3px; }
+.voice-choice-copy strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:11px; }
+.voice-choice-copy small { color:var(--muted); font-size:9px; }
+.voice-choice>em { color:var(--coral-dark); font-size:9px; font-style:normal; font-weight:800; }
+.voice-empty { margin:0; color:var(--muted); font-size:10px; line-height:1.6; }
+
+@media (max-width:560px) {
+  .audio-settings-actions { width:100%; justify-content:space-between; gap:10px; }
+  .voice-choice { grid-template-columns:22px minmax(0,1fr) auto; padding:10px 9px; }
+  .voice-choice>em { font-size:8px; }
+}
+
 /* Audio lab: short loops for tones, sound contrasts, and active listening. */
 .audio-lab-section { scroll-margin-top:28px; padding-top:42px; }
 .audio-lab-heading { display:flex; align-items:end; justify-content:space-between; gap:24px; margin-bottom:22px; }
