@@ -35,15 +35,7 @@ const exceptionRows = [
   ["我", "我", "ngo5 / wǒ", "字音分岔", "普通话 w- 不能直接读成粤语 w-。"],
   ["你", "你", "nei5 / nǐ", "字音分岔", "人称代词属于高频词，直接单独记住最省力。"],
   ["他 / 她", "佢", "keoi5 / tā", "口语替换", "日常粤语常用佢，而不是把“他”按普通话字音搬过去。"],
-  ["没有", "冇", "mou5 / méiyǒu", "词汇替换", "否定存在通常用冇，不能从“没 / 有”逐字推。"],
-  ["不", "唔", "m4 / bù", "词汇替换", "唔是日常否定词，读音和普通话“不”完全不是一条规则。"],
-  ["在", "喺", "hai2 / zài", "词汇替换", "地点义的“在”常用喺；係是判断句的“是”。"],
-  ["现在", "而家", "ji4 gaa1 / xiànzài", "整词记忆", "这是两个字的高频整词替换，不要逐字读。"],
-  ["喜欢", "鍾意", "zung1 ji3 / xǐhuān", "整词记忆", "日常表达优先记鍾意，书面“喜歡”不是最自然的口语选择。"],
-  ["哪里", "邊度", "bin1 dou6 / nǎlǐ", "整词记忆", "问地点时用邊度，比逐字对应更自然。"],
-  ["为什么", "點解", "dim2 gaai2 / wèishénme", "整词记忆", "口语疑问词是點解，不是把“为 / 什么”分别换音。"],
   ["什么", "咩 / 乜嘢", "me1 / mat1 je5 / shénme", "疑问词替换", "咩很短，乜嘢更完整；两者都不能只按汉字推读。"],
-  ["东西", "嘢", "je5 / dōngxi", "词汇替换", "泛指东西、事情、内容时，嘢的覆盖面很大。"],
   ["吃", "食", "sik6 / chī", "动词替换", "食保留入声 -k，是普通话使用者很容易漏掉的闭塞韵尾。"],
   ["喝", "飲", "jam2 / hē", "动词替换", "粤语日常用飲，不要把“喝”当成只换声调。"],
   ["看", "睇", "tai2 / kàn", "动词替换", "睇是香港口语最常用的“看”。"],
@@ -75,13 +67,13 @@ export default function BridgePage() {
 
       <section className="bridge-primer page-shell" id="sound-patterns">
         <div className="section-intro"><div><p className="eyebrow">01 / SOUND MAP</p><h2>先建立“可迁移”的<em>声音地图。</em></h2></div><p>以下是高频倾向，不是逐字保证。先用它缩小猜测范围，再用粤拼和语音确认。</p></div>
-        <div className="rule-summary-grid"><article><span>先保留</span><strong>b / p / m / f</strong><p>开头辅音常常仍在同一组，先把注意力放到韵母和声调。</p></article><article><span>重点分岔</span><strong>j / q / x、r</strong><p>普通话卷舌与舌面音在粤语里经常走向不同路线，不能一键替换。</p></article><article><span>粤语多保留</span><strong>-p / -t / -k</strong><p>八、十、六、国、学等字，把普通话里听不见的闭塞韵尾重新找回来。</p></article><article><span>最后确认</span><strong>声调 + 词</strong><p>声调有统计规律，但词汇替换、多音字和口语变调仍然需要单独记忆。</p></article></div>
+        <div className="rule-summary-grid"><article><span>01 / 先听开头</span><strong>声母先找同组</strong><p>b / p / m / f 等可以先保留，先把猜测范围缩小。</p></article><article><span>02 / 再看中间</span><strong>韵母会分岔</strong><p>普通话的 -ang、-ao、-ian 不一定落到一个固定粤语韵母。</p></article><article><span>03 / 检查结尾</span><strong>-p / -t / -k</strong><p>看到闭塞韵尾，优先想到入声，再用粤拼确认数字。</p></article><article><span>04 / 最后查词</span><strong>口语词不硬猜</strong><p>冇、唔、而家、鍾意等直接收进词库，不和规则表重复。</p></article></div>
         <div className="rule-table sound-rule-table"><div className="rule-table-head"><span>层次</span><span>普通话入口</span><span>粤语常见方向</span><span>代表字</span><span>给普通话使用者的提示</span></div>{soundRules.map((rule) => <div className="rule-table-row" key={rule.group}><b>{rule.group}<small>{rule.title}</small></b><span>{rule.mandarin}</span><strong>{rule.cantonese}</strong><div className="rule-example"><b>{rule.example[0]}</b><code>{rule.example[1]}</code><small>{rule.example[2]}</small><CantoneseAudio text={rule.example[0]} label={`播放：${rule.example[0]}`} compact /></div><p>{rule.explanation}</p></div>)}</div>
       </section>
 
       <section className="tone-section page-shell" id="tone-map">
         <div className="section-intro"><div><p className="eyebrow">02 / TONE MAP</p><h2>声调不是随机，<em>但也不能硬套。</em></h2></div><p>普通话四声与粤语六声来自不同系统。先记最常见的迁移，再用粤拼数字确认。</p></div>
-        <div className="tone-layout"><div className="tone-card"><div className="tone-card-head"><span>普通话 → 粤语</span><small>高频倾向</small></div>{toneRules.map(([mandarin, cantonese, contour, example]) => <div className="tone-row" key={mandarin}><b>{mandarin}</b><strong>{cantonese}</strong><span>{contour}</span><code>{example}</code></div>)}<p className="tone-note">研究中的单字统计显示：普通话一声常对应粤语一声；二声多落在粤语四声，三声多落在二 / 五声，四声多落在三 / 六声。词语、入声和历史音类会造成偏离。</p></div><div className="tone-side"><span className="tone-number">1—6</span><h3>粤拼数字是确认器，<br />不是装饰。</h3><p>同一个汉字看到粤拼后，先看韵尾，再看数字。比如 <b>学 hok6</b> 的 -k 和 6 一起出现，说明它不是普通话“xué”的直接读法。</p><CantoneseAudio text="學廣東話" label="播放：學廣東話" /></div></div>
+        <div className="tone-layout"><div className="tone-card"><div className="tone-card-head"><span>普通话 → 粤语</span><small>高频倾向</small></div>{toneRules.map(([mandarin, cantonese, contour, example]) => <div className="tone-row" key={mandarin}><b>{mandarin}</b><strong>{cantonese}</strong><span>{contour}</span><code>{example}</code></div>)}<p className="tone-note">研究中的单字统计显示：普通话一声常对应粤语一声；二声多落在粤语四声，三声多落在二 / 五声，四声多落在三 / 六声。词语、入声和历史音类会造成偏离。</p></div><div className="tone-side"><span className="tone-number">1—6</span><h3>粤拼数字是确认器，<br />不是装饰。</h3><p>先看韵尾，再看数字：<b>学 hok6</b> 的 -k 和 6 一起出现，说明它不是普通话“xué”的直接读法。</p><div className="tone-check"><span>读法顺序</span><b>中文字 → 韵尾 → 声调</b></div></div></div>
       </section>
 
       <section className="exception-section page-shell" id="exceptions">
