@@ -7217,7 +7217,7 @@ export const hongKongCultureEntries: CultureEntry[] = [
     risk: "语境",
     note: "这是把潮语再压缩和加重的写法，多见于聊天和社交平台；只适合识别语境，不必刻意模仿。",
     example: "頭先無啦啦開咗咪，真係尷死。",
-    exampleJyutping: "tau4 sin1 mou4 laa1 laa1 hoi1 zo2 mai1, zan1 hai6 gam1 sei2.",
+    exampleJyutping: "tau4 sin1 mou4 laa1 laa1 hoi1 zo2 mai1, zan1 hai6 gaam1 sei2.",
     tags: ["Z世代", "网聊"],
     source: "本地媒体",
     audioText: "尷死",
