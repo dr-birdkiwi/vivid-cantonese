@@ -130,6 +130,18 @@ button { cursor:pointer; }
   .rule-table-row,.exception-row { min-height:0; }
 }
 
+/* Keep the word-bridge headings aligned with the rows' reserved audio column. */
+.bridge-page .bridge-table-head { grid-template-columns:repeat(4,minmax(0,1fr)) 76px; }
+.bridge-page .bridge-table-row-wrap { grid-template-columns:minmax(0,1fr) 76px; gap:10px; }
+.bridge-page .bridge-table-row-wrap>.speak-button { width:76px; margin-right:0; justify-content:center; }
+.bridge-page .bridge-table-row-wrap.active { background:var(--mint); }
+.bridge-page .bridge-table-row-wrap.active>.speak-button { background:var(--mint); border-color:var(--mint-dark); }
+
+@media (max-width:560px) {
+  .bridge-page .bridge-table-row-wrap { grid-template-columns:minmax(0,1fr) 64px; gap:6px; }
+  .bridge-page .bridge-table-row-wrap>.speak-button { width:64px; }
+}
+
 /* Keep the primary site navigation available on narrow screens. */
 .nav-toggle { display:none; align-items:center; gap:7px; border:1px solid var(--ink); border-radius:999px; background:transparent; color:var(--ink); padding:9px 11px; font-size:10px; font-weight:800; }
 .nav-toggle i { color:var(--coral); font-size:15px; font-style:normal; line-height:1; }
