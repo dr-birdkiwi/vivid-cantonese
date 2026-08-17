@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { sitePath } from "../lib/site-path";
 
 type SiteHeaderProps = {
@@ -16,6 +17,7 @@ const navigation = [
 
 export function SiteHeader({ home = false }: SiteHeaderProps) {
   const [navOpen, setNavOpen] = useState(false);
+  const pathname = usePathname();
   const brandHref = home ? "#top" : sitePath("/");
   const closeNav = () => setNavOpen(false);
 
@@ -23,10 +25,14 @@ export function SiteHeader({ home = false }: SiteHeaderProps) {
     <header className={`site-header${navOpen ? " nav-open" : ""}`}>
       <a className="brand" href={brandHref} aria-label="粤语鲜活学堂首页" onClick={closeNav}>
         <span className="brand-mark">粵</span>
-        <span><strong>粤语鲜活学堂</strong><small>{home ? "给已经会读中文的你" : "Vivid Cantonese"}</small></span>
+        <span><strong>粤语鲜活学堂</strong><small>给已经会读中文的你</small></span>
       </a>
       <nav className="main-nav" id="main-nav-links" aria-label="主要导航">
-        {navigation.map(([label, path]) => <a href={sitePath(path)} key={path} onClick={closeNav}>{label}</a>)}
+        {navigation.map(([label, path]) => {
+          const target = sitePath(path);
+          const active = pathname === target || pathname.startsWith(`${target}/`);
+          return <a className={active ? "active" : undefined} href={target} key={path} onClick={closeNav} aria-current={active ? "page" : undefined}>{label}</a>;
+        })}
       </nav>
       <button className="nav-toggle" type="button" aria-expanded={navOpen} aria-controls="main-nav-links" onClick={() => setNavOpen((open) => !open)}>
         <span>{navOpen ? "收起" : "导航"}</span><i aria-hidden="true">{navOpen ? "×" : "☰"}</i>
