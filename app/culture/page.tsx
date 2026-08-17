@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import { CantoneseAudio, CantoneseAudioSettings } from "../components/CantoneseAudio";
 import { cultureCategories, cultureSources, hongKongCultureEntries, type CultureCategory, type CultureEntry } from "../data/hong-kong-culture";
 import { SiteHeader } from "../components/SiteHeader";
@@ -24,6 +24,41 @@ const riskLabels: Record<CultureEntry["risk"], string> = {
   粗口: "粗口，只供识别",
 };
 
+const CULTURE_KNOWN_STORAGE_KEY = "vivid-cantonese:culture-known:v1";
+const CULTURE_KNOWN_CHANGE_EVENT = "vivid-cantonese:culture-known-change";
+const cultureEntryIds = new Set(hongKongCultureEntries.map((entry) => entry.id));
+
+function subscribeToKnownEntries(onStoreChange: () => void) {
+  if (typeof window === "undefined") return () => {};
+  window.addEventListener("storage", onStoreChange);
+  window.addEventListener(CULTURE_KNOWN_CHANGE_EVENT, onStoreChange);
+  return () => {
+    window.removeEventListener("storage", onStoreChange);
+    window.removeEventListener(CULTURE_KNOWN_CHANGE_EVENT, onStoreChange);
+  };
+}
+
+function getKnownEntriesSnapshot() {
+  try {
+    return window.localStorage.getItem(CULTURE_KNOWN_STORAGE_KEY) ?? "[]";
+  } catch {
+    return "[]";
+  }
+}
+
+function getServerKnownEntriesSnapshot() {
+  return "[]";
+}
+
+function parseKnownEntryIds(snapshot: string) {
+  try {
+    const saved = JSON.parse(snapshot);
+    return new Set<string>(Array.isArray(saved) ? saved.filter((id): id is string => typeof id === "string" && cultureEntryIds.has(id)) : []);
+  } catch {
+    return new Set<string>();
+  }
+}
+
 function entrySearchText(entry: CultureEntry) {
   return [entry.term, entry.jyutping, entry.meaning, entry.note, entry.example, entry.tags.join(" "), entry.category, entry.era].join(" ").toLowerCase();
 }
@@ -32,16 +67,42 @@ export default function CulturePage() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<CategoryFilter>("全部");
   const [showSensitive, setShowSensitive] = useState(true);
+  const [showKnown, setShowKnown] = useState(false);
   const [activeEntry, setActiveEntry] = useState<string | null>(null);
+
+  const knownEntriesSnapshot = useSyncExternalStore(subscribeToKnownEntries, getKnownEntriesSnapshot, getServerKnownEntriesSnapshot);
+  const knownEntryIds = useMemo(() => parseKnownEntryIds(knownEntriesSnapshot), [knownEntriesSnapshot]);
+
+  const toggleKnown = (entryId: string) => {
+    const next = new Set(knownEntryIds);
+    if (next.has(entryId)) next.delete(entryId);
+    else next.add(entryId);
+    try {
+      window.localStorage.setItem(CULTURE_KNOWN_STORAGE_KEY, JSON.stringify([...next]));
+    } catch {
+      // Keep the in-memory state even when the browser declines storage access.
+    }
+    window.dispatchEvent(new Event(CULTURE_KNOWN_CHANGE_EVENT));
+  };
+
+  const clearKnown = () => {
+    try {
+      window.localStorage.removeItem(CULTURE_KNOWN_STORAGE_KEY);
+    } catch {
+      // The visible state is still cleared for this visit.
+    }
+    window.dispatchEvent(new Event(CULTURE_KNOWN_CHANGE_EVENT));
+  };
 
   const filteredEntries = useMemo(() => {
     const normalized = query.trim().toLowerCase();
     return hongKongCultureEntries.filter((entry) => {
+      if (!showKnown && knownEntryIds.has(entry.id)) return false;
       if (!showSensitive && (entry.risk === "敏感" || entry.risk === "粗口")) return false;
       if (category !== "全部" && entry.category !== category) return false;
       return !normalized || entrySearchText(entry).includes(normalized);
     });
-  }, [category, query, showSensitive]);
+  }, [category, knownEntryIds, query, showKnown, showSensitive]);
 
   const visibleActiveEntry = hongKongCultureEntries.find((entry) => entry.id === activeEntry) ?? null;
 
@@ -88,6 +149,11 @@ export default function CulturePage() {
           <label className="culture-sensitive-toggle"><input type="checkbox" checked={showSensitive} onChange={(event) => setShowSensitive(event.target.checked)} /> 显示敏感词条（仅供识别）</label>
         </div>
 
+        <div className="culture-mastery-panel">
+          <div className="culture-mastery-copy"><p className="eyebrow">MY PROGRESS / 我的学习状态</p><strong>{knownEntryIds.size} <small>/ {hongKongCultureEntries.length}</small></strong><span>个词条已标记为“会”</span><p>默认隐藏已会词条；记录只保存在这台设备的浏览器中，刷新页面仍会保留。</p></div>
+          <div className="culture-mastery-actions"><label><input type="checkbox" checked={showKnown} onChange={(event) => setShowKnown(event.target.checked)} /> 显示已会词条</label><button type="button" onClick={clearKnown} disabled={!knownEntryIds.size}>清除已会记录</button></div>
+        </div>
+
         <div className="culture-category-scroll" role="tablist" aria-label="口语文化分类">
           <button className={category === "全部" ? "active" : ""} onClick={() => setCategory("全部")} type="button">全部 <small>{hongKongCultureEntries.length}</small></button>
           {cultureCategories.map((item) => <button className={category === item.label ? "active" : ""} key={item.label} onClick={() => setCategory(item.label)} type="button">{item.label} <small>{hongKongCultureEntries.filter((entry) => entry.category === item.label).length}</small></button>)}
@@ -99,8 +165,9 @@ export default function CulturePage() {
         <div className="culture-entry-grid">
           {filteredEntries.map((entry) => {
             const expanded = visibleActiveEntry?.id === entry.id;
+            const known = knownEntryIds.has(entry.id);
             return <article className={`culture-entry-card risk-${entry.risk}${expanded ? " expanded" : ""}`} key={entry.id}>
-              <div className="culture-entry-top"><span className="culture-category-label">{entry.category}</span><span className="culture-era-label">{eraLabels[entry.era]}</span></div>
+              <div className="culture-entry-top"><div className="culture-entry-meta"><span className="culture-category-label">{entry.category}</span><span className="culture-era-label">{eraLabels[entry.era]}</span></div><button className={`culture-known-toggle${known ? " known" : ""}`} onClick={() => toggleKnown(entry.id)} type="button" aria-pressed={known}>{known ? "已会 ✓" : "标记已会"}</button></div>
               <div className="culture-entry-word"><div><h3>{entry.term}</h3><code>{entry.jyutping}</code></div><CantoneseAudio text={entry.audioText ?? entry.term} label={`播放：${entry.term}`} compact /></div>
               <p className="culture-entry-meaning">{entry.meaning}</p>
               <div className="culture-entry-risk"><span className={`risk-pill risk-pill-${entry.risk}`}>{riskLabels[entry.risk]}</span>{entry.tags.map((tag) => <span className="culture-tag" key={tag}>{tag}</span>)}</div>
@@ -110,7 +177,7 @@ export default function CulturePage() {
             </article>;
           })}
         </div>
-        {!filteredEntries.length ? <div className="culture-empty"><strong>暂时没有这个组合。</strong><p>试试输入普通话、繁体字、粤拼，或先清除分类。</p></div> : null}
+        {!filteredEntries.length ? <div className="culture-empty"><strong>{knownEntryIds.size && !showKnown && !query.trim() && category === "全部" && showSensitive ? "已会词条已隐藏。" : "暂时没有这个组合。"}</strong><p>{knownEntryIds.size && !showKnown && !query.trim() && category === "全部" && showSensitive ? "打开“显示已会词条”，就可以重新查看和复习。" : "试试输入普通话、繁体字、粤拼，或先清除分类。"}</p></div> : null}
       </section>
 
       <section className="culture-sources page-shell">
