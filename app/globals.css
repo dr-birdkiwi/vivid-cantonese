@@ -563,6 +563,10 @@ button { cursor:pointer; }
 .hero-lookup-input-label { display:grid; gap:8px; margin-top:20px; color:var(--muted); font-size:10px; font-weight:800; }
 .hero-lookup-input-label textarea { display:block; width:100%; min-height:70px; padding:11px 12px; resize:none; border:1px solid #cbd8cf; outline:0; background:#fffaf3; color:var(--ink); font:inherit; font-size:17px; line-height:1.5; }
 .hero-lookup-input-label textarea:focus { border-color:var(--coral-dark); }
+.lookup-register-row { display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-top:11px; }
+.lookup-register-row>span { margin-right:3px; color:var(--muted); font-size:9px; }
+.lookup-register-row button { padding:6px 9px; border:1px solid #cad7ce; border-radius:999px; background:transparent; color:#536765; cursor:pointer; font-size:9px; }
+.lookup-register-row button:hover,.lookup-register-row button.active { border-color:var(--mint-dark); background:var(--mint); color:var(--mint-dark); font-weight:800; }
 .hero-lookup-result { margin-top:16px; padding:14px; background:#eef4ef; border-left:3px solid var(--mint-dark); }
 .hero-lookup-result-top { display:flex; align-items:center; justify-content:space-between; gap:10px; color:var(--coral-dark); font-size:10px; font-weight:800; }
 .hero-lookup-result-top small { color:var(--muted); font-size:9px; font-weight:500; }
@@ -578,6 +582,13 @@ button { cursor:pointer; }
 .hero-lookup-literal-row b { display:block; color:var(--ink); font-size:12px; font-weight:700; }
 .hero-lookup-literal-row code { display:block; margin-top:5px; color:var(--mint-dark); font-size:10px; line-height:1.5; }
 .hero-lookup-literal-row .speak-button { flex:0 0 auto; }
+.hero-lookup-alternatives { display:grid; gap:8px; margin-top:14px; padding-top:12px; border-top:1px solid #cadbd0; }
+.hero-lookup-alternatives>span { color:var(--coral-dark); font-size:9px; font-weight:800; }
+.hero-lookup-alternative { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:9px 10px; background:#fffaf3; border:1px solid #d7e0d8; }
+.hero-lookup-alternative b { display:block; color:var(--ink); font-family:Georgia,"Songti SC",serif; font-size:14px; font-weight:500; }
+.hero-lookup-alternative code { display:block; margin-top:4px; color:var(--mint-dark); font-size:9px; }
+.hero-lookup-alternative small { display:block; margin-top:4px; color:var(--muted); font-size:9px; line-height:1.4; }
+.hero-lookup-alternative .speak-button { flex:0 0 auto; }
 .hero-lookup-empty { margin:18px 0 0; color:var(--muted); font-size:10px; line-height:1.6; }
 .hero-lookup-foot { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-top:19px; color:var(--muted); font-size:9px; }
 .hero-lookup-foot span:first-child { color:var(--coral-dark); font-weight:800; }
@@ -589,6 +600,16 @@ button { cursor:pointer; }
 .lookup-literal-main code { display:block; margin-top:5px; color:var(--mint-dark); font-size:10px; }
 .lookup-literal-main .speak-button { flex:0 0 auto; }
 .lookup-literal-reading>p { margin:8px 0 0; color:var(--muted); font-size:10px; line-height:1.6; }
+.lookup-alternatives { margin-top:17px; padding:14px 15px; background:#fff3df; border-left:3px solid var(--gold); }
+.lookup-alternatives-head { display:flex; align-items:center; justify-content:space-between; gap:10px; color:var(--coral-dark); font-size:10px; font-weight:800; }
+.lookup-alternatives-head small { color:var(--muted); font-size:9px; font-weight:500; }
+.lookup-alternative { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:13px 0; border-top:1px solid #e4d7bb; }
+.lookup-alternative:first-of-type { margin-top:7px; }
+.lookup-alternative strong { display:block; color:var(--coral-dark); font-family:Georgia,"Songti SC",serif; font-size:20px; font-weight:500; }
+.lookup-alternative code { display:block; margin-top:4px; color:var(--mint-dark); font-size:10px; }
+.lookup-alternative p { margin:6px 0 0; color:var(--muted); font-size:10px; line-height:1.5; }
+.lookup-alternative .speak-button { flex:0 0 auto; }
+.lookup-rule-note { margin:12px 0 0; color:var(--mint-dark); font-size:9px; line-height:1.6; }
 
 @media (max-width:850px) {
   .cantonese-lookup { grid-template-columns:1fr; }
@@ -606,6 +627,8 @@ button { cursor:pointer; }
   .hero-lookup-answer .speak-button { width:100%; }
   .hero-lookup-literal-row { align-items:flex-start; flex-direction:column; }
   .hero-lookup-literal-row .speak-button { width:100%; }
+  .hero-lookup-alternative { align-items:flex-start; flex-direction:column; }
+  .hero-lookup-alternative .speak-button { width:100%; }
   .lookup-section { padding-top:32px; padding-bottom:45px; }
   .lookup-input-card,.lookup-result-card { min-height:0; padding:17px; }
   .lookup-input-card textarea { min-height:112px; margin-top:15px; font-size:18px; }
@@ -613,6 +636,8 @@ button { cursor:pointer; }
   .lookup-result-main .speak-button { width:100%; }
   .lookup-literal-main { align-items:flex-start; flex-direction:column; }
   .lookup-literal-main .speak-button { width:100%; }
+  .lookup-alternative { align-items:flex-start; flex-direction:column; }
+  .lookup-alternative .speak-button { width:100%; }
   .prosody-grid { grid-template-columns:1fr; }
   .prosody-card { min-height:0; }
   .prosody-card>strong { margin-top:22px; }

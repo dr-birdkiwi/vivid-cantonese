@@ -109,13 +109,13 @@ const additionalCharacterPronunciations: Record<string, string> = {
   料: "liu6", 通: "tung1", 常: "soeng4", 結: "git3",
 };
 
-const pronunciationByCharacter: Record<string, string> = { ...characterPronunciations, ...additionalCharacterPronunciations };
+export const pronunciationByCharacter: Record<string, string> = { ...characterPronunciations, ...additionalCharacterPronunciations, 可: "ho2", 以: "ji5", 麻: "maa4", 煩: "faan4", 再: "zoi3", 講: "gong2" };
 
-function normalizeText(value: string) {
+export function normalizeText(value: string) {
   return Array.from(value).map((character) => simplifiedToTraditional[character] || character).join("");
 }
 
-function isChinese(character: string) {
+export function isChinese(character: string) {
   return /[\u3400-\u9fff]/u.test(character);
 }
 
