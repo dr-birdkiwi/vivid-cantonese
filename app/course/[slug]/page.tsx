@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CantoneseAudio, CantoneseAudioSettings } from "../../components/CantoneseAudio";
+import { SiteHeader } from "../../components/SiteHeader";
 import { sitePath } from "../../lib/site-path";
 import { courseUnits } from "../course-data";
 import { courseDialogues } from "../dialogue-data";
@@ -34,10 +35,7 @@ export default async function CourseDetailPage({ params }: CourseDetailProps) {
 
   return (
     <main className="subpage course-detail-page">
-      <header className="subpage-header">
-        <a className="brand" href={sitePath("/")}><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></a>
-        <a className="back-link" href={sitePath("/course")}>← 全部场景</a>
-      </header>
+      <SiteHeader backHref="/course" backLabel="← 全部场景" />
       <section className="course-detail-hero page-shell">
         <div>
           <p className="eyebrow">SCENE {unit.number} / {unit.track}</p>

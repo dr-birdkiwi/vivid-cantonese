@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { CantoneseAudio, CantoneseAudioSettings } from "../components/CantoneseAudio";
+import { SiteHeader } from "../components/SiteHeader";
 import { recordAnswer } from "../lib/learning-store";
-import { sitePath } from "../lib/site-path";
 
 const toneRows = [
   { tone: "1", jyutping: "si1", label: "高平", example: "詩", meaning: "诗", note: "高而平，保持稳定。" },
@@ -54,7 +54,7 @@ export default function AudioPage() {
 
   return (
     <main className="subpage audio-lab-page">
-      <header className="subpage-header"><a className="brand" href={sitePath("/")}><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></a><a className="back-link" href={sitePath("/")}>← 回到首页</a></header>
+      <SiteHeader backHref="/" />
       <section className="subpage-hero page-shell compact"><p className="eyebrow">AUDIO LAB / 听力实验室</p><h1>先听见差异，<br /><em>再把它说出来。</em></h1><p>普通话使用者最容易卡在声调、韵尾和少数不规则映射。这里用短而集中的听辨回合，建立“听到—辨认—复述”的路径。</p></section>
       <div className="page-shell"><CantoneseAudioSettings /></div>
 

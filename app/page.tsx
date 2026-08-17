@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { CantoneseAudio, CantoneseAudioSettings } from "./components/CantoneseAudio";
+import { SiteHeader } from "./components/SiteHeader";
 import { sitePath } from "./lib/site-path";
 
 type BridgeEntry = {
@@ -54,7 +55,6 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [selectedBridge, setSelectedBridge] = useState(bridgeEntries[0]);
   const [practiceChoice, setPracticeChoice] = useState<string | null>(null);
-  const [navOpen, setNavOpen] = useState(false);
   const [completed, setCompleted] = useState<string[]>(() => {
     if (typeof window === "undefined") return [];
     try { return JSON.parse(localStorage.getItem("vivid-cantonese-progress") || "[]"); } catch { return []; }
@@ -78,12 +78,7 @@ export default function Home() {
 
   return (
     <main>
-      <header className={`site-header${navOpen ? " nav-open" : ""}`}>
-        <a className="brand" href="#top" aria-label="粤语鲜活学堂首页" onClick={() => setNavOpen(false)}><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>给已经会读中文的你</small></span></a>
-        <nav className="main-nav" id="main-nav-links" aria-label="主要导航"><a href={sitePath("/today")} onClick={() => setNavOpen(false)}>今日学习</a><a href={sitePath("/bridge")} onClick={() => setNavOpen(false)}>普通话 → 粤语</a><a href={sitePath("/course")} onClick={() => setNavOpen(false)}>情景课程</a><a href={sitePath("/audio")} onClick={() => setNavOpen(false)}>听力实验室</a><a href={sitePath("/review")} onClick={() => setNavOpen(false)}>复习</a></nav>
-        <a className="header-cta" href={sitePath("/today")} onClick={() => setNavOpen(false)}>开始今日 15 分钟 <span>↗</span></a>
-        <button className="nav-toggle" type="button" aria-expanded={navOpen} aria-controls="main-nav-links" onClick={() => setNavOpen((open) => !open)}><span>{navOpen ? "收起" : "导航"}</span><i aria-hidden="true">{navOpen ? "×" : "☰"}</i></button>
-      </header>
+      <SiteHeader home />
 
       <section className="hero" id="top">
         <div className="hero-copy"><div className="hero-kicker"><span className="live-dot" /> 香港粤语 · Jyutping · 口语优先</div><h1>看得懂中文，<br /><em>听得懂粤语。</em></h1><p className="hero-lede">为普通话使用者设计的粤语学习站。先把你每天想说的话，换成香港人真正会说的方式。</p><div className="hero-actions"><a className="primary-button" href="#bridge">试试转换桥 <span>→</span></a><a className="secondary-link" href="#scenes">浏览生活场景 <span>↓</span></a></div><div className="hero-proof"><span>✦</span><strong>不是逐字翻译</strong><span>·</span><span>是自然开口</span></div></div>

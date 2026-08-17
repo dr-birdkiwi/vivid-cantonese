@@ -154,6 +154,8 @@ button { cursor:pointer; }
   .header-cta { padding:9px 10px; font-size:10px; }
   .nav-toggle { padding:9px 10px; }
   .site-header.nav-open .main-nav { top:calc(100% - 1px); }
+  .site-header-subpage .header-cta { display:none; }
+  .site-header-subpage .subpage-back-link { font-size:10px; white-space:nowrap; }
 }
 
 /* Course depth: orient learners by time in Hong Kong, then layer speech, grammar, and harder tasks. */

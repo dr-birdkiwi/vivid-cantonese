@@ -1,4 +1,5 @@
 import { CantoneseAudio, CantoneseAudioSettings } from "../components/CantoneseAudio";
+import { SiteHeader } from "../components/SiteHeader";
 import { courseTracks, courseUnits } from "./course-data";
 import { sitePath } from "../lib/site-path";
 
@@ -10,10 +11,7 @@ export const metadata = {
 export default function CoursePage() {
   return (
     <main className="subpage">
-      <header className="subpage-header">
-        <a className="brand" href={sitePath("/")}><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></a>
-        <a className="back-link" href={sitePath("/")}>← 回到首页</a>
-      </header>
+      <SiteHeader backHref="/" />
       <section className="subpage-hero page-shell">
         <p className="eyebrow">THE COURSE / 情景课程</p>
         <h1>先学会把事情办成，<br /><em>再慢慢变得流利。</em></h1>

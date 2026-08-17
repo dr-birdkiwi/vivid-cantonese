@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CantoneseAudio, CantoneseAudioSettings } from "../components/CantoneseAudio";
+import { SiteHeader } from "../components/SiteHeader";
 import { studyItems, type StudyItem } from "../data/study-data";
 import { recordAnswer } from "../lib/learning-store";
 import { sitePath } from "../lib/site-path";
@@ -37,7 +38,7 @@ export default function PracticePage() {
 
   return (
     <main className="subpage practice-page">
-      <header className="subpage-header"><a className="brand" href={sitePath("/")}><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></a><a className="back-link" href={sitePath("/")}>← 回到首页</a></header>
+      <SiteHeader backHref="/" />
       <section className="subpage-hero page-shell compact"><p className="eyebrow">QUICK PRACTICE / 立即反应</p><h1>先凭直觉选，<br /><em>再看差异在哪里。</em></h1><p>练习不是为了考你记住多少，而是让你从普通话提示出发，更快找到真实对话里的下一句。</p></section>
       <div className="page-shell"><CantoneseAudioSettings /></div>
       <section className="practice-page-card page-shell">

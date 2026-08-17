@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { CantoneseAudio, CantoneseAudioSettings } from "../components/CantoneseAudio";
+import { SiteHeader } from "../components/SiteHeader";
 import { sitePath } from "../lib/site-path";
 
 type BridgeEntry = [string, string, string, string, string];
@@ -62,7 +63,7 @@ export default function BridgePage() {
 
   return (
     <main className="subpage bridge-page">
-      <header className="subpage-header"><a className="brand" href={sitePath("/")}><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></a><a className="back-link" href={sitePath("/")}>← 回到首页</a></header>
+      <SiteHeader backHref="/" />
       <section className="subpage-hero page-shell compact"><p className="eyebrow">THE MANDARIN BRIDGE / 普通话转换桥</p><h1>你已经会说中文，<br /><em>先学会看懂规律。</em></h1><p>普通话和粤语不是逐字换一套读音：声母、韵母、韵尾和声调都有高频对应；但口语词、入声和多音字必须单独建立词汇记忆。</p><div className="bridge-primer-nav"><a href="#sound-patterns">声母与韵母</a><a href="#tone-map">声调迁移</a><a href="#exceptions">不规则高频词</a></div></section>
       <div className="page-shell"><CantoneseAudioSettings /></div>
 

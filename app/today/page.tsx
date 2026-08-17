@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { CantoneseAudio, CantoneseAudioSettings } from "../components/CantoneseAudio";
+import { SiteHeader } from "../components/SiteHeader";
 import { todaySeedItems } from "../data/study-data";
 import { recordAnswer } from "../lib/learning-store";
 import { sitePath } from "../lib/site-path";
@@ -31,10 +32,7 @@ export default function TodayPage() {
 
   return (
     <main className="subpage today-page">
-      <header className="subpage-header">
-        <a className="brand" href={sitePath("/")}><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>给已经会读中文的你</small></span></a>
-        <a className="back-link" href={sitePath("/course")}>← 情景课程</a>
-      </header>
+      <SiteHeader backHref="/course" backLabel="← 情景课程" />
       <section className="subpage-hero page-shell compact">
         <p className="eyebrow">TODAY / 今日学习</p>
         <h1>每天十五分钟，<br /><em>把粤语带进下一次对话。</em></h1>
