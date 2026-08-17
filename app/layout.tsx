@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "粤语鲜活学堂｜给已经会读中文的你",
   description: "为普通话使用者设计的香港粤语学习站：普通话转换桥、真实生活场景、粤拼和口语练习。",
   metadataBase: new URL(siteUrl),
-  icons: { icon: sitePath("/favicon.svg"), shortcut: sitePath("/favicon.svg") },
+  icons: { icon: sitePath("/favicon.svg?v=2"), shortcut: sitePath("/favicon.svg?v=2") },
   openGraph: {
     type: "website",
     title: "粤语鲜活学堂｜给已经会读中文的你",
