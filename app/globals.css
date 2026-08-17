@@ -554,12 +554,40 @@ button { cursor:pointer; }
 .course-review-queue:hover,.course-review-queue.queued { border-color:var(--mint-dark); background:var(--mint); }
 .course-review-queue.queued { color:var(--mint-dark); cursor:default; }
 
+/* The homepage hero now puts the real interactive Cantonese tool where the old preview card lived. */
+.hero-lookup-tool { position:relative; z-index:1; align-self:center; min-height:425px; padding:25px; background:#fffdf8e8; border:1px solid #cfd8d1; box-shadow:14px 14px 0 #dfe7df; }
+.hero-lookup-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding-bottom:18px; border-bottom:1px solid var(--line); }
+.hero-lookup-head .eyebrow { margin:0 0 9px; color:var(--coral-dark); }
+.hero-lookup-head strong { display:block; font-size:20px; letter-spacing:-.05em; }
+.hero-lookup-head>span { padding:6px 9px; border:1px solid #b9cbc0; border-radius:999px; color:var(--mint-dark); font-size:9px; font-weight:800; white-space:nowrap; }
+.hero-lookup-input-label { display:grid; gap:8px; margin-top:20px; color:var(--muted); font-size:10px; font-weight:800; }
+.hero-lookup-input-label textarea { display:block; width:100%; min-height:70px; padding:11px 12px; resize:none; border:1px solid #cbd8cf; outline:0; background:#fffaf3; color:var(--ink); font:inherit; font-size:17px; line-height:1.5; }
+.hero-lookup-input-label textarea:focus { border-color:var(--coral-dark); }
+.hero-lookup-result { margin-top:16px; padding:14px; background:#eef4ef; border-left:3px solid var(--mint-dark); }
+.hero-lookup-result-top { display:flex; align-items:center; justify-content:space-between; gap:10px; color:var(--coral-dark); font-size:10px; font-weight:800; }
+.hero-lookup-result-top small { color:var(--muted); font-size:9px; font-weight:500; }
+.hero-lookup-answer { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-top:19px; }
+.hero-lookup-answer strong { display:block; color:var(--coral-dark); font-family:Georgia,"Songti SC",serif; font-size:28px; font-weight:500; letter-spacing:-.04em; }
+.hero-lookup-answer code { display:block; margin-top:5px; color:var(--mint-dark); font-size:10px; line-height:1.5; }
+.hero-lookup-answer .speak-button { flex:0 0 auto; }
+.hero-lookup-empty { margin:18px 0 0; color:var(--muted); font-size:10px; line-height:1.6; }
+.hero-lookup-foot { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin-top:19px; color:var(--muted); font-size:9px; }
+.hero-lookup-foot span:first-child { color:var(--coral-dark); font-weight:800; }
+
 @media (max-width:850px) {
   .cantonese-lookup { grid-template-columns:1fr; }
   .prosody-grid { grid-template-columns:repeat(2,1fr); }
 }
 
 @media (max-width:560px) {
+  .hero-lookup-tool { min-height:0; margin-top:17px; padding:18px; box-shadow:8px 8px 0 #dfe7df; }
+  .hero-lookup-head { display:block; }
+  .hero-lookup-head>span { display:inline-block; margin-top:11px; }
+  .hero-lookup-head strong { font-size:17px; }
+  .hero-lookup-input-label { margin-top:17px; }
+  .hero-lookup-input-label textarea { min-height:64px; font-size:16px; }
+  .hero-lookup-answer { align-items:flex-start; flex-direction:column; }
+  .hero-lookup-answer .speak-button { width:100%; }
   .lookup-section { padding-top:32px; padding-bottom:45px; }
   .lookup-input-card,.lookup-result-card { min-height:0; padding:17px; }
   .lookup-input-card textarea { min-height:112px; margin-top:15px; font-size:18px; }

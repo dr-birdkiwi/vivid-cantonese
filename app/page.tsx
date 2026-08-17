@@ -24,7 +24,7 @@ const grammarCards = [
 ];
 
 const featureCards = [
-  { number: "01", label: "即时标注", title: "输入中文，马上听粤语", copy: "支持简体、繁体、单字和整句；先给粤语表达，再给逐段粤拼和语音。", link: "试试即时标注", href: "#lookup", tone: "coral" },
+  { number: "01", label: "即时标注", title: "输入中文，马上听粤语", copy: "支持简体、繁体、单字和整句；先给粤语表达，再给逐段粤拼和语音。", link: "试试即时标注", href: "#instant-lookup", tone: "coral" },
   { number: "02", label: "情景课程", title: "用完整对话办成事", copy: "从茶餐厅、交通到职场沟通，练习开口、追问、处理意外和自然收尾。", link: "浏览真实场景", href: "#scenes", tone: "gold" },
   { number: "03", label: "听力实验室", title: "听见声调、韵尾和语气", copy: "用粤拼、短音对比和设备音色，把“看懂”推进到真正听得出差异。", link: "进入听力实验室", href: "/audio", tone: "mint" },
 ];
@@ -66,12 +66,10 @@ export default function Home() {
 
       <section className="hero feature-hero" id="top">
         <div className="hero-copy"><div className="hero-kicker"><span className="live-dot" /> 香港粤语 · Jyutping · 口语优先</div><h1>不是学一套新中文，<br /><em>是把会的中文说成粤语。</em></h1><p className="hero-lede">为已经读得懂中文的普通话使用者设计。把读音规律、口语替换、真实场景和听力反馈放在同一条学习路径上。</p><div className="hero-actions"><a className="primary-button" href="#features">认识三大功能 <span>→</span></a><a className="secondary-link" href="#bridge">直接试转换桥 <span>↓</span></a></div><div className="hero-proof"><span>✦</span><strong>从看得懂，到听得出，再到说得自然</strong></div></div>
-        <div className="hero-feature-preview" aria-label="粤语学习系统概览"><div className="hero-preview-head"><div><p className="eyebrow">LEARNING SYSTEM / 学习系统</p><strong>三步，把听得懂变成说得出</strong></div><span>香港粤语</span></div><div className="hero-preview-flow"><div className="hero-step coral"><span>01</span><b>看懂规律</b><small>普通话 → 粤语</small><code>没有 → 冇 · mou5</code></div><div className="hero-step gold"><span>02</span><b>放进场景</b><small>完整对话 · 真实任务</small><code>唔該，一個奶茶。</code></div><div className="hero-step mint"><span>03</span><b>听出差异</b><small>粤拼 · 声调 · 语气</small><code>我而家冇時間。</code></div></div><div className="hero-preview-note"><span>给普通话使用者的学习优势</span><p>不重新教你认字，专门解释“为什么香港人会这样说”。</p></div></div>
+        <CantoneseLookup compact />
       </section>
 
       <section className="feature-overview page-shell" id="features"><div className="feature-overview-heading"><div><p className="eyebrow">ONE SITE / 三个核心入口</p><h2>所有功能，都指向同一件事：<em>自然开口。</em></h2></div><p>先用你已经掌握的普通话建立桥，再把词放入完整对话，最后用声音确认自己真的听见和说出了差异。</p></div><div className="feature-card-grid">{featureCards.map((feature) => <a className={`feature-card ${feature.tone}`} href={sitePath(feature.href)} key={feature.number}><div className="feature-card-top"><span>{feature.number}</span><small>{feature.label}</small></div><h3>{feature.title}</h3><p>{feature.copy}</p><span className="feature-card-link">{feature.link} <b>→</b></span></a>)}</div><div className="feature-proof-row"><span>普通话使用者专属</span><span>·</span><span>完整粤拼</span><span>·</span><span>每个粤语句子都可以试听</span></div></section>
-
-      <section className="lookup-section page-shell" id="lookup"><SectionIntro eyebrow="TYPE ANY CHINESE / 即时粤语标注" title="输入你正在想说的中文，马上看粤语怎么读。" copy="支持简体、繁体、单字和整句。高频口语词会先转换成香港人更自然的说法，再显示粤拼和语音。" /><CantoneseLookup /></section>
 
       <section className="home-audio-feature page-shell"><div className="home-audio-heading"><div><p className="eyebrow">VOICE CONTROL / 声音选择</p><h2>选择你真正听得顺耳的粤语。</h2></div><p>设备如果安装了多个香港粤语音色，可以在这里展开、试听并选择。之后全站播放都会使用你的选择。</p></div><CantoneseAudioSettings /></section>
 

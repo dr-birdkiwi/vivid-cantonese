@@ -4,9 +4,25 @@ import { useMemo, useState } from "react";
 import { CantoneseAudio } from "./CantoneseAudio";
 import { lookupCantonese } from "../data/cantonese-dictionary";
 
-export function CantoneseLookup() {
+type CantoneseLookupProps = { compact?: boolean };
+
+export function CantoneseLookup({ compact = false }: CantoneseLookupProps) {
   const [input, setInput] = useState("我现在没有时间");
   const result = useMemo(() => lookupCantonese(input), [input]);
+
+  if (compact) {
+    return (
+      <div className="hero-lookup-tool" id="instant-lookup" aria-label="即时粤语标注工具">
+        <div className="hero-lookup-head"><div><p className="eyebrow">INSTANT CANTONESE / 即时粤语</p><strong>输入一句，马上听懂。</strong></div><span>简体 / 繁体</span></div>
+        <label className="hero-lookup-input-label">普通话 / 中文<textarea value={input} onChange={(event) => setInput(event.target.value)} aria-label="输入普通话或中文" placeholder="试试：我现在没有时间" rows={2} /></label>
+        <div className="hero-lookup-result">
+          <div className="hero-lookup-result-top"><span>粤语表达</span><small>{result.exact ? "已找到整句" : result.complete ? "已逐段标注" : "部分识别"}</small></div>
+          {result.cantonese ? <div className="hero-lookup-answer"><div><strong>{result.cantonese}</strong><code>{result.jyutping || "粤拼待补充"}</code></div><CantoneseAudio text={result.cantonese} label={`播放粤语：${result.cantonese}`} compact /></div> : <p className="hero-lookup-empty">{result.note}</p>}
+        </div>
+        <div className="hero-lookup-foot"><span>高频口语转换</span><span>·</span><span>逐段粤拼</span><span>·</span><span>试听粤语</span></div>
+      </div>
+    );
+  }
 
   return (
     <div className="cantonese-lookup">
