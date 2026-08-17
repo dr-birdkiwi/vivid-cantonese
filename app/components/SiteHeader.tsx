@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { sitePath } from "../lib/site-path";
+import { siteBasePath, sitePath } from "../lib/site-path";
 
 type SiteHeaderProps = {
   home?: boolean;
@@ -30,7 +30,8 @@ export function SiteHeader({ home = false }: SiteHeaderProps) {
       <nav className="main-nav" id="main-nav-links" aria-label="主要导航">
         {navigation.map(([label, path]) => {
           const target = sitePath(path);
-          const active = pathname === target || pathname.startsWith(`${target}/`);
+          const currentPath = siteBasePath && pathname.startsWith(siteBasePath) ? pathname.slice(siteBasePath.length) || "/" : pathname;
+          const active = currentPath === path || currentPath.startsWith(`${path}/`);
           return <a className={active ? "active" : undefined} href={target} key={path} onClick={closeNav} aria-current={active ? "page" : undefined}>{label}</a>;
         })}
       </nav>
