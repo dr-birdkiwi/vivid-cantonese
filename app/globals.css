@@ -509,3 +509,65 @@ button { cursor:pointer; }
   .word-bridge-section { padding-top:83px; }
   .word-bridge-list-head { align-items:flex-start; flex-direction:column; gap:6px; }
 }
+
+/* Homepage lookup: make the new tool feel like a compact bridge, not a second dictionary page. */
+.lookup-section { padding-top:48px; padding-bottom:64px; }
+.lookup-section .section-intro { margin-bottom:23px; }
+.cantonese-lookup { display:grid; grid-template-columns:.85fr 1.15fr; gap:14px; }
+.lookup-input-card,.lookup-result-card { min-height:278px; padding:22px; border:1px solid var(--line); background:var(--cream); }
+.lookup-input-card { background:#f2b7a5; border-color:#d8a08e; }
+.lookup-result-card { background:#eef4ef; border-color:#c6d8ce; border-top:3px solid var(--mint-dark); }
+.lookup-card-label { display:flex; align-items:center; justify-content:space-between; gap:12px; color:var(--coral-dark); font-size:11px; font-weight:800; }
+.lookup-card-label small { color:#526b66; font-size:9px; font-weight:500; }
+.lookup-input-card textarea { display:block; width:100%; min-height:128px; margin-top:18px; padding:14px; resize:vertical; border:1px solid #bd8878; outline:0; background:#fff8f0aa; color:var(--ink); font:inherit; font-size:20px; line-height:1.6; }
+.lookup-input-card textarea:focus { border-color:var(--ink); background:#fffaf5; }
+.lookup-input-card p { margin:14px 0 0; color:#5b6461; font-size:10px; line-height:1.7; }
+.lookup-result-main { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top:34px; }
+.lookup-result-main strong { display:block; color:var(--coral-dark); font-family:Georgia,"Songti SC",serif; font-size:34px; font-weight:500; letter-spacing:-.04em; }
+.lookup-result-main code { display:block; margin-top:6px; color:var(--mint-dark); font-size:12px; }
+.lookup-result-main .speak-button { flex:0 0 auto; }
+.lookup-segments { display:flex; align-items:flex-end; flex-wrap:wrap; gap:7px; margin-top:22px; padding-top:14px; border-top:1px solid #cadbd0; }
+.lookup-segment-label { flex:0 0 100%; color:var(--muted); font-size:9px; }
+.lookup-segment { display:grid; gap:3px; min-width:43px; padding:8px 9px; border:1px solid #b7ccc1; background:#f8fbf5; text-align:center; }
+.lookup-segment b { color:var(--coral-dark); font-family:Georgia,"Songti SC",serif; font-size:17px; font-weight:500; }
+.lookup-segment code { color:var(--mint-dark); font-size:9px; }
+.lookup-segment.unknown { border-color:#d3bbb0; background:#f4ebe4; opacity:.72; }
+.lookup-segment.unknown b,.lookup-segment.unknown code { color:#8b8178; }
+.lookup-note { margin:16px 0 0; color:var(--muted); font-size:10px; line-height:1.7; }
+.lookup-empty { display:grid; place-items:center; min-height:190px; color:var(--muted); font-size:12px; }
+
+/* Listening lab depth: add a dedicated prosody layer between sound mechanics and quiz recall. */
+.prosody-section { margin-top:39px; }
+.prosody-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.prosody-card { min-height:190px; padding:19px; border:1px solid #cbd8cf; background:#fbfaf6; }
+.prosody-card:nth-child(2),.prosody-card:nth-child(5) { background:#f2f7f1; }
+.prosody-card:nth-child(3),.prosody-card:nth-child(6) { background:#fff3df; }
+.prosody-card-top { display:flex; align-items:center; justify-content:space-between; gap:10px; color:var(--coral-dark); font-size:10px; font-weight:800; }
+.prosody-card>strong { display:block; margin-top:29px; color:var(--ink); font-family:Georgia,"Songti SC",serif; font-size:21px; font-weight:500; }
+.prosody-card>code { display:block; margin-top:7px; color:var(--mint-dark); font-size:10px; }
+.prosody-card>p { margin:13px 0 0; color:var(--muted); font-size:10px; line-height:1.65; }
+.listening-card-top span:last-child { text-align:right; }
+
+/* Scene-to-review handoff is explicit, so a learner knows why an item appears in Review. */
+.course-detail-actions { align-items:center; flex-wrap:wrap; }
+.course-review-queue { padding:11px 14px; border:1px solid var(--ink); background:transparent; color:var(--ink); cursor:pointer; font-size:10px; font-weight:800; }
+.course-review-queue:hover,.course-review-queue.queued { border-color:var(--mint-dark); background:var(--mint); }
+.course-review-queue.queued { color:var(--mint-dark); cursor:default; }
+
+@media (max-width:850px) {
+  .cantonese-lookup { grid-template-columns:1fr; }
+  .prosody-grid { grid-template-columns:repeat(2,1fr); }
+}
+
+@media (max-width:560px) {
+  .lookup-section { padding-top:32px; padding-bottom:45px; }
+  .lookup-input-card,.lookup-result-card { min-height:0; padding:17px; }
+  .lookup-input-card textarea { min-height:112px; margin-top:15px; font-size:18px; }
+  .lookup-result-main { align-items:flex-start; flex-direction:column; margin-top:28px; }
+  .lookup-result-main .speak-button { width:100%; }
+  .prosody-grid { grid-template-columns:1fr; }
+  .prosody-card { min-height:0; }
+  .prosody-card>strong { margin-top:22px; }
+  .listening-card-top span:last-child { text-align:left; }
+  .course-review-queue { width:100%; }
+}

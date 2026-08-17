@@ -2,32 +2,10 @@
 
 import { useMemo, useState } from "react";
 import { CantoneseAudio, CantoneseAudioSettings } from "./components/CantoneseAudio";
+import { CantoneseLookup } from "./components/CantoneseLookup";
 import { SiteHeader } from "./components/SiteHeader";
+import { bridgeEntries } from "./data/cantonese-dictionary";
 import { sitePath } from "./lib/site-path";
-
-type BridgeEntry = {
-  mandarin: string;
-  cantonese: string;
-  jyutping: string;
-  note: string;
-  tag: string;
-  example: string;
-};
-
-const bridgeEntries: BridgeEntry[] = [
-  { mandarin: "没有", cantonese: "冇", jyutping: "mou5", note: "日常口语最常见的替换词。", tag: "口语替换", example: "我而家冇時間。" },
-  { mandarin: "不", cantonese: "唔", jyutping: "m4", note: "普通话的“不”通常不能直接读成粤语。", tag: "口语替换", example: "我唔知。" },
-  { mandarin: "是", cantonese: "係", jyutping: "hai6", note: "判断句、确认和“是不是”中的核心词。", tag: "核心词", example: "係咪你呀？" },
-  { mandarin: "在", cantonese: "喺", jyutping: "hai2", note: "表示地点，不要和“係”混淆。", tag: "核心词", example: "我喺公司。" },
-  { mandarin: "现在", cantonese: "而家", jyutping: "ji4 gaa1", note: "高频整词记忆，不能只按汉字读音推。", tag: "必须记", example: "而家方便講電話嗎？" },
-  { mandarin: "喜欢", cantonese: "鍾意", jyutping: "zung1 ji3", note: "比直译“喜歡”更自然的日常说法。", tag: "自然表达", example: "你鍾意食辣嘢嗎？" },
-  { mandarin: "东西", cantonese: "嘢", jyutping: "je5", note: "泛指东西、事情或某种内容。", tag: "口语替换", example: "呢啲嘢幾好食。" },
-  { mandarin: "哪里", cantonese: "邊度", jyutping: "bin1 dou6", note: "香港日常问地点的常用词组。", tag: "疑问词", example: "你而家喺邊度？" },
-  { mandarin: "为什么", cantonese: "點解", jyutping: "dim2 gaai2", note: "比书面“為什麼”更口语。", tag: "疑问词", example: "你點解唔食飯？" },
-  { mandarin: "等一下", cantonese: "等陣", jyutping: "dang2 zan6", note: "适合电话、排队和短暂等待。", tag: "场景短语", example: "等陣先，我未準備好。" },
-  { mandarin: "是不是", cantonese: "係咪", jyutping: "hai6 mai6", note: "高频的是非问句格式。", tag: "句式", example: "你係咪第一次嚟？" },
-  { mandarin: "可以吗", cantonese: "得唔得", jyutping: "dak1 m4 dak1", note: "询问可行性、许可或是否妥当。", tag: "句式", example: "聽日三點見，得唔得？" },
-];
 
 const scenes = [
   { number: "01", slug: "repair-the-conversation", label: "听不清时", title: "先把对话接回来", copy: "请对方慢一点、再说一次，确认自己有没有听错。", phrase: "唔好意思，可唔可以再講一次？", jyutping: "m4 hou2 ji3 si1, ho2 m4 ho2 ji5 zoi3 gong2 jat1 ci3?", color: "coral" },
@@ -46,7 +24,7 @@ const grammarCards = [
 ];
 
 const featureCards = [
-  { number: "01", label: "转换桥", title: "普通话 → 自然粤语", copy: "先看高频读音规律，再识别冇、唔、而家这类不能逐字搬运的口语词。", link: "试试转换桥", href: "#bridge", tone: "coral" },
+  { number: "01", label: "即时标注", title: "输入中文，马上听粤语", copy: "支持简体、繁体、单字和整句；先给粤语表达，再给逐段粤拼和语音。", link: "试试即时标注", href: "#lookup", tone: "coral" },
   { number: "02", label: "情景课程", title: "用完整对话办成事", copy: "从茶餐厅、交通到职场沟通，练习开口、追问、处理意外和自然收尾。", link: "浏览真实场景", href: "#scenes", tone: "gold" },
   { number: "03", label: "听力实验室", title: "听见声调、韵尾和语气", copy: "用粤拼、短音对比和设备音色，把“看懂”推进到真正听得出差异。", link: "进入听力实验室", href: "/audio", tone: "mint" },
 ];
@@ -92,6 +70,8 @@ export default function Home() {
       </section>
 
       <section className="feature-overview page-shell" id="features"><div className="feature-overview-heading"><div><p className="eyebrow">ONE SITE / 三个核心入口</p><h2>所有功能，都指向同一件事：<em>自然开口。</em></h2></div><p>先用你已经掌握的普通话建立桥，再把词放入完整对话，最后用声音确认自己真的听见和说出了差异。</p></div><div className="feature-card-grid">{featureCards.map((feature) => <a className={`feature-card ${feature.tone}`} href={sitePath(feature.href)} key={feature.number}><div className="feature-card-top"><span>{feature.number}</span><small>{feature.label}</small></div><h3>{feature.title}</h3><p>{feature.copy}</p><span className="feature-card-link">{feature.link} <b>→</b></span></a>)}</div><div className="feature-proof-row"><span>普通话使用者专属</span><span>·</span><span>完整粤拼</span><span>·</span><span>每个粤语句子都可以试听</span></div></section>
+
+      <section className="lookup-section page-shell" id="lookup"><SectionIntro eyebrow="TYPE ANY CHINESE / 即时粤语标注" title="输入你正在想说的中文，马上看粤语怎么读。" copy="支持简体、繁体、单字和整句。高频口语词会先转换成香港人更自然的说法，再显示粤拼和语音。" /><CantoneseLookup /></section>
 
       <section className="home-audio-feature page-shell"><div className="home-audio-heading"><div><p className="eyebrow">VOICE CONTROL / 声音选择</p><h2>选择你真正听得顺耳的粤语。</h2></div><p>设备如果安装了多个香港粤语音色，可以在这里展开、试听并选择。之后全站播放都会使用你的选择。</p></div><CantoneseAudioSettings /></section>
 

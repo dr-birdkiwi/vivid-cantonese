@@ -1,4 +1,5 @@
 import { courseUnits } from "../course/course-data";
+import { listeningItems } from "./audio-data";
 
 export type StudyItem = {
   id: string;
@@ -40,18 +41,61 @@ const pronunciationItems: StudyItem[] = [
   { id: "sound-neoi", mandarin: "女", cantonese: "女", jyutping: "neoi5", kind: "发音", note: "eoi 是普通话没有的高频粤语韵母，需要听辨和模仿。", source: "声音地图" },
 ];
 
-const courseItems: StudyItem[] = courseUnits.flatMap((unit) => unit.lessons.slice(0, 2).map((lesson, index) => ({
-  id: `lesson-${unit.slug}-${index + 1}`,
-  mandarin: lesson.mandarin,
-  cantonese: lesson.phrase,
-  jyutping: lesson.jyutping,
-  kind: "场景词" as const,
-  note: lesson.note,
-  source: unit.title,
-  sourceSlug: unit.slug,
-})));
+const courseItems: StudyItem[] = courseUnits.flatMap((unit) => [
+  ...unit.lessons.map((lesson, index) => ({
+    id: `lesson-${unit.slug}-${index + 1}`,
+    mandarin: lesson.mandarin,
+    cantonese: lesson.phrase,
+    jyutping: lesson.jyutping,
+    kind: "场景词" as const,
+    note: lesson.note,
+    source: unit.title,
+    sourceSlug: unit.slug,
+  })),
+  ...unit.vocabulary.map((item, index) => ({
+    id: `vocabulary-${unit.slug}-${index + 1}`,
+    mandarin: item.meaning,
+    cantonese: item.word,
+    jyutping: item.jyutping,
+    kind: "场景词" as const,
+    note: item.note,
+    source: unit.title,
+    sourceSlug: unit.slug,
+  })),
+  ...unit.grammar.map((item, index) => ({
+    id: `grammar-${unit.slug}-${index + 1}`,
+    mandarin: item.label,
+    cantonese: item.example,
+    jyutping: item.jyutping,
+    kind: "句式" as const,
+    note: item.note,
+    source: unit.title,
+    sourceSlug: unit.slug,
+  })),
+  ...unit.challenges.map((item, index) => ({
+    id: `challenge-${unit.slug}-${index + 1}`,
+    mandarin: item.situation,
+    cantonese: item.phrase,
+    jyutping: item.jyutping,
+    kind: "句式" as const,
+    note: item.note,
+    source: unit.title,
+    sourceSlug: unit.slug,
+  })),
+]);
 
-export const studyItems: StudyItem[] = [...bridgeItems, ...grammarItems, ...pronunciationItems, ...courseItems];
+const audioItems: StudyItem[] = listeningItems.map((item) => ({
+  id: `audio-${item.id}`,
+  mandarin: item.prompt,
+  cantonese: item.answer,
+  jyutping: item.jyutping,
+  kind: "发音",
+  note: item.note,
+  source: item.source,
+  sourceSlug: item.sourceSlug,
+}));
+
+export const studyItems: StudyItem[] = [...bridgeItems, ...grammarItems, ...pronunciationItems, ...audioItems, ...courseItems];
 
 export function getStudyItem(id: string) {
   return studyItems.find((item) => item.id === id);

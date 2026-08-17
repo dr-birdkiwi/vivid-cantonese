@@ -53,6 +53,24 @@ export function recordAnswer(id: string, correct: boolean, now = Date.now()) {
   return records[id];
 }
 
+export function queueForReview(ids: string[], now = Date.now()) {
+  const records = readLearningRecords();
+  ids.forEach((id) => {
+    if (records[id]) return;
+    records[id] = {
+      id,
+      attempts: 0,
+      correct: 0,
+      streak: 0,
+      mastery: "new",
+      nextReviewAt: now,
+      updatedAt: now,
+    };
+  });
+  writeLearningRecords(records);
+  return records;
+}
+
 export function isDue(record: LearningRecord | undefined, now = Date.now()) {
   return !record || record.nextReviewAt <= now;
 }

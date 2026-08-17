@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CantoneseAudio, CantoneseAudioSettings } from "../../components/CantoneseAudio";
+import { CourseReviewButton } from "../../components/CourseReviewButton";
 import { SiteHeader } from "../../components/SiteHeader";
 import { sitePath } from "../../lib/site-path";
 import { courseUnits } from "../course-data";
@@ -32,6 +33,12 @@ export default async function CourseDetailPage({ params }: CourseDetailProps) {
   const nextDescription = nextUnit
     ? `下一站：${nextUnit.title}。${nextUnit.copy}。`
     : "这一条路线已经完成，回到课程地图选择下一场景。";
+  const courseReviewIds = [
+    ...unit.lessons.map((_, index) => `lesson-${unit.slug}-${index + 1}`),
+    ...unit.vocabulary.map((_, index) => `vocabulary-${unit.slug}-${index + 1}`),
+    ...unit.grammar.map((_, index) => `grammar-${unit.slug}-${index + 1}`),
+    ...unit.challenges.map((_, index) => `challenge-${unit.slug}-${index + 1}`),
+  ];
 
   return (
     <main className="subpage course-detail-page">
@@ -98,7 +105,7 @@ export default async function CourseDetailPage({ params }: CourseDetailProps) {
       </section>
       <section className="course-detail-next page-shell">
         <div><p className="eyebrow">NEXT SCENE / 下一场景</p><h2>进入到下一场景。</h2><p>{nextDescription}</p></div>
-        <div className="course-detail-actions"><a className="secondary-link" href={sitePath("/course")}>回到课程地图 <span>↗</span></a><a className="primary-button" href={nextHref}>{nextLabel} <span>→</span></a></div>
+        <div className="course-detail-actions"><CourseReviewButton ids={courseReviewIds} count={courseReviewIds.length} /><a className="secondary-link" href={sitePath("/course")}>回到课程地图 <span>↗</span></a><a className="primary-button" href={nextHref}>{nextLabel} <span>→</span></a></div>
       </section>
     </main>
   );

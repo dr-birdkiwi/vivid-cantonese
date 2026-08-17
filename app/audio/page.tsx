@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { CantoneseAudio, CantoneseAudioSettings } from "../components/CantoneseAudio";
 import { SiteHeader } from "../components/SiteHeader";
+import { listeningItems } from "../data/audio-data";
 import { recordAnswer } from "../lib/learning-store";
 
 const toneRows = [
@@ -21,17 +22,24 @@ const soundRows = [
   { label: "粤语独有韵母", example: "女", jyutping: "neoi5", note: "eoi 不能用普通话的 ü 或 ou 近似带过。" },
   { label: "鼻音韵尾", example: "心", jyutping: "sam1", note: "-m、-n、-ng 要听清收尾位置。" },
   { label: "入声韵尾", example: "國", jyutping: "gwok3", note: "-k 使音节短促收住，不要把尾音拖长。" },
+  { label: "-m / -n / -ng 对比", example: "心 · 山 · 生", jyutping: "sam1 · saan1 · saang1", note: "同样是鼻音韵尾，收音位置不同；先慢听最后一拍。" },
+  { label: "-p 韵尾", example: "十", jyutping: "sap6", note: "p 在音节末尾短促收住，不能像普通话 shí 一样拖开。" },
+  { label: "-t 韵尾", example: "八", jyutping: "baat3", note: "八、发、达等字可以成组练习，注意最后的闭塞感。" },
+  { label: "-k 韵尾", example: "北", jyutping: "bak1", note: "北 bak1 和白 baak6 都收 -k，但声调和韵母不同。" },
+  { label: "圆唇韵母", example: "女", jyutping: "neoi5", note: "eoi 要保持圆唇和滑动，不要直接替换成普通话 ü。" },
 ];
 
-const listeningItems = [
-  { id: "mou5", prompt: "普通话“没有”最自然的粤语是什么？", answer: "冇", jyutping: "mou5", options: ["冇", "無有", "唔有"], note: "冇 mou5 是日常口语的高频整词。" },
-  { id: "ngo5", prompt: "哪一个读法对应“我”？", answer: "ngo5", jyutping: "ngo5", options: ["ngo5", "wo5", "o5"], note: "粤语我以 ng- 起首，普通话 w- 不能直接套用。" },
-  { id: "hok6", prompt: "哪一个读法对应“学”？", answer: "hok6", jyutping: "hok6", options: ["hok6", "hok2", "haau6"], note: "學 hok6 的 -k 韵尾是普通话学习者常漏掉的部分。" },
-  { id: "neoi5", prompt: "哪一个读法对应“女”？", answer: "neoi5", jyutping: "neoi5", options: ["neoi5", "nui5", "jyu5"], note: "eoi 是需要单独建立听觉记忆的粤语韵母。" },
+const prosodyRows = [
+  { label: "确认", phrase: "你係咪第一次嚟？", jyutping: "nei5 hai6 mai6 dai6 jat1 ci3 lai4?", note: "係咪把疑问放进正反结构；句尾上扬时更像在确认。" },
+  { label: "完成 / 新状态", phrase: "我食咗飯喇。", jyutping: "ngo5 sik6 zo2 faan6 laa3.", note: "咗标记完成或变化，喇把“现在已经这样了”的感觉收住。" },
+  { label: "正在进行", phrase: "我等緊你。", jyutping: "ngo5 dang2 gan2 nei5.", note: "緊放在动词后面；听见动词和緊连在一起，才不会漏掉时间信息。" },
+  { label: "新信息", phrase: "佢今日放假喎。", jyutping: "keoi5 gam1 jat6 fong3 gaa3 wo3.", note: "喎常用来带出新信息或提醒对方注意。" },
+  { label: "缓和 / 推进", phrase: "等陣先啦。", jyutping: "dang2 zan6 sin1 laa1.", note: "啦可以把命令感变轻，也可以表示“先这样做吧”。" },
+  { label: "惊讶 / 追问", phrase: "真係㗎？", jyutping: "zan1 hai6 gaa3?", note: "㗎常见于确认和反问；不要只把它当成普通话“吗”。" },
 ];
 
 export default function AudioPage() {
-  const [mode, setMode] = useState<"tones" | "sounds">("tones");
+  const [mode, setMode] = useState<"tones" | "sounds" | "prosody" | "listening">("tones");
   const [listenIndex, setListenIndex] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
   const listening = listeningItems[listenIndex];
@@ -47,7 +55,7 @@ export default function AudioPage() {
     setSelected(null);
   }
 
-  function jumpToSection(section: "tones" | "sounds") {
+  function jumpToSection(section: "tones" | "sounds" | "prosody" | "listening") {
     setMode(section);
     document.getElementById(section)?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
@@ -68,9 +76,14 @@ export default function AudioPage() {
         <div className="sound-grid">{soundRows.map((row) => <article className="sound-card" key={row.example}><div><small>{row.label}</small><strong>{row.example}</strong><code>{row.jyutping}</code></div><p>{row.note}</p><CantoneseAudio text={row.example} label={`播放：${row.example}`} compact /></article>)}</div>
       </section>
 
+      <section id="prosody" className="audio-lab-section prosody-section page-shell">
+        <div className="audio-lab-heading"><div><p className="eyebrow">PROSODY / 语气与节奏</p><h2>同样的字，<em>换个收尾就换了关系。</em></h2></div><p>粤语不只是声调数字；句末小词、停顿和语气会告诉你对方是在确认、提醒、缓和还是反问。</p></div>
+        <div className="prosody-grid">{prosodyRows.map((row) => <article className="prosody-card" key={row.label}><div className="prosody-card-top"><span>{row.label}</span><CantoneseAudio text={row.phrase} label={`播放：${row.phrase}`} compact /></div><strong>{row.phrase}</strong><code>{row.jyutping}</code><p>{row.note}</p></article>)}</div>
+      </section>
+
       <section id="listening" className="audio-lab-section listening-section page-shell">
         <div className="audio-lab-heading"><div><p className="eyebrow">LISTENING CHECK / 听辨回合</p><h2>只听一次，<em>你听到哪个？</em></h2></div><p>先播放粤语，不要看答案；选择后才显示粤拼和解释。每次作答都会进入你的复习记录。</p></div>
-        <div className="listening-card"><div className="listening-card-top"><span>{String(listenIndex + 1).padStart(2, "0")} / {String(listeningItems.length).padStart(2, "0")}</span><span>先听 → 选择 → 看粤拼 → 重听</span></div><p className="listening-prompt">{listening.prompt}</p><CantoneseAudio text={listening.answer} label={`播放听辨题：${listening.answer}`} /><div className="listening-options">{listening.options.map((option) => <button className={`listening-option${selected === option ? " selected" : ""}${selected && option === listening.answer ? " correct" : ""}`} key={option} onClick={() => chooseListening(option)} type="button"><span>{selected === option ? (option === listening.answer ? "✓" : "×") : "○"}</span>{option}</button>)}</div>{selected ? <div className={`listening-feedback ${selected === listening.answer ? "correct" : "incorrect"}`}><b>{selected === listening.answer ? "啱，听得好。" : `答案是 ${listening.answer}。`}</b><code>{listening.jyutping}</code><p>{listening.note}</p><CantoneseAudio text={listening.answer} label={`重听：${listening.answer}`} compact /></div> : null}<div className="listening-actions"><button className={`lab-tab${mode === "tones" ? " active" : ""}`} onClick={() => jumpToSection("tones")} type="button">声调卡</button><button className={`lab-tab${mode === "sounds" ? " active" : ""}`} onClick={() => jumpToSection("sounds")} type="button">声音地图</button>{selected ? <button className="primary-button" onClick={nextListening} type="button">下一题 <span>→</span></button> : null}</div></div>
+        <div className="listening-card"><div className="listening-card-top"><span>{String(listenIndex + 1).padStart(2, "0")} / {String(listeningItems.length).padStart(2, "0")}</span><span>{listening.source} · 先听 → 选择 → 看粤拼 → 重听</span></div><p className="listening-prompt">{listening.prompt}</p><CantoneseAudio text={listening.answer} label={`播放听辨题：${listening.answer}`} /><div className="listening-options">{listening.options.map((option) => <button className={`listening-option${selected === option ? " selected" : ""}${selected && option === listening.answer ? " correct" : ""}`} key={option} onClick={() => chooseListening(option)} type="button"><span>{selected === option ? (option === listening.answer ? "✓" : "×") : "○"}</span>{option}</button>)}</div>{selected ? <div className={`listening-feedback ${selected === listening.answer ? "correct" : "incorrect"}`}><b>{selected === listening.answer ? "啱，听得好。" : `答案是 ${listening.answer}。`}</b><code>{listening.jyutping}</code><p>{listening.note}</p><CantoneseAudio text={listening.answer} label={`重听：${listening.answer}`} compact /></div> : null}<div className="listening-actions"><button className={`lab-tab${mode === "tones" ? " active" : ""}`} onClick={() => jumpToSection("tones")} type="button">声调卡</button><button className={`lab-tab${mode === "sounds" ? " active" : ""}`} onClick={() => jumpToSection("sounds")} type="button">声音地图</button><button className={`lab-tab${mode === "prosody" ? " active" : ""}`} onClick={() => jumpToSection("prosody")} type="button">语气节奏</button>{selected ? <button className="primary-button" onClick={nextListening} type="button">下一题 <span>→</span></button> : null}</div></div>
       </section>
     </main>
   );
