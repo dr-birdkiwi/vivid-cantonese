@@ -218,6 +218,51 @@ button { cursor:pointer; }
 .challenge-card>p { margin:13px 0 0; color:#536565; font-size:10px; line-height:1.6; }
 .course-detail-next>div:first-child>p:last-child { margin:11px 0 0; color:var(--muted); font-size:11px; line-height:1.6; }
 
+/* Homepage: make the product promise and the three core learning tools visible before the deep content. */
+.feature-hero { min-height:620px; padding-top:78px; padding-bottom:92px; }
+.feature-hero::before { width:510px; height:510px; right:-4%; top:30px; background:#e9e3d5; }
+.feature-hero::after { width:178px; height:178px; right:4%; top:0; background:var(--gold); }
+.feature-hero .hero-copy { position:relative; z-index:1; }
+.feature-hero .hero-lede { max-width:510px; }
+.hero-feature-preview { position:relative; z-index:1; align-self:center; min-height:425px; padding:25px; background:#fffdf8e8; border:1px solid #cfd8d1; box-shadow:14px 14px 0 #dfe7df; }
+.hero-preview-head { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; padding-bottom:20px; border-bottom:1px solid var(--line); }
+.hero-preview-head .eyebrow { margin:0 0 10px; color:var(--coral-dark); }
+.hero-preview-head strong { font-size:20px; letter-spacing:-.05em; }
+.hero-preview-head>span { padding:6px 9px; border:1px solid #b9cbc0; border-radius:999px; color:var(--mint-dark); font-size:9px; font-weight:800; white-space:nowrap; }
+.hero-preview-flow { display:grid; gap:10px; margin-top:20px; }
+.hero-step { display:grid; grid-template-columns:36px minmax(0,1fr) auto; grid-template-rows:auto auto; gap:3px 11px; padding:14px; color:var(--ink); border-left:4px solid transparent; }
+.hero-step.coral { background:#f2b7a5; border-left-color:var(--coral); }.hero-step.gold { background:var(--gold); border-left-color:#bd8d20; }.hero-step.mint { background:var(--mint); border-left-color:var(--mint-dark); }
+.hero-step>span { grid-row:1 / span 2; color:var(--coral-dark); font-family:Georgia,serif; font-size:18px; }
+.hero-step>b { font-size:13px; }.hero-step>small { color:#536565; font-size:9px; }.hero-step>code { grid-column:3; grid-row:1 / span 2; align-self:center; color:#49645e; font-size:9px; text-align:right; }
+.hero-preview-note { display:grid; gap:7px; margin-top:22px; padding-top:17px; border-top:1px solid var(--line); }
+.hero-preview-note span { color:var(--coral-dark); font-size:10px; font-weight:800; }.hero-preview-note p { margin:0; color:var(--muted); font-size:11px; line-height:1.6; }
+.feature-overview { padding-top:5px; padding-bottom:96px; }
+.feature-overview-heading { display:grid; grid-template-columns:1.1fr .9fr; align-items:end; gap:35px; margin-bottom:26px; }
+.feature-overview-heading h2 { max-width:620px; margin:10px 0 0; font-size:clamp(30px,4vw,48px); line-height:1.15; letter-spacing:-.06em; }.feature-overview-heading h2 em { color:var(--coral); font-style:normal; }
+.feature-overview-heading>p { max-width:370px; margin:0 0 4px; color:var(--muted); font-size:12px; line-height:1.8; }
+.feature-card-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.feature-card { min-height:265px; padding:22px; color:var(--ink); border:1px solid #cbd8cf; display:flex; flex-direction:column; transition:transform .2s ease,box-shadow .2s ease; }
+.feature-card:hover { transform:translateY(-4px); box-shadow:8px 8px 0 #dce5de; }
+.feature-card.coral { background:#f2b7a5; border-color:#dbab9b; }.feature-card.gold { background:var(--gold); border-color:#dfc77e; }.feature-card.mint { background:var(--mint); border-color:#a4d0bb; }
+.feature-card-top { display:flex; align-items:center; justify-content:space-between; gap:10px; }.feature-card-top span { color:var(--coral-dark); font-family:Georgia,serif; font-size:18px; }.feature-card-top small { border:1px solid #6a7b73; border-radius:999px; padding:5px 8px; font-size:9px; font-weight:800; }
+.feature-card h3 { max-width:220px; margin:43px 0 10px; font-size:22px; letter-spacing:-.05em; }.feature-card p { margin:0; color:#536565; font-size:11px; line-height:1.7; }.feature-card-link { margin-top:auto; padding-top:20px; color:#2d5351; font-size:10px; font-weight:800; }.feature-card-link b { padding-left:8px; color:var(--coral-dark); }
+.feature-proof-row { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin-top:20px; color:var(--muted); font-size:10px; }.feature-proof-row span:first-child { color:var(--coral-dark); font-weight:800; }
+.home-audio-feature { padding-bottom:45px; }.home-audio-heading { display:grid; grid-template-columns:1fr 330px; align-items:end; gap:35px; margin-bottom:18px; }.home-audio-heading h2 { margin:10px 0 0; font-size:clamp(27px,3.4vw,39px); line-height:1.16; letter-spacing:-.06em; }.home-audio-heading>p { margin:0 0 4px; color:var(--muted); font-size:11px; line-height:1.7; }
+
+@media (max-width:850px) {
+  .feature-hero { padding-top:51px; padding-bottom:68px; }
+  .hero-feature-preview { margin-top:18px; }
+  .feature-overview-heading,.home-audio-heading { display:block; }
+  .feature-overview-heading>p,.home-audio-heading>p { margin-top:15px; }
+  .feature-card-grid { grid-template-columns:repeat(2,1fr); }
+}
+
+@media (max-width:560px) {
+  .feature-hero { padding-top:38px; padding-bottom:46px; }
+  .feature-hero::before { width:330px; height:330px; right:-28%; top:235px; }.feature-hero::after { width:105px; height:105px; right:-2%; top:205px; }
+  .hero-feature-preview { min-height:0; margin-top:17px; padding:18px; box-shadow:8px 8px 0 #dfe7df; }.hero-preview-head { display:block; }.hero-preview-head>span { display:inline-block; margin-top:12px; }.hero-preview-head strong { font-size:17px; }.hero-step { grid-template-columns:30px minmax(0,1fr); padding:12px; }.hero-step>code { grid-column:2; grid-row:3; padding-top:3px; text-align:left; }.feature-overview { padding-bottom:68px; }.feature-overview-heading h2 { font-size:33px; }.feature-card-grid { grid-template-columns:1fr; }.feature-card { min-height:225px; }.feature-card h3 { margin-top:32px; }.feature-proof-row { line-height:1.7; }.home-audio-feature { padding-bottom:28px; }.home-audio-heading h2 { font-size:29px; }
+}
+
 @media (max-width:950px) {
   .track-grid { grid-template-columns:repeat(2,1fr); }
   .course-focus-grid { grid-template-columns:1fr; }

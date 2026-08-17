@@ -53,8 +53,6 @@ const courseItems: StudyItem[] = courseUnits.flatMap((unit) => unit.lessons.slic
 
 export const studyItems: StudyItem[] = [...bridgeItems, ...grammarItems, ...pronunciationItems, ...courseItems];
 
-export const todaySeedItems = studyItems.slice(0, 8);
-
 export function getStudyItem(id: string) {
   return studyItems.find((item) => item.id === id);
 }

@@ -8,7 +8,6 @@ type SiteHeaderProps = {
 };
 
 const navigation = [
-  ["今日学习", "/today"],
   ["普通话 → 粤语", "/bridge"],
   ["情景课程", "/course"],
   ["听力实验室", "/audio"],

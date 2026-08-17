@@ -3,7 +3,6 @@ import test from "node:test";
 
 const routes = [
   ["/", ["粤语鲜活学堂", "我而家冇時間。", "普通话词库"]],
-  ["/today", ["今日学习", "主动回忆", "显示粤语答案"]],
   ["/course", ["情景课程", "茶餐厅生存课", "16", "听懂弦外之音"]],
   ["/course/cha-chaan-teng", ["茶餐厅生存课", "唔該，我要個菠蘿包。", "查看全部音色", "完整对话", "先听整体", "对方", "进入到下一场景", "交通与方向"]],
   ["/course/workplace-subtext", ["职场弦外之音", "完整对话", "词汇与发音", "进阶挑战", "进入到下一场景", "选择下一场景"]],
@@ -34,3 +33,8 @@ for (const [path, markers] of routes) {
     for (const marker of markers) assert.match(html, new RegExp(marker.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   });
 }
+
+test("retired /today route is removed", async () => {
+  const response = await render("/today");
+  assert.equal(response.status, 404);
+});
