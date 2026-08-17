@@ -31,7 +31,7 @@ export function SiteHeader({ home = false }: SiteHeaderProps) {
         {navigation.map(([label, path]) => {
           const target = sitePath(path);
           const currentPath = siteBasePath && pathname.startsWith(siteBasePath) ? pathname.slice(siteBasePath.length) || "/" : pathname;
-          const active = currentPath === path || currentPath.startsWith(`${path}/`);
+          const active = currentPath === path || currentPath.startsWith(`${path}/`) || pathname === target || pathname.endsWith(path) || pathname.includes(`${path}/`);
           return <a className={active ? "active" : undefined} href={target} key={path} onClick={closeNav} aria-current={active ? "page" : undefined}>{label}</a>;
         })}
       </nav>
