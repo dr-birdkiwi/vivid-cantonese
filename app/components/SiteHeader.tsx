@@ -13,6 +13,7 @@ const navigation = [
   ["情景课程", "/course"],
   ["听力实验室", "/audio"],
   ["复习", "/review"],
+  ["香港口语库", "/culture"],
 ] as const;
 
 export function SiteHeader({ home = false }: SiteHeaderProps) {

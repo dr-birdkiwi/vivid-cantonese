@@ -46,6 +46,16 @@ const learningSteps = [
     href: "/review",
     tone: "violet",
   },
+  {
+    number: "05",
+    label: "香港口语库",
+    title: "最后走进香港人真正会说的话",
+    copy: "把茶记、俗语、港式外来词、年代潮语和委婉表达放回文化与关系里，知道哪些可以说，哪些只要听得懂。",
+    tags: ["地道用语", "香港文化", "语境标签"],
+    action: "进入香港口语库",
+    href: "/culture",
+    tone: "blue",
+  },
 ] as const;
 
 export default function Home() {
@@ -99,7 +109,7 @@ export default function Home() {
 
       <footer className="site-footer page-shell">
         <div><a className="brand footer-brand" href="#top"><span className="brand-mark">粵</span><span><strong>粤语鲜活学堂</strong><small>Vivid Cantonese</small></span></a><p>为普通话使用者，把看得懂的中文变成说得出的粤语。</p></div>
-        <div className="footer-links"><a href={sitePath("/bridge")}>普通话 → 粤语</a><a href={sitePath("/course")}>情景课程</a><a href={sitePath("/audio")}>听力实验室</a><a href={sitePath("/review")}>复习中心</a></div>
+        <div className="footer-links"><a href={sitePath("/bridge")}>普通话 → 粤语</a><a href={sitePath("/course")}>情景课程</a><a href={sitePath("/audio")}>听力实验室</a><a href={sitePath("/review")}>复习中心</a><a href={sitePath("/culture")}>香港口语库</a></div>
         <span className="footer-note">香港粤语 · Jyutping</span>
       </footer>
     </main>
