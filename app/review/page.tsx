@@ -20,7 +20,18 @@ export default function ReviewPage() {
 
   const activeItems = useMemo(() => studyItems.filter((item) => !item.sourceSlug || Boolean(records[item.id])), [records]);
   const dueIds = useMemo(() => getDueIds(activeItems.map((item) => item.id), records), [activeItems, records]);
-  const dueItems = useMemo(() => dueIds.map((id) => activeItems.find((item) => item.id === id)).filter((item): item is (typeof studyItems)[number] => Boolean(item)).slice(0, 12), [activeItems, dueIds]);
+  const dueItems = useMemo(() => dueIds
+    .map((id) => activeItems.find((item) => item.id === id))
+    .filter((item): item is (typeof studyItems)[number] => Boolean(item))
+    .sort((left, right) => {
+      const leftRecord = records[left.id];
+      const rightRecord = records[right.id];
+      const leftQueued = Boolean(leftRecord);
+      const rightQueued = Boolean(rightRecord);
+      if (leftQueued !== rightQueued) return Number(rightQueued) - Number(leftQueued);
+      return (rightRecord?.updatedAt || 0) - (leftRecord?.updatedAt || 0);
+    })
+    .slice(0, 12), [activeItems, dueIds, records]);
   const learnedCount = activeItems.filter((item) => Boolean(records[item.id])).length;
   const masteredCount = Object.values(records).filter((record) => record.mastery === "mastered").length;
   const linkedCourseItems = activeItems.filter((item) => item.sourceSlug);
