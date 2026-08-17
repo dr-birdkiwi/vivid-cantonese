@@ -11,7 +11,7 @@ export const metadata = {
 export default function CoursePage() {
   return (
     <main className="subpage">
-      <SiteHeader backHref="/" />
+      <SiteHeader />
       <section className="subpage-hero page-shell">
         <p className="eyebrow">THE COURSE / 情景课程</p>
         <h1>先学会把事情办成，<br /><em>再慢慢变得流利。</em></h1>

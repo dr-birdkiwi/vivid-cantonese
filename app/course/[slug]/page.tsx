@@ -35,7 +35,7 @@ export default async function CourseDetailPage({ params }: CourseDetailProps) {
 
   return (
     <main className="subpage course-detail-page">
-      <SiteHeader backHref="/course" backLabel="← 全部场景" />
+      <SiteHeader />
       <section className="course-detail-hero page-shell">
         <div>
           <p className="eyebrow">SCENE {unit.number} / {unit.track}</p>

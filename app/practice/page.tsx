@@ -38,7 +38,7 @@ export default function PracticePage() {
 
   return (
     <main className="subpage practice-page">
-      <SiteHeader backHref="/" />
+      <SiteHeader />
       <section className="subpage-hero page-shell compact"><p className="eyebrow">QUICK PRACTICE / 立即反应</p><h1>先凭直觉选，<br /><em>再看差异在哪里。</em></h1><p>练习不是为了考你记住多少，而是让你从普通话提示出发，更快找到真实对话里的下一句。</p></section>
       <div className="page-shell"><CantoneseAudioSettings /></div>
       <section className="practice-page-card page-shell">

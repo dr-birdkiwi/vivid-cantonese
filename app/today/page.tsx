@@ -32,7 +32,7 @@ export default function TodayPage() {
 
   return (
     <main className="subpage today-page">
-      <SiteHeader backHref="/course" backLabel="← 情景课程" />
+      <SiteHeader />
       <section className="subpage-hero page-shell compact">
         <p className="eyebrow">TODAY / 今日学习</p>
         <h1>每天十五分钟，<br /><em>把粤语带进下一次对话。</em></h1>

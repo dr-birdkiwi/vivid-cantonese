@@ -42,7 +42,7 @@ export default function ReviewPage() {
 
   return (
     <main className="subpage review-page">
-      <SiteHeader backHref="/" />
+      <SiteHeader />
       <section className="subpage-hero page-shell compact"><p className="eyebrow">REVIEW CENTER / 复习中心</p><h1>把今天遇到的差异，<br /><em>留到下一次对话。</em></h1><p>复习不是把整页重新看一遍，而是先从普通话提示回忆粤语，再用间隔安排决定下一次什么时候回来。</p></section>
       <div className="page-shell"><CantoneseAudioSettings /></div>
       <section className="review-layout page-shell">

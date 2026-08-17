@@ -13,7 +13,6 @@ button { cursor:pointer; }
 .brand-mark { display:grid; place-items:center; width:39px; height:39px; border-radius:12px; background:var(--coral); color:#fffaf0; font-family:Georgia,serif; font-size:22px; transform:rotate(-5deg); }
 .brand strong,.brand small { display:block; }.brand strong { font-size:15px; letter-spacing:.04em; }.brand small { color:var(--muted); font-size:11px; margin-top:2px; }
 .main-nav { display:flex; gap:30px; color:#455b5e; font-size:13px; }.main-nav a:hover,.footer-links a:hover { color:var(--coral-dark); }
-.header-cta { border:1px solid var(--ink); border-radius:999px; padding:11px 15px; font-size:12px; font-weight:700; }.header-cta span { color:var(--coral); padding-left:6px; }
 .hero { width:min(1240px,calc(100% - 48px)); margin:0 auto; min-height:560px; display:grid; grid-template-columns:1.02fr .98fr; align-items:center; gap:30px; padding:58px 40px 76px; position:relative; overflow:hidden; }
 .hero::before { content:""; position:absolute; width:420px; height:420px; background:#ebe5d7; border-radius:50%; right:7%; top:60px; z-index:-2; }.hero::after { content:""; position:absolute; width:150px; height:150px; border-radius:50%; background:var(--gold); right:1%; top:24px; z-index:-1; opacity:.9; }
 .hero-kicker { display:flex; align-items:center; gap:8px; color:var(--mint-dark); font-size:12px; letter-spacing:.08em; font-weight:700; }.live-dot { width:8px; height:8px; background:var(--coral); border-radius:50%; box-shadow:0 0 0 5px #f5d7ca; }
@@ -146,16 +145,13 @@ button { cursor:pointer; }
 }
 
 @media (max-width:560px) {
-  .site-header { display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:8px; }
+  .site-header { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; }
   .brand { min-width:0; gap:8px; }
   .brand > span:last-child { min-width:0; }
   .brand strong { font-size:14px; }
   .brand small { font-size:10px; white-space:nowrap; }
-  .header-cta { padding:9px 10px; font-size:10px; }
   .nav-toggle { padding:9px 10px; }
   .site-header.nav-open .main-nav { top:calc(100% - 1px); }
-  .site-header-subpage .header-cta { display:none; }
-  .site-header-subpage .subpage-back-link { font-size:10px; white-space:nowrap; }
 }
 
 /* Course depth: orient learners by time in Hong Kong, then layer speech, grammar, and harder tasks. */

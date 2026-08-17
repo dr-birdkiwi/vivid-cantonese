@@ -54,7 +54,7 @@ export default function AudioPage() {
 
   return (
     <main className="subpage audio-lab-page">
-      <SiteHeader backHref="/" />
+      <SiteHeader />
       <section className="subpage-hero page-shell compact"><p className="eyebrow">AUDIO LAB / 听力实验室</p><h1>先听见差异，<br /><em>再把它说出来。</em></h1><p>普通话使用者最容易卡在声调、韵尾和少数不规则映射。这里用短而集中的听辨回合，建立“听到—辨认—复述”的路径。</p></section>
       <div className="page-shell"><CantoneseAudioSettings /></div>
 
