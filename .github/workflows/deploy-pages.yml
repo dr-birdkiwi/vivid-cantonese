@@ -38,6 +38,13 @@ jobs:
       - name: Build static site
         run: npm run build:pages
 
+      - name: Align framework assets with Pages base path
+        run: |
+          if [ -d dist/client/vivid-cantonese/_next ]; then
+            mkdir -p dist/client/_next
+            cp -R dist/client/vivid-cantonese/_next/. dist/client/_next/
+          fi
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
