@@ -15,10 +15,25 @@ export const bridgeEntries: CantoneseDictionaryEntry[] = [
   { mandarin: "现在", cantonese: "而家", jyutping: "ji4 gaa1", note: "高频整词记忆，不能只按汉字读音推。", tag: "必须记", example: "而家方便講電話嗎？" },
   { mandarin: "喜欢", cantonese: "鍾意", jyutping: "zung1 ji3", note: "比直译“喜歡”更自然的日常说法。", tag: "自然表达", example: "你鍾意食辣嘢嗎？" },
   { mandarin: "东西", cantonese: "嘢", jyutping: "je5", note: "泛指东西、事情或某种内容。", tag: "口语替换", example: "呢啲嘢幾好食。" },
+  { mandarin: "漂亮", cantonese: "靚", jyutping: "leng3", note: "描述外表、设计或效果时，日常粤语更常用靚。", tag: "自然表达", example: "今日件衫幾靚喎。" },
   { mandarin: "哪里", cantonese: "邊度", jyutping: "bin1 dou6", note: "香港日常问地点的常用词组。", tag: "疑问词", example: "你而家喺邊度？" },
+  { mandarin: "多少", cantonese: "幾多", jyutping: "gei2 do1", note: "问数量或价格都用幾多；买东西时尤其高频。", tag: "疑问词", example: "呢個幾多錢？" },
   { mandarin: "为什么", cantonese: "點解", jyutping: "dim2 gaai2", note: "比书面“為什麼”更口语。", tag: "疑问词", example: "你點解唔食飯？" },
+  { mandarin: "怎么", cantonese: "點", jyutping: "dim2", note: "怎么做、怎么说等句式里通常用點开头。", tag: "疑问词", example: "呢個要點做？" },
+  { mandarin: "怎么做", cantonese: "點做", jyutping: "dim2 zou6", note: "把疑问词和动作一起记，比逐字读更接近日常表达。", tag: "疑问词", example: "呢個要點做？" },
+  { mandarin: "什么", cantonese: "咩", jyutping: "me1", note: "咩是最常用的短疑问词；乜嘢则更完整。", tag: "疑问词", example: "你想食咩？" },
   { mandarin: "等一下", cantonese: "等陣", jyutping: "dang2 zan6", note: "适合电话、排队和短暂等待。", tag: "场景短语", example: "等陣先，我未準備好。" },
+  { mandarin: "刚才", cantonese: "頭先", jyutping: "tau4 sin1", note: "指刚刚发生的事情，听力修复和复述时很常用。", tag: "时间词", example: "頭先嗰句我聽唔清。" },
+  { mandarin: "刚刚", cantonese: "啱啱", jyutping: "ngaam1 ngaam1", note: "比“剛剛”更像口语，表示事情刚发生。", tag: "时间词", example: "我啱啱到。" },
+  { mandarin: "晚一点", cantonese: "遲啲", jyutping: "ci4 di1", note: "回复消息、改约时间时的高频说法。", tag: "时间词", example: "我遲啲再覆你。" },
+  { mandarin: "回复", cantonese: "覆", jyutping: "fuk1", note: "香港粤语里覆消息、覆电话都很常见。", tag: "沟通用语", example: "我遲啲覆你。" },
+  { mandarin: "听不清", cantonese: "聽唔清", jyutping: "teng1 m4 cing1", note: "电话和面对面沟通中，用来定位听力问题。", tag: "听力修复", example: "唔好意思，頭先嗰句我聽唔清。" },
+  { mandarin: "有空", cantonese: "得閒", jyutping: "dak1 haan4", note: "约人或确认时间时，得閒比“有時間”更自然。", tag: "约时间", example: "你得閒一齊食飯？" },
+  { mandarin: "一起", cantonese: "一齊", jyutping: "jat1 cai4", note: "邀请别人一起做事的高频词。", tag: "社交表达", example: "得閒一齊飲茶。" },
   { mandarin: "是不是", cantonese: "係咪", jyutping: "hai6 mai6", note: "高频的是非问句格式。", tag: "句式", example: "你係咪第一次嚟？" },
+  { mandarin: "有没有", cantonese: "有冇", jyutping: "jau5 mou5", note: "有冇是粤语里最常见的“有没有”问法。", tag: "句式", example: "附近有冇洗手間？" },
+  { mandarin: "要不要", cantonese: "要唔要", jyutping: "jiu3 m4 jiu3", note: "正反问句的高频结构，买东西和邀约都常用。", tag: "句式", example: "你要唔要一齊去？" },
+  { mandarin: "能不能", cantonese: "可唔可以", jyutping: "ho2 m4 ho2 ji5", note: "请求别人做某事时，比直译“能不能”更自然。", tag: "句式", example: "可唔可以講慢啲？" },
   { mandarin: "可以吗", cantonese: "得唔得", jyutping: "dak1 m4 dak1", note: "询问可行性、许可或是否妥当。", tag: "句式", example: "聽日三點見，得唔得？" },
   { mandarin: "你好", cantonese: "你好", jyutping: "nei5 hou2", note: "粤语里仍然常用；重点是声调和语气。", tag: "日常开口", example: "你好，第一次見。" },
   { mandarin: "谢谢", cantonese: "唔該", jyutping: "m4 goi1", note: "感谢别人帮忙、提供服务时最常用。", tag: "礼貌表达", example: "唔該晒。" },
@@ -37,6 +52,11 @@ export const bridgeEntries: CantoneseDictionaryEntry[] = [
   { mandarin: "当然", cantonese: "梗係", jyutping: "gang2 hai6", note: "梗係可以表达当然、明显是这样。", tag: "回应语气", example: "梗係得啦。" },
   { mandarin: "没关系", cantonese: "唔緊要", jyutping: "m4 gan2 jiu3", note: "回应道歉或小问题时很常见。", tag: "回应语气", example: "唔緊要，下次小心啲。" },
   { mandarin: "没办法", cantonese: "冇辦法", jyutping: "mou5 baan6 faat3", note: "冇辦法比“沒有辦法”更口语。", tag: "口语替换", example: "冇辦法，唯有等陣。" },
+  { mandarin: "不方便", cantonese: "唔方便", jyutping: "m4 fong1 bin6", note: "说明现在不适合通话、见面或处理某件事。", tag: "状态说明", example: "我而家唔方便講電話。" },
+  { mandarin: "看一下", cantonese: "睇下", jyutping: "tai2 haa5", note: "请求对方看一眼或自己先查看时的口语说法。", tag: "口语替换", example: "你睇下邊個出口近啲。" },
+  { mandarin: "说一下", cantonese: "講下", jyutping: "gong2 haa5", note: "下让请求变轻、更像自然对话。", tag: "口语替换", example: "你講下想點安排。" },
+  { mandarin: "帮我", cantonese: "幫我", jyutping: "bong1 ngo5", note: "提出请求时常和可唔可以、唔該一起使用。", tag: "请求表达", example: "可唔可以幫我睇下？" },
+  { mandarin: "给我", cantonese: "俾我", jyutping: "bei2 ngo5", note: "俾我、俾你是非常高频的给与结构。", tag: "请求表达", example: "你打字俾我啦。" },
   { mandarin: "真的", cantonese: "真係", jyutping: "zan1 hai6", note: "真係可表达确认、惊讶或强调。", tag: "回应语气", example: "真係幾好食。" },
   { mandarin: "好吃", cantonese: "好食", jyutping: "hou2 sik6", note: "食在粤语里可以表示吃，也可以表示好吃。", tag: "生活词", example: "呢間嘢真係好食。" },
   { mandarin: "吃饭", cantonese: "食飯", jyutping: "sik6 faan6", note: "食是最常见的“吃”字口语读法。", tag: "生活词", example: "你食咗飯未？" },
@@ -68,6 +88,29 @@ const characterPronunciations: Record<string, string> = {
   我: "ngo5", 你: "nei5", 好: "hou2", 唔: "m4", 冇: "mou5", 有: "jau5", 係: "hai6", 喺: "hai2", 佢: "keoi5", 哋: "dei6", 呢: "ni1", 嗰: "go2", 度: "dou6", 邊: "bin1", 點: "dim2", 解: "gaai2", 咩: "me1", 乜: "mat1", 嘢: "je5", 俾: "bei2", 等: "dang2", 陣: "zan6", 先: "sin1", 再: "zoi3", 次: "ci3", 一: "jat1", 個: "go3", 幾: "gei2", 多: "do1", 錢: "cin2", 大: "daai6", 細: "sai3", 快: "faai3", 慢: "maan6", 清: "cing1", 楚: "co2", 句: "geoi3", 時: "si4", 間: "gaan3", 今: "gam1", 日: "jat6", 明: "ming4", 天: "tin1", 昨: "zok3", 聽: "teng1", 講: "gong2", 話: "waa6", 問: "man6", 答: "daap3", 想: "soeng2", 要: "jiu3", 知: "zi1", 明: "ming4", 白: "baak6", 真: "zan1", 食: "sik6", 飯: "faan6", 飲: "jam2", 茶: "caa4", 水: "seoi2", 返: "faan1", 工: "gung1", 收: "sau1", 屋: "uk1", 企: "kei5", 朋友: "pang4 jau5", 返: "faan1", 車: "ce1", 站: "zaam6", 落: "lok6", 轉: "zyun2", 路: "lou6", 行: "haang4", 近: "gan6", 遠: "jyun5", 左: "zo2", 右: "jau6", 中: "zung1", 環: "waan4", 機: "gei1", 場: "coeng4", 學: "hok6", 八: "baat3", 女: "neoi5", 心: "sam1", 新: "san1", 生: "saang1", 國: "gwok3", 北: "bak1", 百: "baak3", 十: "sap6", 六: "luk6", 單: "daan1", 甜: "tim4", 冰: "bing1", 凍: "dung3", 包: "baau1", 奶: "naai5", 檸: "ling4", 早: "zou2", 晨: "san4", 晚: "maan5", 夜: "je6", 飲: "jam2", 住: "zyu6", 返: "faan1", 見: "gin3", 來: "loi4", 去: "heoi3", 到: "dou3", 會: "wui5", 得: "dak1", 仲: "zung6", 再: "zoi3", 幫: "bong1", 手: "sau2", 閒: "haan4", 平: "peng4", 正: "zeng3", 算: "syun3", 啱: "ngaam1", 細: "sai3", 大: "daai6", 頭: "tau4", 先: "sin1", 最: "zeoi3", 後: "hau6", 聲: "sing1", 調: "diu6", 讀: "duk6", 音: "jam1", 會: "wui5", 變: "bin3", 知: "zi1"
 };
 
+// This second layer is intentionally for literal reading only. It fills in common
+// characters that are not themselves natural Cantonese substitutions, so learners
+// can still ask: “how would these exact Chinese characters sound in Cantonese?”
+const additionalCharacterPronunciations: Record<string, string> = {
+  他: "taa1", 她: "taa1", 們: "mun4", 這: "ze5", 裡: "lei5", 那: "naa5", 哪: "naa5",
+  現: "jin6", 在: "zoi6", 沒: "mut6", 而: "ji4", 家: "gaa1", 嗎: "maa3", 怎: "zam2",
+  麼: "mo1", 什: "sap6", 樣: "joeng6", 做: "zou6", 能: "nang4", 夠: "gau3", 不: "bat1",
+  方: "fong1", 便: "bin6", 打: "daa2", 字: "zi6", 下: "haa5", 睇: "tai2", 啦: "laa1",
+  咁: "gam2", 喎: "wo3", 問: "man6", 洗: "sai2", 跟: "gan1", 齊: "cai4", 剛: "gong1",
+  遲: "ci4", 覆: "fuk1", 已: "ji5", 經: "ging1", 之: "zi1", 如: "jyu4", 果: "gwo2",
+  會: "wui5", 對: "deoi3", 讓: "joeng6", 自: "zi6", 己: "gei2", 發: "faat3",
+  語: "jyu5", 詞: "ci4", 說: "syut3", 試: "si3", 識: "sik1", 別: "bit6", 過: "gwo3", 回: "wui4",
+  看: "hon3", 聽: "teng1", 讀: "duk6", 寫: "se2", 直: "zik6", 接: "zip3", 請: "cing2",
+  給: "kap1", 给: "kap1", 錯: "co3", 复: "fuk1", 複: "fuk1", 習: "zaap6", 練: "lin6",
+  開: "hoi1", 始: "ci2", 周: "zau1", 五: "ng5", 前: "cin4", 仍: "jing4", 其: "kei4",
+  外: "ngoi6", 最: "zeoi3", 尾: "mei5", 概: "koi3", 出: "ceot1", 口: "hau2",
+  近: "gan6", 由: "jau4", 估: "gu2", 計: "gai3", 大: "daai6", 約: "joek3", 安: "on1",
+  排: "paai4", 隊: "deoi6", 表: "biu2", 帶: "daai3", 證: "zing3", 件: "gin6", 資: "zi1",
+  料: "liu6", 通: "tung1", 常: "soeng4", 結: "git3",
+};
+
+const pronunciationByCharacter: Record<string, string> = { ...characterPronunciations, ...additionalCharacterPronunciations };
+
 function normalizeText(value: string) {
   return Array.from(value).map((character) => simplifiedToTraditional[character] || character).join("");
 }
@@ -88,6 +131,10 @@ export type CantoneseLookupResult = {
   normalizedInput: string;
   cantonese: string;
   jyutping: string;
+  literalText: string;
+  literalJyutping: string;
+  literalSegments: CantoneseLookupSegment[];
+  literalComplete: boolean;
   segments: CantoneseLookupSegment[];
   exact: boolean;
   complete: boolean;
@@ -97,7 +144,22 @@ export type CantoneseLookupResult = {
 const normalizedEntries = bridgeEntries.map((entry) => ({ entry, mandarin: normalizeText(entry.mandarin) })).sort((left, right) => right.mandarin.length - left.mandarin.length);
 
 function makeEmptyResult(input: string): CantoneseLookupResult {
-  return { input, normalizedInput: "", cantonese: "", jyutping: "", segments: [], exact: false, complete: false, note: "请输入一字或一句中文。" };
+  return { input, normalizedInput: "", cantonese: "", jyutping: "", literalText: "", literalJyutping: "", literalSegments: [], literalComplete: false, segments: [], exact: false, complete: false, note: "请输入一字或一句中文。" };
+}
+
+function makeLiteralReading(normalizedInput: string, displayText: string) {
+  const literalSegments = Array.from(normalizedInput).map((character) => {
+    if (!isChinese(character)) return { source: character, output: character, jyutping: "", known: true };
+    const jyutping = pronunciationByCharacter[character] || "";
+    return { source: character, output: character, jyutping, known: Boolean(jyutping) };
+  });
+  const chineseSegments = literalSegments.filter((segment) => isChinese(segment.source));
+  return {
+    literalText: displayText,
+    literalJyutping: literalSegments.map((segment) => segment.jyutping).filter(Boolean).join(" "),
+    literalSegments,
+    literalComplete: chineseSegments.length > 0 && chineseSegments.every((segment) => segment.known),
+  };
 }
 
 export function lookupCantonese(input: string): CantoneseLookupResult {
@@ -105,6 +167,7 @@ export function lookupCantonese(input: string): CantoneseLookupResult {
   if (!trimmed) return makeEmptyResult(input);
   const normalizedInput = normalizeText(trimmed);
   if (!Array.from(normalizedInput).some(isChinese)) return { ...makeEmptyResult(input), normalizedInput, note: "这里先输入中文；简体和繁体都可以。" };
+  const literalReading = makeLiteralReading(normalizedInput, trimmed);
 
   const exact = normalizedEntries.find(({ mandarin }) => mandarin === normalizedInput);
   const existingCantonese = exact || normalizedEntries.find(({ entry }) => normalizeText(entry.cantonese) === normalizedInput);
@@ -114,6 +177,7 @@ export function lookupCantonese(input: string): CantoneseLookupResult {
       normalizedInput,
       cantonese: existingCantonese.entry.cantonese,
       jyutping: existingCantonese.entry.jyutping,
+      ...literalReading,
       segments: [{ source: normalizedInput, output: existingCantonese.entry.cantonese, jyutping: existingCantonese.entry.jyutping, known: true }],
       exact: true,
       complete: true,
@@ -136,7 +200,7 @@ export function lookupCantonese(input: string): CantoneseLookupResult {
       index += 1;
       continue;
     }
-    const jyutping = characterPronunciations[character] || "";
+    const jyutping = pronunciationByCharacter[character] || "";
     segments.push({ source: character, output: character, jyutping, known: Boolean(jyutping) });
     index += 1;
   }
@@ -147,6 +211,7 @@ export function lookupCantonese(input: string): CantoneseLookupResult {
     normalizedInput,
     cantonese: segments.map((segment) => segment.output).join(""),
     jyutping: segments.map((segment) => segment.jyutping).filter(Boolean).join(" "),
+    ...literalReading,
     segments,
     exact: false,
     complete,
