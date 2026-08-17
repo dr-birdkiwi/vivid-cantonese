@@ -490,3 +490,22 @@ button { cursor:pointer; }
 @media (max-width:560px) {
   .audio-review-hero { padding-bottom:27px; }.audio-review-switch,.audio-training-guide-grid { grid-template-columns:1fr; }.audio-review-mode-card { min-height:0; }.audio-review-mode-card strong { margin-top:30px; }.audio-review-stats { gap:10px 17px; }.audio-training-guide { padding-top:22px; }.audio-training-guide-card { min-height:0; }.audio-review-bottom { display:block; margin-top:36px; }.audio-review-bottom .primary-button { margin-top:19px; }
 }
+
+/* Word Bridge follows the Exceptions section rhythm: full-width intro, then two aligned cards. */
+.word-bridge-section { padding-top:92px; }
+.word-bridge-section .section-intro { margin-bottom:24px; }
+.word-bridge-layout { display:grid; grid-template-columns:1.3fr .7fr; gap:16px; align-items:start; }
+.word-bridge-layout .bridge-table { padding:22px; }
+.word-bridge-list-head { display:flex; align-items:center; justify-content:space-between; gap:18px; border-bottom:1px solid var(--line); padding:0 0 18px; margin-bottom:20px; }
+.word-bridge-list-head b { font-size:13px; }.word-bridge-list-head small { color:var(--muted); font-size:10px; }
+.word-bridge-layout .bridge-page-detail { border-top:3px solid var(--gold); }
+
+@media (max-width:950px) {
+  .word-bridge-layout { grid-template-columns:1fr; }
+  .word-bridge-layout .bridge-page-detail { position:static; }
+}
+
+@media (max-width:560px) {
+  .word-bridge-section { padding-top:83px; }
+  .word-bridge-list-head { align-items:flex-start; flex-direction:column; gap:6px; }
+}
