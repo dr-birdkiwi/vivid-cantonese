@@ -48,7 +48,7 @@ const grammarCards = [
 const featureCards = [
   { number: "01", label: "转换桥", title: "普通话 → 自然粤语", copy: "先看高频读音规律，再识别冇、唔、而家这类不能逐字搬运的口语词。", link: "试试转换桥", href: "#bridge", tone: "coral" },
   { number: "02", label: "情景课程", title: "用完整对话办成事", copy: "从茶餐厅、交通到职场沟通，练习开口、追问、处理意外和自然收尾。", link: "浏览真实场景", href: "#scenes", tone: "gold" },
-  { number: "03", label: "听力实验室", title: "听见声调、韵尾和语气", copy: "用粤拼、短音对比和设备音色，把“看懂”推进到真正听得出差异。", link: "进入听力实验室", href: "/audio", tone: "mint" },
+  { number: "03", label: "听辨与复习", title: "听见差异，也记得住", copy: "用粤拼、短音对比和主动回忆，把“看懂”推进到真正听得出、说得出。", link: "进入听辨与复习", href: "/audio", tone: "mint" },
 ];
 
 const SpeakButton = CantoneseAudio;

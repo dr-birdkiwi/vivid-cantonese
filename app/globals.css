@@ -450,3 +450,31 @@ button { cursor:pointer; }
   .listening-actions { align-items:flex-start; flex-wrap:wrap; }
   .listening-actions .primary-button { width:100%; margin:8px 0 0; }
 }
+
+/* Audio and review share one learning loop while keeping acquisition and retrieval distinct. */
+.audio-review-hero { padding-bottom:38px; }
+.audio-review-overview { padding-top:6px; padding-bottom:32px; }
+.audio-review-overview-head { display:grid; grid-template-columns:1.05fr .95fr; align-items:end; gap:32px; margin-bottom:26px; }
+.audio-review-overview-head h2 { margin:10px 0 0; font-size:clamp(29px,4vw,45px); line-height:1.15; letter-spacing:-.06em; }
+.audio-review-overview-head h2 em { color:var(--coral); font-style:normal; }
+.audio-review-overview-head>p { max-width:380px; margin:0 0 3px; color:var(--muted); font-size:11px; line-height:1.75; }
+.audio-review-steps { display:grid; grid-template-columns:1fr 38px 1fr 38px 1fr; align-items:center; gap:9px; padding:19px 21px; background:#f0f4ef; border:1px solid #cadbd0; }
+.audio-review-steps>div { display:grid; grid-template-columns:auto 1fr; gap:0 10px; align-items:center; }
+.audio-review-steps span { grid-row:1 / span 2; color:var(--coral); font-family:Georgia,serif; font-size:18px; }
+.audio-review-steps b { color:var(--ink); font-size:13px; }.audio-review-steps small { color:var(--muted); font-size:10px; }.audio-review-steps i { color:var(--coral-dark); font-size:19px; font-style:normal; text-align:center; }
+.audio-review-stats { display:flex; flex-wrap:wrap; gap:20px; margin-top:18px; color:var(--muted); font-size:10px; }.audio-review-stats b { margin-left:5px; color:var(--coral-dark); font-family:Georgia,serif; font-size:18px; }
+.audio-review-switch { display:grid; grid-template-columns:1fr 1fr; gap:14px; padding-top:18px; padding-bottom:28px; }
+.audio-review-mode-card { position:relative; min-height:206px; padding:21px; border:1px solid #cbd8cf; color:var(--ink); text-align:left; cursor:pointer; transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease; }
+.audio-review-mode-card:hover { transform:translateY(-3px); box-shadow:8px 8px 0 #dce5de; }.audio-review-mode-card.training { background:#f2b7a5; border-color:#dbab9b; }.audio-review-mode-card.review { background:var(--mint); border-color:#a4d0bb; }.audio-review-mode-card.active { border-color:var(--ink); box-shadow:8px 8px 0 #dce5de; }
+.mode-card-number { color:var(--coral-dark); font-family:Georgia,serif; font-size:18px; }.mode-card-status { float:right; color:#526b66; font-size:9px; font-weight:800; }.audio-review-mode-card strong { display:block; margin-top:39px; font-size:23px; letter-spacing:-.05em; }.audio-review-mode-card p { max-width:430px; margin:10px 0 0; color:#536565; font-size:11px; line-height:1.7; }.mode-card-action { display:block; margin-top:17px; color:#2d5351; font-size:10px; font-weight:800; }.mode-card-action b { padding-left:8px; color:var(--coral-dark); }
+.audio-training-guide { padding-top:32px; padding-bottom:9px; }.audio-training-guide-head { display:grid; grid-template-columns:1fr 330px; align-items:end; gap:30px; margin-bottom:22px; }.audio-training-guide-head h2 { margin:10px 0 0; font-size:clamp(27px,3.5vw,40px); letter-spacing:-.06em; }.audio-training-guide-head>p { margin:0 0 3px; color:var(--muted); font-size:11px; line-height:1.7; }.audio-training-guide-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }.audio-training-guide-card { min-height:142px; padding:18px; border:1px solid #cbd8cf; }.audio-training-guide-card.coral { background:#f2b7a5; border-color:#dbab9b; }.audio-training-guide-card.gold { background:var(--gold); border-color:#dfc77e; }.audio-training-guide-card.mint { background:var(--mint); border-color:#a4d0bb; }.audio-training-guide-card>span { color:var(--coral-dark); font-family:Georgia,serif; font-size:18px; }.audio-training-guide-card strong { display:block; margin-top:22px; font-size:15px; }.audio-training-guide-card p { margin:8px 0 0; color:#536565; font-size:10px; line-height:1.6; }
+.secondary-mode-button { display:inline-flex; align-items:center; gap:12px; padding:12px 15px; border:1px solid var(--ink); background:transparent; color:var(--ink); cursor:pointer; font-size:10px; font-weight:800; }.secondary-mode-button span { color:var(--coral); font-size:15px; }.review-empty button { border:0; background:transparent; padding:0; color:var(--coral-dark); cursor:pointer; font-size:10px; font-weight:800; }
+.audio-review-bottom { display:flex; justify-content:space-between; align-items:end; gap:24px; margin-top:54px; padding-top:25px; border-top:1px solid var(--line); }.audio-review-bottom h2 { margin:10px 0 0; font-size:clamp(24px,3.3vw,37px); letter-spacing:-.06em; }.audio-review-bottom .primary-button { white-space:nowrap; }
+
+@media (max-width:850px) {
+  .audio-review-overview-head,.audio-training-guide-head { display:block; }.audio-review-overview-head>p,.audio-training-guide-head>p { margin-top:15px; }.audio-review-steps { grid-template-columns:1fr; gap:14px; }.audio-review-steps>div { grid-template-columns:30px 1fr; }.audio-review-steps i { display:none; }.audio-review-mode-card { min-height:225px; }
+}
+
+@media (max-width:560px) {
+  .audio-review-hero { padding-bottom:27px; }.audio-review-switch,.audio-training-guide-grid { grid-template-columns:1fr; }.audio-review-mode-card { min-height:0; }.audio-review-mode-card strong { margin-top:30px; }.audio-review-stats { gap:10px 17px; }.audio-training-guide { padding-top:22px; }.audio-training-guide-card { min-height:0; }.audio-review-bottom { display:block; margin-top:36px; }.audio-review-bottom .primary-button { margin-top:19px; }
+}
