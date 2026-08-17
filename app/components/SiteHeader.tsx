@@ -9,9 +9,10 @@ type SiteHeaderProps = {
 };
 
 const navigation = [
-  { label: "普通话 → 粤语", path: "/bridge" },
-  { label: "情景课程", path: "/course" },
-  { label: "听辨与复习", path: "/audio", aliases: ["/review"] },
+  ["普通话 → 粤语", "/bridge"],
+  ["情景课程", "/course"],
+  ["听力实验室", "/audio"],
+  ["复习", "/review"],
 ] as const;
 
 export function SiteHeader({ home = false }: SiteHeaderProps) {
@@ -27,11 +28,10 @@ export function SiteHeader({ home = false }: SiteHeaderProps) {
         <span><strong>粤语鲜活学堂</strong><small>给已经会读中文的你</small></span>
       </a>
       <nav className="main-nav" id="main-nav-links" aria-label="主要导航">
-        {navigation.map(({ label, path, aliases }) => {
+        {navigation.map(([label, path]) => {
           const target = sitePath(path);
           const currentPath = siteBasePath && pathname.startsWith(siteBasePath) ? pathname.slice(siteBasePath.length) || "/" : pathname;
-          const activePaths = [path, ...(aliases ?? [])];
-          const active = activePaths.some((candidate) => currentPath === candidate || currentPath.startsWith(`${candidate}/`) || pathname === sitePath(candidate) || pathname.endsWith(candidate) || pathname.includes(`${candidate}/`));
+          const active = currentPath === path || currentPath.startsWith(`${path}/`) || pathname === target || pathname.endsWith(path) || pathname.includes(`${path}/`);
           return <a className={active ? "active" : undefined} href={target} key={path} onClick={closeNav} aria-current={active ? "page" : undefined}>{label}</a>;
         })}
       </nav>
