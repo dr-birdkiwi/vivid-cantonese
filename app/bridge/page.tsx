@@ -3,13 +3,7 @@
 import { useMemo, useState } from "react";
 import { CantoneseAudio, CantoneseAudioSettings } from "../components/CantoneseAudio";
 import { SiteHeader } from "../components/SiteHeader";
-import { sitePath } from "../lib/site-path";
-
-type BridgeEntry = [string, string, string, string, string];
-
-const entries: BridgeEntry[] = [
-  ["没有", "冇", "mou5", "普通话“不”", "我而家冇時間。"], ["不", "唔", "m4", "普通话“不”", "我唔知。"], ["是", "係", "hai6", "判断句", "係咪你呀？"], ["在", "喺", "hai2", "地点", "我喺公司。"], ["现在", "而家", "ji4 gaa1", "整词记忆", "而家方便講電話嗎？"], ["喜欢", "鍾意", "zung1 ji3", "自然表达", "你鍾意食辣嘢嗎？"], ["漂亮", "靚", "leng3", "自然表达", "今日好靚喎。"], ["东西", "嘢", "je5", "口语替换", "呢啲嘢幾好食。"], ["哪里", "邊度", "bin1 dou6", "疑问词", "你而家喺邊度？"], ["为什么", "點解", "dim2 gaai2", "疑问词", "你點解唔食飯？"], ["怎么做", "點做", "dim2 zou6", "疑问词", "呢個要點做？"], ["多少", "幾多", "gei2 do1", "疑问词", "呢個幾多錢？"], ["等一下", "等陣", "dang2 zan6", "场景短语", "等陣先。"], ["是不是", "係咪", "hai6 mai6", "句式", "你係咪第一次嚟？"], ["可以吗", "得唔得", "dak1 m4 dak1", "句式", "聽日三點見，得唔得？"], ["没关系", "唔緊要", "m4 gan2 jiu3", "回应", "唔緊要，慢慢嚟。"],
-];
+import { recordAnswer } from "../lib/learning-store";
 
 const soundRules = [
   { group: "声母 01", title: "b / p / m / f 多数可以先保留", mandarin: "b、p、m、f", cantonese: "b、p、m、f", explanation: "这是最适合拿来建立信心的一组：先保留声母，再处理韵母和声调。", example: ["班", "baan1", "bān"] },
@@ -47,24 +41,77 @@ const exceptionRows = [
   ["怎么样", "點樣", "dim2 joeng6 / zěnmeyàng", "整词记忆", "點樣比“怎么 + 样”更像真实口语。"],
 ];
 
-const multipleReadingRows = [
-  ["长", "長度 coeng4 dou6", "长大 zoeng2 daai6", "同字不同词，读音随词义分化。"],
-  ["重", "重量 zung6 loeng6", "重複 cung4 fuk1", "“重”作重量和重复时读音不同。"],
-  ["行", "行路 haang4 lou6", "银行 ngan4 hong4", "走路和行业 / 银行词族的读音不同。"],
-  ["便", "方便 fong1 bin6", "便宜 pin4 ji4", "同一个字进入不同词语后不保持同音。"],
-  ["乐", "快乐 faai3 lok6", "音乐 jam1 ngok6", "词语内部的声母和韵母都可能改变。"],
-  ["难", "難過 naan4 gwo3", "困難 kwan3 naan4", "同字在不同词族里的粤语读法不同。"],
+type ReadingWord = { text: string; jyutping: string; meaning: string };
+type MultipleReadingEntry = {
+  id: string;
+  character: string;
+  category: "词义分化" | "词族读法" | "进阶词";
+  level: "入门" | "进阶";
+  first: ReadingWord;
+  second: ReadingWord;
+  note: string;
+};
+
+const multipleReadingRows: MultipleReadingEntry[] = [
+  { id: "coeng-zoeng", character: "长", category: "词义分化", level: "入门", first: { text: "長度", jyutping: "coeng4 dou6", meaning: "长度" }, second: { text: "長大", jyutping: "zoeng2 daai6", meaning: "长大" }, note: "表示长度时读 coeng4，表示成长或年纪时读 zoeng2。" },
+  { id: "zung-cung", character: "重", category: "词义分化", level: "入门", first: { text: "重量", jyutping: "zung6 loeng6", meaning: "重量" }, second: { text: "重複", jyutping: "cung4 fuk1", meaning: "重复" }, note: "“重”作重量是 zung6，作重复、重做是 cung4；两个词都很常见。" },
+  { id: "haang-hong", character: "行", category: "词族读法", level: "入门", first: { text: "行路", jyutping: "haang4 lou6", meaning: "走路" }, second: { text: "銀行", jyutping: "ngan4 hong4", meaning: "银行" }, note: "行路的行是 haang4，银行的行是 hong4；不要只凭普通话“行”来猜。" },
+  { id: "bin-pin", character: "便", category: "词义分化", level: "入门", first: { text: "方便", jyutping: "fong1 bin6", meaning: "方便" }, second: { text: "便宜", jyutping: "bin6 ji4", meaning: "便宜" }, note: "两个词都读 bin6；粤语这里与普通话“便宜”的声母印象不同，整词记更稳。" },
+  { id: "lok-ngok", character: "乐", category: "词族读法", level: "入门", first: { text: "快樂", jyutping: "faai3 lok6", meaning: "快乐" }, second: { text: "音樂", jyutping: "jam1 ngok6", meaning: "音乐" }, note: "乐在快乐里读 lok6，在音乐里读 ngok6；词语内部还会连带改变声母。" },
+  { id: "naan-kwan", character: "难", category: "词族读法", level: "入门", first: { text: "難過", jyutping: "naan4 gwo3", meaning: "难过" }, second: { text: "困難", jyutping: "kwan3 naan4", meaning: "困难" }, note: "难过的“难”读 naan4，困难的“难”读 naan4，但前字读音和整词节奏很容易误听。" },
+  { id: "gaa-gaa2", character: "假", category: "词义分化", level: "入门", first: { text: "放假", jyutping: "fong3 gaa3", meaning: "放假" }, second: { text: "假裝", jyutping: "gaa2 zong1", meaning: "假装" }, note: "表示休假时读 gaa3，表示不真实或假装时读 gaa2。" },
+  { id: "jing-jing3", character: "应", category: "进阶词", level: "进阶", first: { text: "應該", jyutping: "jing1 goi1", meaning: "应该" }, second: { text: "應承", jyutping: "jing3 sing4", meaning: "答应" }, note: "应该是 jing1，应承是 jing3；职场和日常回应里都很有用。" },
+  { id: "sou-sou2", character: "数", category: "词义分化", level: "进阶", first: { text: "數字", jyutping: "sou3 zi6", meaning: "数字" }, second: { text: "數人頭", jyutping: "sou2 jan4 tau4", meaning: "数人数" }, note: "名词“数字”读 sou3，表示计算、清点时读 sou2。" },
+  { id: "caa-caai", character: "差", category: "词义分化", level: "进阶", first: { text: "差不多", jyutping: "caa1 bat1 do1", meaning: "差不多" }, second: { text: "差人", jyutping: "caai1 jan4", meaning: "警察（旧称）" }, note: "差不多的差是 caa1；差人是香港旧式口语，理解影视或旧新闻时会遇到。" },
+  { id: "zoek-zyu", character: "着", category: "词义分化", level: "进阶", first: { text: "着數", jyutping: "zoek6 sou3", meaning: "好处／划算" }, second: { text: "著名", jyutping: "zyu3 meng4", meaning: "著名" }, note: "着数和著名里的字形相近但读法不同；着数也是香港口语里的高频词。" },
+  { id: "dou-dou3", character: "度", category: "词族读法", level: "进阶", first: { text: "程度", jyutping: "cing4 dou6", meaning: "程度" }, second: { text: "度數", jyutping: "dou6 sou3", meaning: "度数" }, note: "程度的度读 dou6，度数的度也读 dou6；真正要留意的是前字连读带来的辨认难度。" },
+  { id: "ziu-ciu", character: "朝", category: "进阶词", level: "进阶", first: { text: "朝早", jyutping: "ziu1 zou2", meaning: "早上" }, second: { text: "朝夕", jyutping: "ciu4 zik6", meaning: "早晚" }, note: "朝早是香港日常口语，朝夕偏书面；两者在影视、新闻和正式表达里都可能出现。" },
+  { id: "daan-daan", character: "单", category: "词族读法", level: "进阶", first: { text: "單位", jyutping: "daan1 wai6", meaning: "单位／工作机构" }, second: { text: "單車", jyutping: "daan1 ce1", meaning: "自行车" }, note: "单在这两组里都读 daan1，但单车是香港常用词，不能只按普通话词义联想。" },
+  { id: "sik-sik1", character: "识", category: "词族读法", level: "入门", first: { text: "識字", jyutping: "sik1 zi6", meaning: "识字" }, second: { text: "識得", jyutping: "sik1 dak1", meaning: "懂得／会" }, note: "识在两组里都读 sik1；重点是识得是非常高频的粤语结构，意思不是普通话“认识”那么窄。" },
+  { id: "daa-daa2", character: "打", category: "词族读法", level: "入门", first: { text: "打電話", jyutping: "daa2 din6 waa2", meaning: "打电话" }, second: { text: "打擊", jyutping: "daa2 gik1", meaning: "打击" }, note: "打在这两组里读 daa2；整词练习有助于熟悉粤语动词和宾语的节奏。" },
+];
+
+const readingQuizItems = [
+  { id: "quiz-coeng", prompt: "听到这个词，它表示“长大”还是“长度”？", audioText: "長大", answer: "長大", jyutping: "zoeng2 daai6", options: ["長度", "長大", "長期"], note: "長大 zoeng2 daai6 的长表示成长，不是长度。" },
+  { id: "quiz-cung", prompt: "哪一个词里的“重”读 cung4？", audioText: "重複", answer: "重複", jyutping: "cung4 fuk1", options: ["重量", "重複", "重點"], note: "重複 cung4 fuk1 表示再次做；重量 zung6 loeng6 的重则是 zung6。" },
+  { id: "quiz-hong", prompt: "你听到的是“行路”还是“银行”？", audioText: "銀行", answer: "銀行", jyutping: "ngan4 hong4", options: ["行路", "銀行", "行李"], note: "銀行 ngan4 hong4 的行读 hong4；行路 haang4 lou6 的行读 haang4。" },
+  { id: "quiz-lok", prompt: "哪一个词里的“乐”读 lok6？", audioText: "快樂", answer: "快樂", jyutping: "faai3 lok6", options: ["快樂", "音樂", "樂器"], note: "快樂 faai3 lok6 的乐读 lok6，音樂 jam1 ngok6 的乐读 ngok6。" },
+  { id: "quiz-gaa", prompt: "听到 gaa2，哪个词最符合？", audioText: "假裝", answer: "假裝", jyutping: "gaa2 zong1", options: ["放假", "假裝", "假期"], note: "假裝 gaa2 zong1 表示不真实地扮作；放假 fong3 gaa3 的假是 gaa3。" },
+  { id: "quiz-jing", prompt: "哪一个词里的“应”读 jing3？", audioText: "應承", answer: "應承", jyutping: "jing3 sing4", options: ["應該", "應承", "應用"], note: "應承 jing3 sing4 是答应；應該 jing1 goi1 的应是 jing1。" },
+  { id: "quiz-sou", prompt: "表示“计算人数”时，哪一个读 sou2？", audioText: "數人頭", answer: "數人頭", jyutping: "sou2 jan4 tau4", options: ["數字", "數人頭", "數量"], note: "數人頭 sou2 jan4 tau4 是清点人数；數字 sou3 zi6 的数是 sou3。" },
+  { id: "quiz-zoek", prompt: "哪一个词是香港口语里的“好处／划算”？", audioText: "着數", answer: "着數", jyutping: "zoek6 sou3", options: ["著名", "着數", "着急"], note: "着數 zoek6 sou3 是好处、划算；著名 zyu3 meng4 则偏书面。" },
 ];
 
 export default function BridgePage() {
-  const [query, setQuery] = useState("");
-  const [active, setActive] = useState<BridgeEntry>(entries[0]);
-  const filtered = useMemo(() => entries.filter((entry) => entry.join(" ").toLowerCase().includes(query.trim().toLowerCase())), [query]);
+  const [readingQuery, setReadingQuery] = useState("");
+  const [readingCategory, setReadingCategory] = useState<"全部" | MultipleReadingEntry["category"]>("全部");
+  const [readingQuizIndex, setReadingQuizIndex] = useState(0);
+  const [readingQuizSelected, setReadingQuizSelected] = useState<string | null>(null);
+  const filteredReadingRows = useMemo(() => {
+    const normalizedQuery = readingQuery.trim().toLowerCase();
+    return multipleReadingRows.filter((row) => {
+      const matchesCategory = readingCategory === "全部" || row.category === readingCategory;
+      const searchable = [row.character, row.category, row.level, row.first.text, row.first.jyutping, row.first.meaning, row.second.text, row.second.jyutping, row.second.meaning, row.note].join(" ").toLowerCase();
+      return matchesCategory && (!normalizedQuery || searchable.includes(normalizedQuery));
+    });
+  }, [readingCategory, readingQuery]);
+  const readingQuiz = readingQuizItems[readingQuizIndex];
+
+  function chooseReadingAnswer(option: string) {
+    if (readingQuizSelected) return;
+    setReadingQuizSelected(option);
+    recordAnswer(`bridge-reading-${readingQuiz.id}`, option === readingQuiz.answer);
+  }
+
+  function nextReadingQuestion() {
+    setReadingQuizIndex((index) => (index + 1) % readingQuizItems.length);
+    setReadingQuizSelected(null);
+  }
 
   return (
     <main className="subpage bridge-page">
       <SiteHeader />
-      <section className="subpage-hero page-shell compact"><p className="eyebrow">THE MANDARIN BRIDGE / 普通话转换桥</p><h1>你已经会说中文，<br /><em>先学会看懂规律。</em></h1><p>普通话和粤语不是逐字换一套读音：声母、韵母、韵尾和声调都有高频对应；但口语词、入声和多音字必须单独建立词汇记忆。</p><div className="bridge-primer-nav"><a href="#sound-patterns">声母与韵母</a><a href="#tone-map">声调迁移</a><a href="#exceptions">不规则高频词</a></div></section>
+      <section className="subpage-hero page-shell compact"><p className="eyebrow">THE MANDARIN BRIDGE / 普通话转换桥</p><h1>你已经会说中文，<br /><em>先学会看懂规律。</em></h1><p>普通话和粤语不是逐字换一套读音：声母、韵母、韵尾和声调都有高频对应；但口语词、入声和多音字必须单独建立词汇记忆。</p><div className="bridge-primer-nav"><a href="#sound-patterns">声母与韵母</a><a href="#tone-map">声调迁移</a><a href="#exceptions">不规则高频词</a><a href="#multiple-readings">同字异读</a></div></section>
       <div className="page-shell"><CantoneseAudioSettings /></div>
 
       <section className="bridge-primer page-shell" id="sound-patterns">
@@ -80,17 +127,20 @@ export default function BridgePage() {
 
       <section className="exception-section page-shell" id="exceptions">
         <div className="section-intro"><div><p className="eyebrow">03 / EXCEPTIONS</p><h2>不能靠规律猜的，<em>单独收进词库。</em></h2></div><p>这里不是“失败案例”，而是普通话使用者最值得提前建立的粤语词汇网络。</p></div>
-        <div className="exception-layout"><div className="exception-list"><div className="exception-list-head"><b>高频口语替换</b><small>看到普通话就直接想粤语</small></div>{exceptionRows.map(([mandarin, cantonese, jyutping, tag, why]) => <article className="exception-row" key={mandarin}><span>{mandarin}</span><div><strong>{cantonese}</strong><code>{jyutping}</code></div><small>{tag}</small><p>{why}</p><CantoneseAudio text={cantonese} label={`播放：${cantonese}`} compact /></article>)}</div><aside className="multiple-reading-card"><p className="eyebrow">同字异读</p><h3>先记词，不要只记单字。</h3><p>粤语和普通话都保留了很多历史层次。同一个字进入不同词语，可能触发不同读音；看到下面这类词，直接把整词和粤拼一起存。</p>{multipleReadingRows.map(([character, first, second, note]) => <div className="multiple-reading-row" key={character}><b>{character}</b><span>{first}<br />{second}</span><small>{note}</small></div>)}</aside></div>
+        <div className="exception-layout single"><div className="exception-list"><div className="exception-list-head"><b>高频口语替换</b><small>看到普通话就直接想粤语</small></div>{exceptionRows.map(([mandarin, cantonese, jyutping, tag, why]) => <article className="exception-row" key={mandarin}><span>{mandarin}</span><div><strong>{cantonese}</strong><code>{jyutping}</code></div><small>{tag}</small><p>{why}</p><CantoneseAudio text={cantonese} label={`播放：${cantonese}`} compact /></article>)}</div></div>
       </section>
 
-      <section className="word-bridge-section page-shell" id="word-bridge">
-        <div className="section-intro"><div><p className="eyebrow">04 / WORD BRIDGE</p><h2>把规律落回每天会说的词。</h2></div><p>搜索普通话、粤语或粤拼，先在词语列表里找到对应关系，再用右侧详情卡听整词和例句。</p></div>
-        <div className="word-bridge-layout">
-          <div className="bridge-table"><div className="word-bridge-list-head"><b>常用词语转换</b><small>从普通话词，找到自然粤语</small></div><label className="search-box"><span aria-hidden="true">⌕</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜索普通话、粤语或粤拼" aria-label="搜索转换桥" /></label><div className="bridge-table-head"><span>普通话</span><span>粤语口语</span><span>粤拼</span><span>类型</span><span className="bridge-table-audio-head" aria-hidden="true" /></div>{filtered.map((entry) => <div className={`bridge-table-row-wrap${active[0] === entry[0] ? " active" : ""}`} key={entry[0]}><button className={`bridge-table-row${active[0] === entry[0] ? " active" : ""}`} onClick={() => setActive(entry)} type="button"><b>{entry[0]}</b><strong>{entry[1]}</strong><code>{entry[2]}</code><small>{entry[3]}</small></button><CantoneseAudio text={entry[1]} label={`播放：${entry[1]}`} compact /></div>)}</div>
-          <aside className="bridge-page-detail"><span className="detail-tag">{active[3]}</span><p className="detail-label">普通话</p><h2>{active[0]} <i>→</i> <em>{active[1]}</em></h2><div className="detail-jyutping-large"><span>{active[2]}</span><CantoneseAudio text={active[1]} label={`播放：${active[1]}`} /></div><div className="example-box"><span>放进一句话</span><b>{active[4]}</b><CantoneseAudio text={active[4]} label={`播放：${active[4]}`} compact /><small>先记住整句，再回头观察每个词。</small></div><p className="bridge-principle">自然粤语不是“把普通话汉字换一套读音”，而是同时处理词汇、语序、语气和关系。</p><a className="primary-button" href={sitePath("/practice")}>用一句话练习 <span>→</span></a></aside>
-        </div>
-      </section>
 
+      <section className="multiple-reading-section page-shell" id="multiple-readings">
+        <div className="section-intro"><div><p className="eyebrow">04 / MULTIPLE READINGS</p><h2>先记词，<em>不要只记单字。</em></h2></div><p>同一个汉字进入不同词语，可能换声母、韵母或声调。把整词、粤拼和意思一起存，才是普通话使用者最省力的记法。</p></div>
+        <div className="multiple-reading-intro"><div><span>为什么会这样？</span><strong>粤语保留了不同历史层次的读音。</strong><p>不要把它当成例外清单；它更像一张“词语地图”。常用词先收进记忆，进阶词再通过听辨建立速度。</p></div><div className="multiple-reading-intro-stat"><b>{multipleReadingRows.length}</b><small>组词语对比</small><b>{readingQuizItems.length}</b><small>道听音练习</small></div></div>
+        <div className="multiple-reading-controls"><label className="multiple-reading-search"><span aria-hidden="true">⌕</span><input value={readingQuery} onChange={(event) => setReadingQuery(event.target.value)} placeholder="搜索汉字、词语、粤拼或含义" aria-label="搜索同字异读" /></label><div className="multiple-reading-filters" aria-label="筛选同字异读类别">{(["全部", "词义分化", "词族读法", "进阶词"] as const).map((category) => <button className={readingCategory === category ? "active" : ""} key={category} onClick={() => setReadingCategory(category)} type="button">{category}</button>)}</div></div>
+        <div className="multiple-reading-result-bar"><span>目前显示 <b>{filteredReadingRows.length}</b> 组{readingQuery ? "，匹配“" + readingQuery + "”" : ""}</span>{readingQuery || readingCategory !== "全部" ? <button onClick={() => { setReadingQuery(""); setReadingCategory("全部"); }} type="button">清除筛选 ↗</button> : <small>每个词语都可以单独试听</small>}</div>
+        <div className="multiple-reading-grid">{filteredReadingRows.map((row) => <article className={`multiple-reading-entry${row.level === "进阶" ? " advanced" : ""}`} key={row.id}><div className="multiple-reading-entry-head"><span>{row.character}</span><div><b>{row.category}</b><small>{row.level}</small></div></div><div className="multiple-reading-word-pair"><div className="multiple-reading-word"><div><small>词语 A · {row.first.meaning}</small><strong>{row.first.text}</strong><code>{row.first.jyutping}</code></div><CantoneseAudio text={row.first.text} label={`播放：${row.first.text}`} compact /></div><div className="multiple-reading-divider" aria-hidden="true">/</div><div className="multiple-reading-word"><div><small>词语 B · {row.second.meaning}</small><strong>{row.second.text}</strong><code>{row.second.jyutping}</code></div><CantoneseAudio text={row.second.text} label={`播放：${row.second.text}`} compact /></div></div><p>{row.note}</p></article>)}</div>
+        {filteredReadingRows.length ? null : <div className="multiple-reading-empty"><strong>没有找到对应词语。</strong><p>可以试试输入单字、粤拼，或清除筛选重新浏览。</p></div>}
+
+        <div className="multiple-reading-practice"><div className="multiple-reading-practice-head"><div><p className="eyebrow">LISTEN &amp; CHOOSE / 听音选词</p><h3>把“看懂差异”变成<em>听得出来。</em></h3></div><span>{String(readingQuizIndex + 1).padStart(2, "0")} / {String(readingQuizItems.length).padStart(2, "0")}</span></div><p className="multiple-reading-question">{readingQuiz.prompt}</p><CantoneseAudio text={readingQuiz.audioText} label={`播放听辨题：${readingQuiz.audioText}`} /><div className="multiple-reading-options">{readingQuiz.options.map((option) => <button className={`multiple-reading-option${readingQuizSelected === option ? " selected" : ""}${readingQuizSelected && option === readingQuiz.answer ? " correct" : ""}`} key={option} onClick={() => chooseReadingAnswer(option)} type="button"><span>{readingQuizSelected === option ? (option === readingQuiz.answer ? "✓" : "×") : "○"}</span>{option}</button>)}</div>{readingQuizSelected ? <div className={`multiple-reading-feedback ${readingQuizSelected === readingQuiz.answer ? "correct" : "incorrect"}`}><div><b>{readingQuizSelected === readingQuiz.answer ? "啱，听到词里的读法了。" : "答案是「" + readingQuiz.answer + "」。"}</b><code>{readingQuiz.jyutping}</code></div><p>{readingQuiz.note}</p><CantoneseAudio text={readingQuiz.audioText} label={`重听：${readingQuiz.audioText}`} compact /></div> : null}<div className="multiple-reading-practice-actions"><span>先听 → 选词 → 看粤拼 → 重听</span>{readingQuizSelected ? <button className="primary-button" onClick={nextReadingQuestion} type="button">下一题 <span>→</span></button> : null}</div></div>
+      </section>
       <section className="bridge-sources page-shell"><span>资料说明</span><p>声母、韵母和声调表按香港语言学学会粵拼方案整理；声调对应参考香港中文大学关于粤语—普通话声调迁移的研究。所有“规律”都应当视为高频倾向，最终以粤拼、词语和语音为准。</p><a href="https://jyutping.org/en/jyutping/" target="_blank" rel="noreferrer">查看 Jyutping 方案 ↗</a><a href="https://ling.cuhk.edu.hk/people/peggy/Mok%20et%20al._SC_Orthography_2018.pdf" target="_blank" rel="noreferrer">查看声调对应研究 ↗</a></section>
     </main>
   );
