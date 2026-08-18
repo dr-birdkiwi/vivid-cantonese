@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CantoneseAudio, CantoneseAudioSettings } from "../components/CantoneseAudio";
 import { SiteHeader } from "../components/SiteHeader";
 import { listeningItems } from "../data/audio-data";
+import { audioContrasts, connectedSpeechItems } from "../data/listening-lab";
 import { recordAnswer } from "../lib/learning-store";
 
 const toneRows = [
@@ -39,7 +40,7 @@ const prosodyRows = [
 ];
 
 export default function AudioPage() {
-  const [mode, setMode] = useState<"tones" | "sounds" | "prosody" | "listening">("tones");
+  const [mode, setMode] = useState<"tones" | "sounds" | "contrasts" | "connected" | "prosody" | "listening">("tones");
   const [listenIndex, setListenIndex] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
   const listening = listeningItems[listenIndex];
@@ -55,16 +56,30 @@ export default function AudioPage() {
     setSelected(null);
   }
 
-  function jumpToSection(section: "tones" | "sounds" | "prosody" | "listening") {
+  function jumpToSection(section: "tones" | "sounds" | "contrasts" | "connected" | "prosody" | "listening") {
     setMode(section);
     document.getElementById(section)?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
+
+  const listeningAudioText = listening.audioText || listening.answer;
 
   return (
     <main className="subpage audio-lab-page">
       <SiteHeader />
       <section className="subpage-hero page-shell compact"><p className="eyebrow">AUDIO LAB / 听力实验室</p><h1>先听见差异，<br /><em>再把它说出来。</em></h1><p>普通话使用者最容易卡在声调、韵尾和少数不规则映射。这里用短而集中的听辨回合，建立“听到—辨认—复述”的路径。</p></section>
       <div className="page-shell"><CantoneseAudioSettings /></div>
+
+      <section className="audio-lab-route page-shell" aria-label="听力训练路线">
+        <div className="audio-lab-route-head"><div><p className="eyebrow">LISTENING ROUTE / 训练路线</p><h2>从辨音到反应，<em>每一层都要听。</em></h2></div><p>先做短音对比，再进入自然语流，最后用情境题检验你能不能在没有字幕时抓住意思。</p></div>
+        <div className="audio-lab-route-grid">
+          <button className={`audio-lab-route-card coral${mode === "tones" ? " active" : ""}`} onClick={() => jumpToSection("tones")} type="button"><span>01</span><strong>声调轮廓</strong><small>六声调 · 先听高低</small></button>
+          <button className={`audio-lab-route-card gold${mode === "sounds" ? " active" : ""}`} onClick={() => jumpToSection("sounds")} type="button"><span>02</span><strong>声音地图</strong><small>声母 · 韵尾 · 迁移</small></button>
+          <button className={`audio-lab-route-card mint${mode === "contrasts" ? " active" : ""}`} onClick={() => jumpToSection("contrasts")} type="button"><span>03</span><strong>最小对比</strong><small>一字之差 · 听出意义</small></button>
+          <button className={`audio-lab-route-card blue${mode === "connected" ? " active" : ""}`} onClick={() => jumpToSection("connected")} type="button"><span>04</span><strong>自然语流</strong><small>慢听 · 快听 · 切块</small></button>
+          <button className={`audio-lab-route-card violet${mode === "prosody" ? " active" : ""}`} onClick={() => jumpToSection("prosody")} type="button"><span>05</span><strong>语气节奏</strong><small>句末词 · 弦外之音</small></button>
+          <button className={`audio-lab-route-card ink${mode === "listening" ? " active" : ""}`} onClick={() => jumpToSection("listening")} type="button"><span>06</span><strong>听辨回合</strong><small>听一次 · 选答案 · 复盘</small></button>
+        </div>
+      </section>
 
       <section id="tones" className="audio-lab-section page-shell">
         <div className="audio-lab-heading"><div><p className="eyebrow">SIX TONES / 六声调</p><h2>先抓音高轮廓，<em>不要只背数字。</em></h2></div><p>粤拼数字是记忆标签，不是普通话声调的直接换算。先听音高，再看 si1–si6。</p></div>
@@ -76,6 +91,16 @@ export default function AudioPage() {
         <div className="sound-grid">{soundRows.map((row) => <article className="sound-card" key={row.example}><div><small>{row.label}</small><strong>{row.example}</strong><code>{row.jyutping}</code></div><p>{row.note}</p><CantoneseAudio text={row.example} label={`播放：${row.example}`} compact /></article>)}</div>
       </section>
 
+      <section id="contrasts" className="audio-lab-section contrast-section page-shell">
+        <div className="audio-lab-heading"><div><p className="eyebrow">MINIMAL CONTRASTS / 最小对比</p><h2>只差一点点，<em>意思就变了。</em></h2></div><p>每张卡先听左边，再听右边；不要急着看粤拼，先判断是声调、元音还是韵尾在起作用。</p></div>
+        <div className="contrast-grid">{audioContrasts.map((row) => <article className="contrast-card" key={row.id}><div className="contrast-card-label"><span>{row.label}</span><small>先左后右</small></div><div className="contrast-pair"><div><strong>{row.left.text}</strong><code>{row.left.jyutping}</code><small>{row.left.meaning}</small><CantoneseAudio text={row.left.text} label={`播放：${row.left.text}`} compact /></div><b aria-hidden="true">↔</b><div><strong>{row.right.text}</strong><code>{row.right.jyutping}</code><small>{row.right.meaning}</small><CantoneseAudio text={row.right.text} label={`播放：${row.right.text}`} compact /></div></div><p>{row.note}</p></article>)}</div>
+      </section>
+
+      <section id="connected" className="audio-lab-section connected-section page-shell">
+        <div className="audio-lab-heading"><div><p className="eyebrow">CONNECTED SPEECH / 自然语流</p><h2>听整句，<em>不要逐字翻译。</em></h2></div><p>同一句话分别听慢速和自然速度，先找语义块，再留意哪些字被弱读、黏在一起或成为句尾重点。</p></div>
+        <div className="connected-grid">{connectedSpeechItems.map((row) => <article className="connected-card" key={row.id}><div className="connected-card-top"><span>语流练习</span><small>{row.chunks.length} 个听力块</small></div><strong>{row.phrase}</strong><code>{row.jyutping}</code><p className="connected-meaning">{row.meaning}</p><div className="connected-chunks">{row.chunks.map((chunk) => <span key={chunk}>{chunk}</span>)}</div><div className="connected-actions"><CantoneseAudio text={row.phrase} label={`慢速播放：${row.phrase}`} compact rate={0.52} /><CantoneseAudio text={row.phrase} label={`自然速度播放：${row.phrase}`} compact rate={0.9} /></div><p className="connected-note">{row.note}</p></article>)}</div>
+      </section>
+
       <section id="prosody" className="audio-lab-section prosody-section page-shell">
         <div className="audio-lab-heading"><div><p className="eyebrow">PROSODY / 语气与节奏</p><h2>同样的字，<em>换个收尾就换了关系。</em></h2></div><p>粤语不只是声调数字；句末小词、停顿和语气会告诉你对方是在确认、提醒、缓和还是反问。</p></div>
         <div className="prosody-grid">{prosodyRows.map((row) => <article className="prosody-card" key={row.label}><div className="prosody-card-top"><span>{row.label}</span><CantoneseAudio text={row.phrase} label={`播放：${row.phrase}`} compact /></div><strong>{row.phrase}</strong><code>{row.jyutping}</code><p>{row.note}</p></article>)}</div>
@@ -83,7 +108,7 @@ export default function AudioPage() {
 
       <section id="listening" className="audio-lab-section listening-section page-shell">
         <div className="audio-lab-heading"><div><p className="eyebrow">LISTENING CHECK / 听辨回合</p><h2>只听一次，<em>你听到哪个？</em></h2></div><p>先播放粤语，不要看答案；选择后才显示粤拼和解释。每次作答都会进入你的复习记录。</p></div>
-        <div className="listening-card"><div className="listening-card-top"><span>{String(listenIndex + 1).padStart(2, "0")} / {String(listeningItems.length).padStart(2, "0")}</span><span>{listening.source} · 先听 → 选择 → 看粤拼 → 重听</span></div><p className="listening-prompt">{listening.prompt}</p><CantoneseAudio text={listening.answer} label={`播放听辨题：${listening.answer}`} /><div className="listening-options">{listening.options.map((option) => <button className={`listening-option${selected === option ? " selected" : ""}${selected && option === listening.answer ? " correct" : ""}`} key={option} onClick={() => chooseListening(option)} type="button"><span>{selected === option ? (option === listening.answer ? "✓" : "×") : "○"}</span>{option}</button>)}</div>{selected ? <div className={`listening-feedback ${selected === listening.answer ? "correct" : "incorrect"}`}><b>{selected === listening.answer ? "啱，听得好。" : `答案是 ${listening.answer}。`}</b><code>{listening.jyutping}</code><p>{listening.note}</p><CantoneseAudio text={listening.answer} label={`重听：${listening.answer}`} compact /></div> : null}<div className="listening-actions"><button className={`lab-tab${mode === "tones" ? " active" : ""}`} onClick={() => jumpToSection("tones")} type="button">声调卡</button><button className={`lab-tab${mode === "sounds" ? " active" : ""}`} onClick={() => jumpToSection("sounds")} type="button">声音地图</button><button className={`lab-tab${mode === "prosody" ? " active" : ""}`} onClick={() => jumpToSection("prosody")} type="button">语气节奏</button>{selected ? <button className="primary-button" onClick={nextListening} type="button">下一题 <span>→</span></button> : null}</div></div>
+        <div className="listening-card"><div className="listening-card-top"><span>{String(listenIndex + 1).padStart(2, "0")} / {String(listeningItems.length).padStart(2, "0")}</span><span>{listening.source} · 先听 → 选择 → 看粤拼 → 重听</span></div><p className="listening-prompt">{listening.prompt}</p><CantoneseAudio text={listeningAudioText} label={`播放听辨题：${listeningAudioText}`} /><div className="listening-options">{listening.options.map((option) => <button className={`listening-option${selected === option ? " selected" : ""}${selected && option === listening.answer ? " correct" : ""}`} key={option} onClick={() => chooseListening(option)} type="button"><span>{selected === option ? (option === listening.answer ? "✓" : "×") : "○"}</span>{option}</button>)}</div>{selected ? <div className={`listening-feedback ${selected === listening.answer ? "correct" : "incorrect"}`}><b>{selected === listening.answer ? "啱，听得好。" : `答案是 ${listening.answer}。`}</b><code>{listening.jyutping}</code><p>{listening.note}</p><CantoneseAudio text={listeningAudioText} label={`重听：${listeningAudioText}`} compact /></div> : null}<div className="listening-actions"><button className={`lab-tab${mode === "tones" ? " active" : ""}`} onClick={() => jumpToSection("tones")} type="button">声调卡</button><button className={`lab-tab${mode === "sounds" ? " active" : ""}`} onClick={() => jumpToSection("sounds")} type="button">声音地图</button><button className={`lab-tab${mode === "contrasts" ? " active" : ""}`} onClick={() => jumpToSection("contrasts")} type="button">最小对比</button><button className={`lab-tab${mode === "connected" ? " active" : ""}`} onClick={() => jumpToSection("connected")} type="button">自然语流</button><button className={`lab-tab${mode === "prosody" ? " active" : ""}`} onClick={() => jumpToSection("prosody")} type="button">语气节奏</button>{selected ? <button className="primary-button" onClick={nextListening} type="button">下一题 <span>→</span></button> : null}</div></div>
       </section>
     </main>
   );

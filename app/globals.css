@@ -436,6 +436,19 @@ button { cursor:pointer; }
   .voice-choice>em { font-size:8px; }
 }
 
+/* Audio lab: a visible route turns individual drills into a complete listening progression. */
+.audio-lab-route { padding-top:4px; padding-bottom:16px; }
+.audio-lab-route-head { display:flex; align-items:end; justify-content:space-between; gap:24px; margin-bottom:18px; }
+.audio-lab-route-head h2 { margin:10px 0 0; font-size:clamp(27px,3.7vw,39px); line-height:1.15; letter-spacing:-.06em; }
+.audio-lab-route-head h2 em { color:var(--coral); font-style:normal; }
+.audio-lab-route-head>p { max-width:320px; margin:0 0 2px; color:var(--muted); font-size:11px; line-height:1.7; }
+.audio-lab-route-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:9px; }
+.audio-lab-route-card { min-height:126px; padding:14px; border:1px solid #cbd8cf; color:var(--ink); text-align:left; transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease; }
+.audio-lab-route-card:hover,.audio-lab-route-card.active { transform:translateY(-2px); border-color:var(--ink); box-shadow:6px 6px 0 #dce5de; }
+.audio-lab-route-card.coral { background:#f2b7a5; border-color:#dbab9b; }.audio-lab-route-card.gold { background:var(--gold); border-color:#dfc77e; }.audio-lab-route-card.mint { background:var(--mint); border-color:#a4d0bb; }.audio-lab-route-card.blue { background:var(--blue); border-color:#b5d0dc; }.audio-lab-route-card.violet { background:var(--violet); border-color:#c7bce4; }.audio-lab-route-card.ink { background:var(--ink); border-color:var(--ink); color:var(--paper); }
+.audio-lab-route-card>span { color:var(--coral-dark); font-family:Georgia,serif; font-size:17px; }.audio-lab-route-card.ink>span { color:var(--gold); }
+.audio-lab-route-card strong { display:block; margin-top:24px; font-size:14px; letter-spacing:-.04em; }.audio-lab-route-card small { display:block; margin-top:6px; color:#536565; font-size:9px; line-height:1.45; }.audio-lab-route-card.ink small { color:#bbcec7; }
+
 /* Audio lab: short loops for tones, sound contrasts, and active listening. */
 .audio-lab-section { scroll-margin-top:28px; padding-top:42px; }
 .audio-lab-heading { display:flex; align-items:end; justify-content:space-between; gap:24px; margin-bottom:22px; }
@@ -459,6 +472,15 @@ button { cursor:pointer; }
 .sound-card code { color:var(--mint-dark); font-size:10px; }
 .sound-card>p { grid-column:1 / span 2; margin:0; color:var(--muted); font-size:10px; line-height:1.6; }
 .sound-card>.speak-button { grid-column:2; grid-row:1; }
+.contrast-section,.connected-section { margin-top:39px; }
+.contrast-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+.contrast-card { min-height:238px; padding:19px; border:1px solid #cbd8cf; background:#fffaf2; }
+.contrast-card:nth-child(2n) { background:#f0f6f1; }.contrast-card:nth-child(3n) { background:#fff3df; }
+.contrast-card-label,.connected-card-top { display:flex; align-items:center; justify-content:space-between; gap:12px; color:var(--coral-dark); font-size:10px; font-weight:800; }.contrast-card-label small,.connected-card-top small { color:var(--muted); font-size:9px; font-weight:500; }
+.contrast-pair { display:grid; grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr); align-items:center; gap:9px; margin-top:29px; }.contrast-pair>div { display:grid; gap:4px; }.contrast-pair>div:last-child { justify-items:end; text-align:right; }.contrast-pair>b { color:var(--gold); font-size:18px; text-align:center; }.contrast-pair strong { color:var(--ink); font-family:Georgia,"Songti SC",serif; font-size:30px; font-weight:500; }.contrast-pair code { color:var(--mint-dark); font-size:10px; }.contrast-pair small { color:var(--muted); font-size:10px; }.contrast-pair .speak-button { justify-self:start; margin-top:7px; }.contrast-pair>div:last-child .speak-button { justify-self:end; }
+.contrast-card>p { margin:18px 0 0; color:var(--muted); font-size:10px; line-height:1.65; }
+.connected-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }.connected-card { min-height:284px; padding:20px; border:1px solid #cadbd0; background:#eef4ef; }.connected-card:nth-child(2n) { background:#f5f0e6; border-color:#ded2bd; }
+.connected-card>strong { display:block; margin-top:27px; color:var(--ink); font-family:Georgia,"Songti SC",serif; font-size:21px; font-weight:500; line-height:1.45; }.connected-card>code { display:block; margin-top:7px; color:var(--mint-dark); font-size:10px; line-height:1.5; }.connected-meaning { margin:13px 0 0; color:var(--muted); font-size:10px; }.connected-chunks { display:flex; flex-wrap:wrap; gap:6px; margin-top:15px; }.connected-chunks span { padding:5px 7px; border:1px solid #a9c5b8; border-radius:999px; color:var(--mint-dark); font-size:9px; }.connected-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:17px; padding-top:13px; border-top:1px solid #cadbd0; }.connected-actions .speak-button:first-child { border-color:var(--mint-dark); }.connected-actions .speak-button:first-child span { color:var(--mint-dark); }.connected-note { margin:13px 0 0; color:var(--muted); font-size:10px; line-height:1.6; }
 .listening-section { margin-top:39px; padding-bottom:35px; }
 .listening-card { padding:27px; background:var(--ink); color:var(--paper); }
 .listening-card-top { display:flex; justify-content:space-between; gap:18px; color:#bbcec7; font-size:10px; }
@@ -483,16 +505,20 @@ button { cursor:pointer; }
 .listening-actions .primary-button { margin-left:auto; }
 
 @media (max-width:850px) {
+  .audio-lab-route-head { display:block; }.audio-lab-route-head>p { margin-top:15px; }.audio-lab-route-grid { grid-template-columns:repeat(3,1fr); }
   .tone-grid { grid-template-columns:repeat(2,1fr); }
   .audio-lab-heading { display:block; }
   .audio-lab-heading>p { margin-top:15px; }
+  .contrast-grid,.connected-grid { grid-template-columns:repeat(2,1fr); }
 }
 
 @media (max-width:560px) {
+  .audio-lab-route { padding-top:0; }.audio-lab-route-grid { grid-template-columns:repeat(2,1fr); }.audio-lab-route-card { min-height:112px; padding:12px; }.audio-lab-route-card strong { margin-top:19px; font-size:13px; }
   .audio-lab-section { padding-top:27px; }
-  .tone-grid,.sound-grid,.listening-options { grid-template-columns:1fr; }
+  .tone-grid,.sound-grid,.contrast-grid,.connected-grid,.listening-options { grid-template-columns:1fr; }
   .tone-card { min-height:0; }
   .sound-card { min-height:0; }
+  .contrast-card { min-height:0; }.connected-card { min-height:0; }.connected-card>strong { margin-top:22px; }.connected-actions .speak-button { flex:1; justify-content:center; }
   .listening-card { padding:20px 17px; }
   .listening-card-top { align-items:flex-start; flex-direction:column; gap:8px; }
   .listening-prompt { margin-top:32px; font-size:20px; }

@@ -6,6 +6,7 @@ type CantoneseAudioProps = {
   text: string;
   label?: string;
   compact?: boolean;
+  rate?: number;
 };
 
 const VOICE_STORAGE_KEY = "vivid-cantonese-selected-voice";
@@ -157,7 +158,7 @@ function useSpeechVoices() {
   return voices;
 }
 
-export function CantoneseAudio({ text, label = `播放：${text}`, compact = false }: CantoneseAudioProps) {
+export function CantoneseAudio({ text, label = `播放：${text}`, compact = false, rate = 0.72 }: CantoneseAudioProps) {
   const voices = useSpeechVoices();
   const preferredVoice = useMemo(() => chooseCantoneseVoice(voices), [voices]);
   const speechText = useMemo(() => toChineseSpeechText(text), [text]);
@@ -177,7 +178,7 @@ export function CantoneseAudio({ text, label = `播放：${text}`, compact = fal
     const currentVoices = listCantoneseVoices(readVoices());
     const currentVoice = currentVoices.find((voice) => voiceKey(voice) === selectedKey) || preferredVoice || currentVoices[0];
     utterance.lang = currentVoice?.lang || "zh-HK";
-    utterance.rate = 0.72;
+    utterance.rate = rate;
     utterance.pitch = 1;
     if (currentVoice) utterance.voice = currentVoice;
     utterance.onstart = () => setSpeaking(true);
