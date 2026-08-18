@@ -105,11 +105,11 @@ button { cursor:pointer; }
 .rule-table-row>b small { font-family:inherit; font-size:10px; }
 .rule-example>b { font-size:18px; }
 .bridge-page .rule-examples { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; min-width:0; }
-.bridge-page .rule-example { min-width:0; display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-rows:auto auto; gap:2px 6px; padding:7px 8px; border:1px solid var(--line); background:#fffdf8; }
-.bridge-page .rule-example>b { font-size:16px; line-height:1.1; }
-.bridge-page .rule-example code { grid-column:1; min-width:0; overflow:hidden; font-size:9px; text-overflow:ellipsis; white-space:nowrap; }
-.bridge-page .rule-example small { grid-column:1; font-size:8px; line-height:1.2; }
-.bridge-page .rule-example .speak-button { grid-column:2; grid-row:1 / span 2; padding:4px 5px; }
+.bridge-page .rule-example { min-width:0; display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-rows:auto auto auto; gap:2px 6px; padding:7px 8px; border:1px solid var(--line); background:#fffdf8; }
+.bridge-page .rule-example>b { grid-column:1; grid-row:1; font-size:16px; line-height:1.1; }
+.bridge-page .rule-example code { grid-column:1 / -1; grid-row:2; min-width:0; overflow:visible; font-size:9px; text-overflow:clip; white-space:normal; word-break:break-word; }
+.bridge-page .rule-example small { grid-column:1 / -1; grid-row:3; font-size:8px; line-height:1.2; }
+.bridge-page .rule-example .speak-button { grid-column:2; grid-row:1; padding:4px 5px; }
 .tone-card { padding:22px; }
 .tone-side { padding:25px; }
 .tone-side h3 { font-family:inherit; margin:24px 0 13px; }
