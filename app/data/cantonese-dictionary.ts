@@ -1,3 +1,5 @@
+import { unihanCantoneseByCharacter, unihanSimplifiedToTraditional } from "./unihan-cantonese";
+
 export type CantoneseDictionaryEntry = {
   mandarin: string;
   cantonese: string;
@@ -109,10 +111,10 @@ const additionalCharacterPronunciations: Record<string, string> = {
   料: "liu6", 通: "tung1", 常: "soeng4", 結: "git3",
 };
 
-export const pronunciationByCharacter: Record<string, string> = { ...characterPronunciations, ...additionalCharacterPronunciations, 可: "ho2", 以: "ji5", 麻: "maa4", 煩: "faan4", 再: "zoi3", 講: "gong2" };
+export const pronunciationByCharacter: Record<string, string> = { ...unihanCantoneseByCharacter, ...characterPronunciations, ...additionalCharacterPronunciations, 可: "ho2", 以: "ji5", 麻: "maa4", 煩: "faan4", 再: "zoi3", 講: "gong2" };
 
 export function normalizeText(value: string) {
-  return Array.from(value).map((character) => simplifiedToTraditional[character] || character).join("");
+  return Array.from(value).map((character) => simplifiedToTraditional[character] || unihanSimplifiedToTraditional[character] || character).join("");
 }
 
 export function isChinese(character: string) {
